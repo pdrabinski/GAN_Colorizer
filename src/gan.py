@@ -1,7 +1,132 @@
-import keras
-from keras.models import Sequential
-from keras.layers import Conv2D, MaxPooling2D, Dense, Dropout, Activation, Flatten
+from keras.models import Sequential, Model
+from keras.layers import Conv2D, MaxPooling2D, Activation, BatchNormalization, UpSampling2D, merge, Dropout, Flatten, Dense, Input
+from keras.optimizers import Adam
 
-"""Generator"""
-g_model = Sequential()
-g_model.add(Conv2D(32, (3, 3), padding='same', input_shape=(50000, 32, 32, 1)))
+class Generator():
+    def build(self,input_shape):
+        # bw_image = Sequential()
+        # bw_image.add(Dense(shape=input_shape))
+
+        self.g_input = Input(shape=input_shape)
+        self.model = Conv2D(32, (3, 3), padding='same')(self.g_input)
+        self.model = Activation('relu')(self.model)
+        self.model = Conv2D(32, (3, 3), padding='same')(self.model)
+        self.model = Activation('relu')(self.model)
+        self.model = BatchNormalization()(self.model)
+        self.model = MaxPooling2D(pool_size=(2, 2))(self.model)
+
+        self.model = Conv2D(64, (3, 3), padding='same')(self.model)
+        self.model = Activation('relu')(self.model)
+        self.model = Conv2D(64, (3, 3), padding='same')(self.model)
+        self.model = Activation('relu')(self.model)
+        self.model = BatchNormalization()(self.model)
+        self.model = MaxPooling2D(pool_size=(2, 2))(self.model)
+
+        self.model = Conv2D(128, (3, 3), padding='same')(self.model)
+        self.model = Activation('relu')(self.model)
+        self.model = BatchNormalization()(self.model)
+
+        self.model = UpSampling2D(size=(2,2))(self.model)
+        self.model = Conv2D(128, (3, 3), padding='same')(self.model)
+        self.model = Activation('relu')(self.model)
+        self.model = BatchNormalization()(self.model)
+
+        self.model = UpSampling2D(size=(2,2))(self.model)
+        self.model = Conv2D(64, (3, 3), padding='same')(self.model)
+        self.model = Activation('relu')(self.model)
+        self.model = BatchNormalization()(self.model)
+
+        # self.merge = merge(inputs=[self.model,bw_image], mode='concat')
+
+        # self.merge.add(Conv2D(32, (3, 3), padding='same'))
+        # self.model.add(Activation('relu'))
+        # self.merge.add(Conv2D(3, (3, 3), padding='same'))
+        # self.merge.add(Activation('sigmoid'))
+
+        self.model = Conv2D(32, (3, 3), padding='same')(self.model)
+        self.model = Activation('relu')(self.model)
+        self.model = Conv2D(3, (3, 3), padding='same')(self.model)
+        self.model = Activation('sigmoid')(self.model)
+        return self.model
+
+    def compile(self):
+        self.generator = Model(self.g_input, self.model)
+        opt = Adam(lr=.001)
+        self.generator.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
+        print('\n')
+        print('Generator summary...\n')
+        print(self.generator.summary())
+        return self.generator
+
+    def freeze_weights(self,val):
+        self.generator.trainable = val
+        for layer in self.generator.layers:
+            layer.trainable = val
+
+    def predict(self, X, batch_size=32):
+        return self.generator.predict(X,batch_size=batch_size, verbose=1)
+
+    def fit(self, X_train, X_test, y_train, y_test, batch_size=32, epochs=100):
+        self.generator.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, verbose=1, validation_data=(X_test,y_test), shuffle=True)
+
+    def save(self,name):
+        self.generator.save('../models/' + name)
+
+
+class Discriminator():
+    def build(self, input_shape):
+        self.d_input = Input(shape=input_shape)
+        self.model = Conv2D(64, (3, 3), padding='same')(self.d_input)
+        self.model = Activation('relu')(self.model)
+        self.model = MaxPooling2D(pool_size=(2,2))(self.model)
+
+        self.model = Conv2D(64, (3, 3), padding='same')(self.model)
+        self.model = Activation('relu')(self.model)
+        self.model = Conv2D(128, (3, 3), padding='same')(self.model)
+        self.model = Activation('relu')(self.model)
+        self.model = MaxPooling2D(pool_size=(2, 2))(self.model)
+        self.model = Dropout(.25)(self.model)
+
+        self.model = Flatten()(self.model)
+        self.model = Dense(256)(self.model)
+        self.model = Activation('relu')(self.model)
+        self.model = Dropout(.5)(self.model)
+        self.model = Dense(2)(self.model)
+        self.model = Activation('softmax')(self.model)
+
+        return self.model
+
+    def compile(self):
+        self.discriminator = Model(self.d_input,self.model)
+        opt = Adam(lr=.0001)
+        self.discriminator.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
+        print('\n')
+        print('Discriminator summary...\n')
+        print(self.discriminator.summary())
+        return self.discriminator
+
+    def fit(self, X_train, y_train, X_test, y_test, batch_size=32, epochs=100):
+        self.discriminator.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, verbose=1,validation_data=(X_test,y_test), shuffle=True)
+
+    def predict(self, X, batch_size=32):
+        return self.discriminator.predict(X,batch_size=batch_size, verbose=1)
+
+    def make_trainable(self,val):
+        self.discriminator.trainable = val
+        for layer in self.discriminator.layers:
+            layer.trainable = val
+
+    def save(self,name):
+        self.discriminator.save('../models/' + name)
+
+class GAN():
+    def compile(self,g,d,input_shape):
+        gan_input = Input(shape=input_shape)
+        model = g(gan_input)
+        gan_V = d(model)
+        self.gan = Model(gan_input,gan_V)
+        opt = Adam(lr=.001)
+        self.gan.compile(loss='categorical_crossentropy', optimizer=opt)
+        print('\n')
+        print('GAN summary...')
+        print(self.gan.summary())

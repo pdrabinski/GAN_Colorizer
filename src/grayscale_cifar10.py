@@ -21,27 +21,35 @@ def iter_over_image(image):
 
 if __name__ == '__main__':
     (X_train, y_train), (X_test, y_test) = cifar10.load_data()
+    #8 is for ships
+    X_train = [X_train[i] for i in range(len(y_train)) if y_train[i] == 8]
+    X_test = [X_test[i] for i in range(len(y_test)) if y_test[i] == 8]
 
-    y_train = X_train
+    X_train_true = np.array(X_train)
     # y_train_img = Image.fromarray(y_train[0],'RGB')
     # y_train_img.show()
-    with open('../data/y_train.p','wb') as f:
-        pickle.dump(y_train,f)
+    with open('../data/X_train_true.p','wb') as f:
+        pickle.dump(X_train_true,f)
+    print('X_train_true done...')
 
     X_train = np.array([iter_over_image(image) for image in X_train])
     # X_train_img = Image.fromarray(X_train[0],'RGB')
     # X_train_img.show()
     with open('../data/X_train.p','wb') as f:
         pickle.dump(X_train,f)
+    print('X_train done...')
 
-    y_test = X_test
+    X_test_true = np.array(X_test)
     # y_test_img = Image.fromarray(y_test[0],'RGB')
     # y_test_img.show()
-    with open('../data/y_test.p','wb') as f:
-        pickle.dump(y_test,f)
+    with open('../data/X_test_true.p','wb') as f:
+        pickle.dump(X_test_true,f)
+    print('X_test_true done...')
+
 
     X_test = np.array([iter_over_image(image) for image in X_test])
     # X_test_img = Image.fromarray(X_test[0],'RGB')
     # X_test_img.show()
     with open('../data/X_test.p','wb') as f:
         pickle.dump(X_test,f)
+    print('X_test done...')
