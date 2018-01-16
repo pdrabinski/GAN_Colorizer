@@ -42,12 +42,13 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
     d_losses = []
     for e in range(batch_epochs):
         #generate images
-        np.random.shuffle(X_train)
-        X_train = X_train[:batch_size]
-        generated_images = gan.g.predict(X_train)
+        X_train_disc = X_train
+        np.random.shuffle(X_train_disc)
+        X_train_disc = X_train_disc[:batch_size]
+        generated_images = gan.g.predict(X_train_disc)
         np.random.shuffle(X_train_true)
         #try shuffling generated images and true the same way
-        X_train = np.concatenate((X_train_true[:batch_size],generated_images))
+        X_train_disc = np.concatenate((X_train_true[:batch_size],generated_images))
         n = batch_size * 2
         y_train = np.zeros([n,2])
         y_train[:n,1] = 1
@@ -56,7 +57,7 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
         #train discriminator
         gan.d.make_trainable(True)
         gan.d.compile()
-        loss = gan.d.train_on_batch(X_train,y_train)
+        loss = gan.d.train_on_batch(X_train_disc,y_train)
         d_losses.append(loss)
 
         #train GAN on grayscaled images , set output class to colorized
@@ -65,8 +66,9 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
         y_train[:,1] = 1
         gan.d.make_trainable(False)
         gan.d.compile()
-        np.random.shuffle(X_train)
-        g_loss = gan.train_on_batch(X_train[:batch_size],y_train)
+        X_train_gen = X_train
+        np.random.shuffle(X_train_gen)
+        g_loss = gan.train_on_batch(X_train_gen[:batch_size],y_train)
         g_losses.append(g_loss)
         print(e,"batches done")
 
