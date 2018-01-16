@@ -76,7 +76,7 @@ def plot_losses(g_losses,d_losses,batch_epochs):
     plt.plot(g_losses, label='Generative Loss')
     plt.plot(d_losses, label='Discriminitive Loss')
     plt.legend()
-    plt.savefig('../images/' + str(time.time()),format='png')
+    plt.savefig('../images/' + str(time.time()) + '.png')
 
 
 if __name__ == '__main__':
@@ -109,5 +109,5 @@ if __name__ == '__main__':
 
     #Train GAN
     batch_size=32
-    batch_epochs=10
+    batch_epochs=5000
     train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, g, d, gan)
