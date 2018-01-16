@@ -15,7 +15,7 @@ USER=ubuntu
 HOST=ec2-52-201-236-103.compute-1.amazonaws.com
 #--- end config
 
-scp -r -i $ID $USER@$HOST:$RD_images/. $LD_images/.
-scp -r -i $ID $USER@$HOST:$RD_models/. $LD_models/.
+scp -i $ID -r $USER@$HOST:$RD_images/. $LD_images/.
+scp -i $ID -r $USER@$HOST:$RD_models/. $LD_models/.
 ssh -i $ID $USER@$HOST 'rm /home/ubuntu/GAN_Colorizer/images/*'
 ssh -i $ID $USER@$HOST 'rm /home/ubuntu/GAN_Colorizer/models/*'

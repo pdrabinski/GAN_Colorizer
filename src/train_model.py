@@ -103,6 +103,6 @@ if __name__ == '__main__':
     # train_discriminator(X_train, X_train_true, X_test, X_test_true, gan)
 
     #Train GAN
-    batch_size=128
+    batch_size=512
     batch_epochs=50
     train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, gan)
