@@ -99,8 +99,8 @@ class Discriminator():
         self.discriminator = Model(self.d_input,self.model)
         opt = Adam(lr=.0001)
         self.discriminator.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
-        print('\n')
-        print('Discriminator summary...\n')
+        # print('\n')
+        # print('Discriminator summary...\n')
         # print(self.discriminator.summary())
         return self.discriminator
 
