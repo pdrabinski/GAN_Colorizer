@@ -85,7 +85,7 @@ class Discriminator():
         self.model = Dropout(.25)(self.model)
 
         self.model = Flatten()(self.model)
-        self.model = Dense(256)(self.model)
+        self.model = Dense(512)(self.model)
         self.model = Activation('relu')(self.model)
         self.model = Dropout(.5)(self.model)
         self.model = Dense(2)(self.model)

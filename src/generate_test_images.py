@@ -9,10 +9,9 @@ def load_images(filepath):
         return pickle.load(f)
 
 def view_image(images, model):
-    print(type(model))
     img_lst = model.predict(images)
+    img_lst = [img * 256 for img in img_lst]
     print(img_lst)
-    print(img_lst[0].shape)
     img_lst = [Image.fromarray(image,'RGB') for image in img_lst]
     for i in img_lst:
         i.show()
