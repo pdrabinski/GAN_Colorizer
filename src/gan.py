@@ -130,8 +130,8 @@ class GAN():
         self.g.build(input_shape=input_shape)
         self.d = Discriminator()
         self.d.build(input_shape=output_shape)
-        generator = self.g.compile()
-        discriminator = self.d.compile_w_summary()
+        self.generator = self.g.compile()
+        self.discriminator = self.d.compile_w_summary()
         model = self.g.generator(gan_input)
         gan_V = self.d.discriminator(model)
         self.gan = Model(gan_input,gan_V)
@@ -151,7 +151,7 @@ class GAN():
         return self.gan.train_on_batch(X,y)
 
     def save(self,name):
-        self.gan.save('../models/' + name + '.h5')
+        self.generator.save('../models/' + name + '.h5')
 
     def predict(self,X):
         return self.g.predict(X)
