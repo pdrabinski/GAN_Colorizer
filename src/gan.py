@@ -43,8 +43,6 @@ class Generator():
         self.model = Conv2D(3, (3, 3), padding='same')(self.model)
         self.model = Activation('sigmoid')(self.model)
 
-        return self.model
-
     def compile(self):
         self.generator = Model(self.g_input, self.model)
         opt = Adam(lr=.001)
@@ -93,15 +91,19 @@ class Discriminator():
         self.model = Dense(2)(self.model)
         self.model = Activation('softmax')(self.model)
 
-        return self.model
+    def compile_w_summary(self):
+        self.discriminator = Model(self.d_input,self.model)
+        opt = Adam(lr=.0001)
+        self.discriminator.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
+        print('\n')
+        print('Discriminator summary...\n')
+        print(self.discriminator.summary())
+        return self.discriminator
 
     def compile(self):
         self.discriminator = Model(self.d_input,self.model)
         opt = Adam(lr=.0001)
         self.discriminator.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
-        # print('\n')
-        # print('Discriminator summary...\n')
-        # print(self.discriminator.summary())
         return self.discriminator
 
     def fit(self, X_train, y_train, X_test, y_test, batch_size=32, epochs=100):
@@ -122,10 +124,16 @@ class Discriminator():
         self.discriminator.save('../models/' + name +'.h5')
 
 class GAN():
-    def compile(self,g,d,input_shape):
+    def compile(self,input_shape, output_shape):
         gan_input = Input(shape=input_shape)
-        model = g(gan_input)
-        gan_V = d(model)
+        self.g = Generator()
+        self.g.build(input_shape=input_shape)
+        self.d = Discriminator()
+        self.d.build(input_shape=output_shape)
+        generator = self.g.compile()
+        discriminator = self.d.compile_w_summary()
+        model = generator(gan_input)
+        gan_V = discriminator(model)
         self.gan = Model(gan_input,gan_V)
         opt = Adam(lr=.001)
         self.gan.compile(loss='categorical_crossentropy', optimizer=opt)
@@ -133,8 +141,17 @@ class GAN():
         print('GAN summary...')
         print(self.gan.summary())
 
+    def d_make_trainable(self, val):
+        self.d.make_trainable(val)
+
+    def g_make_trainable(self,val):
+        self.g._make_trainable(val)
+
     def train_on_batch(self,X,y):
         return self.gan.train_on_batch(X,y)
 
     def save(self,name):
         self.gan.save('../models/' + name + '.h5')
+
+    def predict(self,X):
+        return self.g.predict(X)
