@@ -73,7 +73,7 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
         print(e,"batches done")
 
     plot_losses(g_losses,'Generative_Losses',batch_epochs, batch_size)
-    plot_losses(d_losses,'Discriminitive_Losses',batch_epochs, batch_size)
+    plot_losses(d_losses,'Discriminative_Losses',batch_epochs, batch_size)
     gan.save('model_' + str(batch_size) + '_' + str(batch_epochs))
 
 def plot_losses(losses,label, batch_epochs, batch_size):
@@ -100,9 +100,9 @@ if __name__ == '__main__':
     gan.compile(input_shape=bw_shape, output_shape=color_shape)
 
     # Pre-train the Discriminator
-    train_discriminator(X_train, X_train_true, X_test, X_test_true, gan)
+    # train_discriminator(X_train, X_train_true, X_test, X_test_true, gan)
 
     #Train GAN
     batch_size=128
-    batch_epochs=500
+    batch_epochs=100
     train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, gan)

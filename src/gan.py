@@ -94,7 +94,7 @@ class Discriminator():
     def compile_w_summary(self):
         self.discriminator = Model(self.d_input,self.model)
         opt = Adam(lr=.0001)
-        self.discriminator.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
+        self.discriminator.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
         print('\n')
         print('Discriminator summary...\n')
         print(self.discriminator.summary())
@@ -103,7 +103,7 @@ class Discriminator():
     def compile(self):
         self.discriminator = Model(self.d_input,self.model)
         opt = Adam(lr=.0001)
-        self.discriminator.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
+        self.discriminator.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
         return self.discriminator
 
     def fit(self, X_train, y_train, X_test, y_test, batch_size=32, epochs=100):
@@ -136,7 +136,7 @@ class GAN():
         gan_V = discriminator(model)
         self.gan = Model(gan_input,gan_V)
         opt = Adam(lr=.001)
-        self.gan.compile(loss='categorical_crossentropy', optimizer=opt)
+        self.gan.compile(loss='binary_crossentropy', optimizer=opt)
         print('\n')
         print('GAN summary...')
         print(self.gan.summary())

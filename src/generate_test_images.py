@@ -15,7 +15,7 @@ def view_image(image, model):
     pass
 
 if __name__ =='__main__':
-    model = load_model('../models/1516119568.3821084.h5')
+    model = load_model('../models/model_64_100.h5')
     images = load_images('../data/X_test.p')
     np.random.shuffle(images)
     view_image(images[0], model)
