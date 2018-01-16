@@ -79,7 +79,7 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
 def plot_losses(losses,label, batch_epochs, batch_size):
     plt.plot(losses)
     plt.title(label)
-    plt.savefig('../images/' + label + str(batch_size) + '_' + str(batch_epochs) + '.png')
+    plt.savefig('../images/' + label + '_' + str(batch_size) + '_' + str(batch_epochs) + '.png')
 
 
 if __name__ == '__main__':
