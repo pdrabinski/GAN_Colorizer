@@ -96,22 +96,13 @@ if __name__ == '__main__':
     # Create Stacked GAN
     bw_shape = X_train.shape[1:]
     color_shape = X_train_true.shape[1:]
-
-    # g = Generator()
-    # g_tensor = g.build(input_shape=bw_shape)
-    # d = Discriminator()
-    # d_tensor = d.build(input_shape=color_shape)
-    # generator = g.compile()
-    # discriminator = d.compile_w_summary()
-
     gan = GAN()
-    # gan.compile(g=generator,d=discriminator,input_shape=bw_shape)
     gan.compile(input_shape=bw_shape, output_shape=color_shape)
 
     # Pre-train the Discriminator
     train_discriminator(X_train, X_train_true, X_test, X_test_true, gan)
 
     #Train GAN
-    batch_size=64
-    batch_epochs=100
+    batch_size=128
+    batch_epochs=500
     train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, gan)
