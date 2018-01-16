@@ -1,4 +1,4 @@
-from keras.models import Sequential, Model
+from keras.models import Model
 from keras.layers import Conv2D, MaxPooling2D, Activation, BatchNormalization, UpSampling2D, merge, Dropout, Flatten, Dense, Input
 from keras.optimizers import Adam
 
@@ -36,17 +36,13 @@ class Generator():
         self.model = Activation('relu')(self.model)
         self.model = BatchNormalization()(self.model)
 
-        # self.merge = merge(inputs=[self.model,bw_image], mode='concat')
-
-        # self.merge.add(Conv2D(32, (3, 3), padding='same'))
-        # self.model.add(Activation('relu'))
-        # self.merge.add(Conv2D(3, (3, 3), padding='same'))
-        # self.merge.add(Activation('sigmoid'))
+        self.model = merge(inputs=[self.model,self.g_input], mode='concat')
 
         self.model = Conv2D(32, (3, 3), padding='same')(self.model)
         self.model = Activation('relu')(self.model)
         self.model = Conv2D(3, (3, 3), padding='same')(self.model)
         self.model = Activation('sigmoid')(self.model)
+
         return self.model
 
     def compile(self):
@@ -63,8 +59,9 @@ class Generator():
         for layer in self.generator.layers:
             layer.trainable = val
 
-    def predict(self, X, batch_size=32):
-        return self.generator.predict(X,batch_size=batch_size, verbose=1)
+    def predict(self, X):
+        #need to fix steps
+        return self.generator.predict(X, verbose=1,steps=250)
 
     def fit(self, X_train, X_test, y_train, y_test, batch_size=32, epochs=100):
         self.generator.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, verbose=1, validation_data=(X_test,y_test), shuffle=True)
@@ -116,6 +113,9 @@ class Discriminator():
         for layer in self.discriminator.layers:
             layer.trainable = val
 
+    def train_on_batch(X,y,self):
+        return self.discriminator.train_on_batch(X,y)
+
     def save(self,name):
         self.discriminator.save('../models/' + name)
 
@@ -130,3 +130,9 @@ class GAN():
         print('\n')
         print('GAN summary...')
         print(self.gan.summary())
+
+    def train_on_batch(self,X,y):
+        return self.gan.train_on_batch(X,y)
+
+    def save(self,name):
+        self.gan.save('../models/' + name)

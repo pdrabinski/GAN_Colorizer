@@ -1,6 +1,8 @@
 import pickle
 import numpy as np
 from gan import Generator, Discriminator, GAN
+import time
+import matplotlib.pyplot as plt
 
 def load_images(filepath):
     with open(filepath, 'rb') as f:
@@ -23,18 +25,56 @@ def train_discriminator(X_train, X_train_true, X_test, X_test_true, g ,d):
 
     d.make_trainable(True)
     d.fit(X_train,y_train,X_test,y_test,epochs=1)
-    # y_pred = d.predict(X_train)
-    # discriminator_accuracy(y_pred,y_train)
+    y_pred = d.predict(X_train)
+    discriminator_accuracy(y_pred,y_train)
 
-# def discriminator_accuracy(y_pred,y_true):
-#     y_pred = np.argmax(y_pred, axis=1)
-#     y_true = np.argmax(y_true, axis=1)
-#     n_wrong = np.sum(np.absolute(y_pred - y_true))
-#     n = len(y_pred)
-#     n_right = n - n_wrong
-#     accuracy = round((n_right)/n * 100,2)
-#     print('Accuracy:',accuracy)
-#     print(n_right,"of",n,"correct \n")
+def discriminator_accuracy(y_pred,y_true):
+    y_pred = np.argmax(y_pred, axis=1)
+    y_true = np.argmax(y_true, axis=1)
+    n_wrong = np.sum(np.absolute(y_pred - y_true))
+    n = len(y_pred)
+    n_right = n - n_wrong
+    accuracy = round((n_right)/n * 100,2)
+    print('Accuracy:',accuracy)
+    print(n_right,"of",n,"correct \n")
+
+def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size,g, d, gan):
+    g_losses = []
+    d_losses = []
+    for e in range(batch_epochs):
+        #generate images
+        generated_images = g.predict(np.random.shuffle(X_train))
+        X_train_true_shuffle = np.random.shuffle(X_train_true)
+        #try shuffling generated images and true the same way
+        X_train = np.concatenate((X_train_true_shuffle[:batch_size],generated_images[:batch_size]))
+        n = batch_size * 2
+        y_train = np.zeros([n,2])
+        y_train[:n,1] = 1
+        y_train[n:,0] = 1
+
+        #train discriminator
+        d.make_trainable(True)
+        loss = d.train_on_batch(X_train,y_train)
+        d_losses.append(loss)
+
+        #train GAN on grayscaled images , set output class to colorized
+        n = batch_size
+        y_train = np.zeros([n,2])
+        y_train[:,1] = 1
+        d.make_trainable(False)
+        g_loss = gan.train_on_batch(np.random.shuffle(X_train)[:batch_size],y_train)
+        g_losses.append(g_loss)
+        print(e,"batches done")
+
+    plot_losses(g_losses,d_losses,batch_epochs)
+    gan.save(str(time.time()))
+
+def plot_losses(g_losses,d_losses,batch_epochs):
+    plt.plot(g_losses, label='Generative Loss')
+    plt.plot(d_losses, label='Discriminitive Loss')
+    plt.legend()
+    plt.savefig('../images/' + str(time.time()),format='png')
+
 
 if __name__ == '__main__':
     #Load images
@@ -61,5 +101,10 @@ if __name__ == '__main__':
     gan = GAN()
     gan.compile(g=generator,d=discriminator,input_shape=bw_shape)
 
-    #Train the Discriminator
+    # Pre-train the Discriminator
     train_discriminator(X_train, X_train_true, X_test, X_test_true, g,d)
+
+    #Train GAN
+    batch_size=32
+    batch_epochs=10
+    train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size,g, d, gan)
