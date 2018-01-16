@@ -44,7 +44,7 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
     for e in range(batch_epochs):
         #generate images
         np.random.shuffle(X_train)
-        X_train = X_train[:32]
+        X_train = X_train[:batch_size]
         generated_images = g.predict(X_train)
         np.random.shuffle(X_train_true)
         #try shuffling generated images and true the same way
