@@ -1,5 +1,5 @@
 from keras.models import Model
-from keras.layers import Conv2D, MaxPooling2D, Activation, BatchNormalization, UpSampling2D, merge, Dropout, Flatten, Dense, Input
+from keras.layers import Conv2D, MaxPooling2D, Activation, BatchNormalization, UpSampling2D, merge, Dropout, Flatten, Dense, Input, AveragePooling2D
 from keras.optimizers import Adam
 
 class Generator():
@@ -75,13 +75,15 @@ class Discriminator():
         self.d_input = Input(shape=input_shape)
         self.model = Conv2D(64, (3, 3), padding='same')(self.d_input)
         self.model = Activation('relu')(self.model)
-        self.model = MaxPooling2D(pool_size=(2,2))(self.model)
+        # self.model = MaxPooling2D(pool_size=(2,2))(self.model)
+        self.model = AveragePooling2D(pool_size=(2,2))(self.model)
 
         self.model = Conv2D(64, (3, 3), padding='same')(self.model)
         self.model = Activation('relu')(self.model)
         self.model = Conv2D(128, (3, 3), padding='same')(self.model)
         self.model = Activation('relu')(self.model)
-        self.model = MaxPooling2D(pool_size=(2, 2))(self.model)
+        # self.model = MaxPooling2D(pool_size=(2, 2))(self.model)
+        self.model = AveragePooling2D(pool_size=(2,2))(self.model)
         self.model = Dropout(.25)(self.model)
 
         self.model = Flatten()(self.model)
@@ -99,7 +101,7 @@ class Discriminator():
         self.discriminator.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
         print('\n')
         print('Discriminator summary...\n')
-        print(self.discriminator.summary())
+        # print(self.discriminator.summary())
         return self.discriminator
 
     def fit(self, X_train, y_train, X_test, y_test, batch_size=32, epochs=100):

@@ -112,5 +112,5 @@ if __name__ == '__main__':
 
     #Train GAN
     batch_size=64
-    batch_epochs=1000
+    batch_epochs=5000
     train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, g, d, gan)
