@@ -10,14 +10,15 @@ def load_images(filepath):
 
 def view_image(images, model):
     print(type(model))
-    img_lst = model.g.predict(images)
+    img_lst = model.predict(images)
     print(img_lst)
+    print(img_lst[0].shape)
     img_lst = [Image.fromarray(image,'RGB') for image in img_lst]
     for i in img_lst:
         i.show()
 
 if __name__ =='__main__':
-    model = load_model('../models/model_128_100.h5')
+    model = load_model('../models/model_128_50.h5')
     images = load_images('../data/X_test.p')
     np.random.shuffle(images)
     view_image(images[:5], model)
