@@ -38,15 +38,17 @@ def discriminator_accuracy(y_pred,y_true):
     print('Accuracy:',accuracy)
     print(n_right,"of",n,"correct \n")
 
-def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size,g, d, gan):
+def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, g, d, gan):
     g_losses = []
     d_losses = []
     for e in range(batch_epochs):
         #generate images
-        generated_images = g.predict(np.random.shuffle(X_train))
-        X_train_true_shuffle = np.random.shuffle(X_train_true)
+        np.random.shuffle(X_train)
+        X_train = X_train[:32]
+        generated_images = g.predict(X_train)
+        np.random.shuffle(X_train_true)
         #try shuffling generated images and true the same way
-        X_train = np.concatenate((X_train_true_shuffle[:batch_size],generated_images[:batch_size]))
+        X_train = np.concatenate((X_train_true[:batch_size],generated_images))
         n = batch_size * 2
         y_train = np.zeros([n,2])
         y_train[:n,1] = 1
@@ -62,7 +64,8 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size,g
         y_train = np.zeros([n,2])
         y_train[:,1] = 1
         d.make_trainable(False)
-        g_loss = gan.train_on_batch(np.random.shuffle(X_train)[:batch_size],y_train)
+        np.random.shuffle(X_train)
+        g_loss = gan.train_on_batch(X_train[:batch_size],y_train)
         g_losses.append(g_loss)
         print(e,"batches done")
 
@@ -102,9 +105,9 @@ if __name__ == '__main__':
     gan.compile(g=generator,d=discriminator,input_shape=bw_shape)
 
     # Pre-train the Discriminator
-    train_discriminator(X_train, X_train_true, X_test, X_test_true, g,d)
+    train_discriminator(X_train, X_train_true, X_test, X_test_true, g, d)
 
     #Train GAN
     batch_size=32
     batch_epochs=10
-    train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size,g, d, gan)
+    train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, g, d, gan)

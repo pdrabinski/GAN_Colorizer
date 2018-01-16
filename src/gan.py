@@ -61,7 +61,7 @@ class Generator():
 
     def predict(self, X):
         #need to fix steps
-        return self.generator.predict(X, verbose=1,steps=250)
+        return self.generator.predict(X, batch_size=32, verbose=1)
 
     def fit(self, X_train, X_test, y_train, y_test, batch_size=32, epochs=100):
         self.generator.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, verbose=1, validation_data=(X_test,y_test), shuffle=True)
@@ -113,7 +113,7 @@ class Discriminator():
         for layer in self.discriminator.layers:
             layer.trainable = val
 
-    def train_on_batch(X,y,self):
+    def train_on_batch(self, X, y):
         return self.discriminator.train_on_batch(X,y)
 
     def save(self,name):
