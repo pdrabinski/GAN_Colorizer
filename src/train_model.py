@@ -56,6 +56,7 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
 
         #train discriminator
         d.make_trainable(True)
+        d.compile()
         loss = d.train_on_batch(X_train,y_train)
         d_losses.append(loss)
 
@@ -64,11 +65,13 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
         y_train = np.zeros([n,2])
         y_train[:,1] = 1
         d.make_trainable(False)
+        d.compile()
         np.random.shuffle(X_train)
         g_loss = gan.train_on_batch(X_train[:batch_size],y_train)
         g_losses.append(g_loss)
         print(e,"batches done")
 
+    print(d_losses)
     plot_losses(g_losses,d_losses,batch_epochs)
     gan.save(str(time.time()))
 
@@ -108,6 +111,6 @@ if __name__ == '__main__':
     train_discriminator(X_train, X_train_true, X_test, X_test_true, g, d)
 
     #Train GAN
-    batch_size=32
-    batch_epochs=5000
+    batch_size=64
+    batch_epochs=1000
     train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, g, d, gan)

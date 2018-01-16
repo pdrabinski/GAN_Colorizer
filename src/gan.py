@@ -117,7 +117,7 @@ class Discriminator():
         return self.discriminator.train_on_batch(X,y)
 
     def save(self,name):
-        self.discriminator.save('../models/' + name)
+        self.discriminator.save('../models/' + name +'.h5')
 
 class GAN():
     def compile(self,g,d,input_shape):
@@ -135,4 +135,4 @@ class GAN():
         return self.gan.train_on_batch(X,y)
 
     def save(self,name):
-        self.gan.save('../models/' + name)
+        self.gan.save('../models/' + name + '.h5')
