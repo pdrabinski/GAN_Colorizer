@@ -36,11 +36,10 @@ class Generator():
         self.model = Activation('relu')(self.model)
         self.model = BatchNormalization()(self.model)
 
-        self.model = merge(inputs=[self.model,self.g_input], mode='concat')
-
         self.model = Conv2D(32, (3, 3), padding='same')(self.model)
         self.model = Activation('relu')(self.model)
-        self.model = Conv2D(3, (3, 3), padding='same')(self.model)
+        self.model = Conv2D(2, (3, 3), padding='same')(self.model)
+        self.model = merge(inputs=[self.model,self.g_input], mode='concat')
         self.model = Activation('tanh')(self.model)
 
     def compile(self):
