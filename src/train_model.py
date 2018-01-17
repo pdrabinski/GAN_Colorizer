@@ -56,7 +56,7 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
 
         #train discriminator
         gan.d.make_trainable(True)
-        gan.d.compile()
+        gan.d.compile_w_summary()
         loss = gan.d.train_on_batch(X_train_disc,y_train)
         d_losses.append(loss)
 
@@ -65,7 +65,7 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
         y_train = np.zeros([n,2])
         y_train[:,1] = 1
         gan.d.make_trainable(False)
-        gan.d.compile()
+        gan.d.compile_w_summary()
         X_train_gen = X_train
         np.random.shuffle(X_train_gen)
         g_loss = gan.train_on_batch(X_train_gen[:batch_size],y_train)
@@ -101,7 +101,7 @@ if __name__ == '__main__':
     gan.compile(input_shape=bw_shape, output_shape=color_shape)
 
     # Pre-train the Discriminator
-    train_discriminator(X_train, X_train_true, X_test, X_test_true, gan)
+    # train_discriminator(X_train, X_train_true, X_test, X_test_true, gan)
 
     #Train GAN
     batch_size=512

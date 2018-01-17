@@ -41,7 +41,7 @@ class Generator():
         self.model = Conv2D(32, (3, 3), padding='same')(self.model)
         self.model = Activation('relu')(self.model)
         self.model = Conv2D(3, (3, 3), padding='same')(self.model)
-        self.model = Activation('sigmoid')(self.model)
+        self.model = Activation('tanh')(self.model)
 
     def compile(self):
         self.generator = Model(self.g_input, self.model)
@@ -75,15 +75,24 @@ class Discriminator():
         self.model = LeakyReLU(.2)(self.model)
         # self.model = MaxPooling2D(pool_size=(2,2))(self.model)
         self.model = Dropout(.25)(self.model)
-        self.model = AveragePooling2D(pool_size=(2,2))(self.model)
+        # self.model = AveragePooling2D(pool_size=(2,2))(self.model)
+        self.model = Conv2D(64,(3,3), strides=(2,2))(self.model)
+        self.model = LeakyReLU(.2)(self.model)
+        self.model = BatchNormalization()(self.model)
+
 
         self.model = Conv2D(64, (3, 3), padding='same')(self.model)
         self.model = LeakyReLU(.2)(self.model)
         self.model = Conv2D(128, (3, 3), padding='same')(self.model)
         self.model = LeakyReLU(.2)(self.model)
         # self.model = MaxPooling2D(pool_size=(2, 2))(self.model)
-        self.model = AveragePooling2D(pool_size=(2,2))(self.model)
+        # self.model = AveragePooling2D(pool_size=(2,2))(self.model)
+        self.model = Conv2D(128,(3,3), strides=(2,2))(self.model)
+        self.model = LeakyReLU(.2)(self.model)
         self.model = Dropout(.25)(self.model)
+        self.model = BatchNormalization()(self.model)
+
+
 
         self.model = Flatten()(self.model)
         self.model = Dense(512)(self.model)
