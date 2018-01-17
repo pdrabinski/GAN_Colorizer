@@ -74,6 +74,7 @@ class Discriminator():
         self.model = Conv2D(64, (3, 3), padding='same')(self.d_input)
         self.model = LeakyReLU(.2)(self.model)
         # self.model = MaxPooling2D(pool_size=(2,2))(self.model)
+        self.model = Dropout(.25)(self.model)
         self.model = AveragePooling2D(pool_size=(2,2))(self.model)
 
         self.model = Conv2D(64, (3, 3), padding='same')(self.model)

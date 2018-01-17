@@ -1,6 +1,6 @@
 import pickle
 import numpy as np
-from gan import Generator, Discriminator, GAN
+from gan import GAN
 import matplotlib.pyplot as plt
 
 def load_images(filepath):
@@ -71,7 +71,7 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
         g_loss = gan.train_on_batch(X_train_gen[:batch_size],y_train)
         g_losses.append(g_loss)
         if e % 5 == 4:
-            print(e,"batches done")
+            print(e + 1,"batches done")
 
     plot_losses(g_losses,'Generative_Losses',batch_epochs, batch_size)
     plot_losses(d_losses,'Discriminative_Losses',batch_epochs, batch_size)
