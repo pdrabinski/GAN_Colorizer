@@ -11,14 +11,14 @@ def train_discriminator(X_train, X_train_true, X_test, X_test_true, gan):
     generated_images = gan.g.predict(X_train)
     X_train = np.concatenate((X_train_true,generated_images))
     n = len(X_train)
-    y_train = np.zeros([n,2])
+    y_train = np.zeros([2 * n,2])
     y_train[:n,1] = 1
     y_train[n:,0] = 1
 
     test_generated_images = gan.predict(X_test)
     X_test = np.concatenate((X_test_true,test_generated_images))
     n = len(X_test)
-    y_test = np.zeros([n,2])
+    y_test = np.zeros([2 * n,2])
     y_test[:n,1] = 1
     y_test[n:,0] = 1
 
