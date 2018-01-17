@@ -49,14 +49,14 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
         np.random.shuffle(X_train_true)
         #try shuffling generated images and true the same way
         X_train_disc = np.concatenate((X_train_true[:batch_size],generated_images))
-        n = batch_size * 2
-        y_train = np.zeros([n,2])
+        n = batch_size
+        y_train = np.zeros([n * 2,2])
         y_train[:n,1] = 1
         y_train[n:,0] = 1
 
         #train discriminator
         gan.d.make_trainable(True)
-        gan.d.compile_w_summary()
+        gan.d.compile()
         loss = gan.d.train_on_batch(X_train_disc,y_train)
         d_losses.append(loss)
 
@@ -65,7 +65,7 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
         y_train = np.zeros([n,2])
         y_train[:,1] = 1
         gan.d.make_trainable(False)
-        gan.d.compile_w_summary()
+        gan.d.compile()
         X_train_gen = X_train
         np.random.shuffle(X_train_gen)
         g_loss = gan.train_on_batch(X_train_gen[:batch_size],y_train)
