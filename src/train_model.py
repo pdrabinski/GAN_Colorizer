@@ -18,14 +18,14 @@ def train_discriminator(X_train, X_train_true, X_test, X_test_true, gan):
     test_generated_images = gan.predict(X_test)
     X_test_concat = np.concatenate((X_test_true,test_generated_images))
     n = len(X_test)
-    y_test = np.zeros([2 * n,2])
-    y_test[:n,1] = 1
-    y_test[n:,0] = 1
+    y_test_concat = np.zeros([2 * n,2])
+    y_test_concat[:n,1] = 1
+    y_test_concat[n:,0] = 1
 
     gan.d.make_trainable(True)
-    gan.d.fit(X_train_concat,y_train,X_test_concat,y_test,epochs=1)
-    y_pred = gan.d.predict(X_test)
-    discriminator_accuracy(y_pred,y_test)
+    gan.d.fit(X_train_concat,y_train,X_test_concat,y_test_concat,epochs=1)
+    y_pred = gan.d.predict(X_test_concat)
+    discriminator_accuracy(y_pred,y_test_concat)
 
 def discriminator_accuracy(y_pred,y_true):
     y_pred = np.argmax(y_pred, axis=1)
