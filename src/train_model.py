@@ -25,7 +25,7 @@ def train_discriminator(X_train, X_train_true, X_test, X_test_true, gan):
     gan.d.make_trainable(True)
     gan.d.fit(X_train_concat,y_train,X_test_concat,y_test,epochs=1)
     y_pred = gan.d.predict(X_test)
-    discriminator_accuracy(y_pred,y_train)
+    discriminator_accuracy(y_pred,y_test)
 
 def discriminator_accuracy(y_pred,y_true):
     y_pred = np.argmax(y_pred, axis=1)
