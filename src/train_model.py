@@ -9,22 +9,22 @@ def load_images(filepath):
 
 def train_discriminator(X_train, X_train_true, X_test, X_test_true, gan):
     generated_images = gan.g.predict(X_train)
-    X_train = np.concatenate((X_train_true,generated_images))
+    X_train_concat = np.concatenate((X_train_true,generated_images))
     n = len(X_train)
     y_train = np.zeros([2 * n,2])
     y_train[:n,1] = 1
     y_train[n:,0] = 1
 
     test_generated_images = gan.predict(X_test)
-    X_test = np.concatenate((X_test_true,test_generated_images))
+    X_test_concat = np.concatenate((X_test_true,test_generated_images))
     n = len(X_test)
     y_test = np.zeros([2 * n,2])
     y_test[:n,1] = 1
     y_test[n:,0] = 1
 
     gan.d.make_trainable(True)
-    gan.d.fit(X_train,y_train,X_test,y_test,epochs=1)
-    y_pred = gan.d.predict(X_train)
+    gan.d.fit(X_train_concat,y_train,X_test_concat,y_test,epochs=1)
+    y_pred = gan.d.predict(X_test)
     discriminator_accuracy(y_pred,y_train)
 
 def discriminator_accuracy(y_pred,y_true):
