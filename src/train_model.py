@@ -70,7 +70,8 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
         np.random.shuffle(X_train_gen)
         g_loss = gan.train_on_batch(X_train_gen[:batch_size],y_train)
         g_losses.append(g_loss)
-        print(e,"batches done")
+        if e % 5 == 4:
+            print(e,"batches done")
 
     plot_losses(g_losses,'Generative_Losses',batch_epochs, batch_size)
     plot_losses(d_losses,'Discriminative_Losses',batch_epochs, batch_size)
