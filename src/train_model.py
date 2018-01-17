@@ -101,7 +101,7 @@ if __name__ == '__main__':
     gan.compile(input_shape=bw_shape, output_shape=color_shape)
 
     # Pre-train the Discriminator
-    # train_discriminator(X_train, X_train_true, X_test, X_test_true, gan)
+    train_discriminator(X_train, X_train_true, X_test, X_test_true, gan)
 
     #Train GAN
     batch_size=512
