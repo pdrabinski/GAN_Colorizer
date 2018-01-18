@@ -59,8 +59,7 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
 
         #train GAN on grayscaled images , set output class to colorized
         n = batch_size
-        y_train = np.zeros([n,2])
-        y_train[:] = 1
+        y_train = np.ones([n])
         gan.d.make_trainable(False)
         gan.d.compile()
         X_train_gen = X_train
