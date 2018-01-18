@@ -25,7 +25,7 @@ from PIL import Image
 def grayscale_image(image):
     image_file = Image.fromarray(image,'RGB')
     arr = np.array(image_file.convert('L'))
-    arr = arr / 255 * 2 - 1
+    # arr = arr / 255 * 2 - 1
     return arr[...,np.newaxis]
 
 if __name__ == '__main__':

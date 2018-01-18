@@ -12,7 +12,7 @@ ID=~/.ssh/my_aws_keypair.pem
 # USERname to login as
 USER=ubuntu
 # HOST to login to
-HOST=ec2-52-201-236-103.compute-1.amazonaws.com
+HOST=ec2-54-209-79-179.compute-1.amazonaws.com
 #--- end config
 
 scp -i $ID -r $USER@$HOST:$RD_images/. $LD_images/.

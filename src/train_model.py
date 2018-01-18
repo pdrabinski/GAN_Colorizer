@@ -11,20 +11,24 @@ def train_discriminator(X_train, X_train_true, X_test, X_test_true, gan):
     generated_images = gan.g.predict(X_train)
     X_train_concat = np.concatenate((X_train_true,generated_images))
     n = len(X_train)
-    y_train = np.zeros([2 * n])
+    y_train = np.zeros([2 * n,1])
     y_train[:n] = 1
     y_train[n:] = 0
+    print(y_train)
 
     test_generated_images = gan.predict(X_test)
     X_test_concat = np.concatenate((X_test_true,test_generated_images))
     n = len(X_test)
-    y_test_concat = np.zeros([2 * n])
+    y_test_concat = np.zeros([2 * n,1])
     y_test_concat[:n] = 1
     y_test_concat[n:] = 0
+    print(y_test_concat)
 
     gan.d.make_trainable(True)
+    gan.d.compile()
     gan.d.fit(X_train_concat,y_train,X_test_concat,y_test_concat,epochs=1)
     y_pred = gan.d.predict(X_test_concat)
+    print(y_pred)
     discriminator_accuracy(y_pred,y_test_concat)
 
 def discriminator_accuracy(y_pred,y_true):
@@ -69,8 +73,8 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
         if e % 5 == 4:
             print(e + 1,"batches done")
         if e % 25 == 24:
-            plot_losses(g_losses,'Generative_Losses_' + str(e) + 'batches',batch_epochs, batch_size)
-            plot_losses(d_losses,'Discriminative_Losses'+ str(e) + 'batches',batch_epochs, batch_size)
+            plot_losses(g_losses,'Generative_Losses',e, batch_size)
+            plot_losses(d_losses,'Discriminative_Losses',e, batch_size)
 
     # plot_losses(g_losses,'Generative_Losses',batch_epochs, batch_size)
     # plot_losses(d_losses,'Discriminative_Losses',batch_epochs, batch_size)
@@ -79,7 +83,7 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
 def plot_losses(losses,label, batch_epochs, batch_size):
     plt.plot(losses)
     plt.title(label)
-    plt.savefig('../images/' + label + '_' + str(batch_size) + '_' + str(batch_epochs) + '.png')
+    plt.savefig('../images/' + label + '_' + str(batch_size) + '_' + str(batch_epochs) + '_epochs.png')
 
 
 if __name__ == '__main__':
@@ -104,6 +108,6 @@ if __name__ == '__main__':
     train_discriminator(X_train, X_train_true, X_test, X_test_true, gan)
 
     #Train GAN
-    batch_size=256
+    batch_size=128
     batch_epochs=100
     train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, gan)
