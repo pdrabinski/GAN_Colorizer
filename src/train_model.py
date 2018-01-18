@@ -1,6 +1,6 @@
 import pickle
 import numpy as np
-from gan import GAN
+from gan import GAN, Generator, Discriminator
 import matplotlib.pyplot as plt
 
 def load_images(filepath):
@@ -97,6 +97,7 @@ if __name__ == '__main__':
     # Create Stacked GAN
     bw_shape = X_train.shape[1:]
     color_shape = X_train_true.shape[1:]
+
     gan = GAN()
     gan.compile(input_shape=bw_shape, output_shape=color_shape)
 
@@ -104,6 +105,6 @@ if __name__ == '__main__':
     train_discriminator(X_train, X_train_true, X_test, X_test_true, gan)
 
     #Train GAN
-    batch_size=512
+    batch_size=256
     batch_epochs=100
     train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, gan)
