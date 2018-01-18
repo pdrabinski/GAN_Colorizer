@@ -15,12 +15,12 @@ def view_image(images, model):
     # img_lst = [(img + 1) * 128 for img in img_lst]
     print(img_lst)
     print(img_lst[1].shape)
-    img_lst = [Image.fromarray(image,'RGB') for image in img_lst]
+    img_lst = [Image.fromarray(image,'LAB') for image in img_lst]
     for i in img_lst:
         i.show()
-    if not os.path.exists('../images/test_images/' + time.strftime('%d')):
-        os.makedirs('../images/test_images/' + time.strftime('%d'))
-    img_lst[0].save('../images/test_images/' + time.strftime('%d') + '/' + time.strftime('%H:%M:%S') + '.png')
+    # if not os.path.exists('../images/test_images/' + time.strftime('%d')):
+    #     os.makedirs('../images/test_images/' + time.strftime('%d'))
+    # img_lst[0].save('../images/test_images/' + time.strftime('%d') + '/' + time.strftime('%H:%M:%S') + '.png')
 
 def predict_on_generated_images(images,model):
     real_or_fake = model.predict(images)
