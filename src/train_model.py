@@ -72,9 +72,12 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
         g_losses.append(g_loss)
         if e % 5 == 4:
             print(e + 1,"batches done")
+        if e % 25 == 24:
+            plot_losses(g_losses,'Generative_Losses_' + str(e) + 'batches',batch_epochs, batch_size)
+            plot_losses(d_losses,'Discriminative_Losses'+ str(e) + 'batches',batch_epochs, batch_size)
 
-    plot_losses(g_losses,'Generative_Losses',batch_epochs, batch_size)
-    plot_losses(d_losses,'Discriminative_Losses',batch_epochs, batch_size)
+    # plot_losses(g_losses,'Generative_Losses',batch_epochs, batch_size)
+    # plot_losses(d_losses,'Discriminative_Losses',batch_epochs, batch_size)
     gan.save('model_' + str(batch_size) + '_' + str(batch_epochs))
 
 def plot_losses(losses,label, batch_epochs, batch_size):
