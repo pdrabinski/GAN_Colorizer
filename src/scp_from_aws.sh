@@ -15,6 +15,7 @@ USER=ubuntu
 HOST=ec2-54-209-79-179.compute-1.amazonaws.com
 #--- end config
 
+# rm ../images/*
 scp -i $ID -r $USER@$HOST:$RD_images/. $LD_images/.
 scp -i $ID -r $USER@$HOST:$RD_models/. $LD_models/.
 ssh -i $ID $USER@$HOST 'rm /home/ubuntu/GAN_Colorizer/images/*'

@@ -2,26 +2,7 @@ from keras.datasets import cifar10
 import numpy as np
 import pickle
 from PIL import Image
-from skimage import io, color
-
-# def grayscale(pixel):
-#     """
-#     Input is a single pixel. Output is a weighted average of red, green and blue.
-#     """
-#     return 0.299 * pixel[0] + 0.587 * pixel[1] + 0.114 * pixel[2]
-#
-# def iter_over_image(image):
-#     """
-#     Iterate over each pixel in image, pass each pixel to grayscale function
-#     """
-#     image_copy = np.ones([image.shape[0],image.shape[1]])
-#     for i in range(len(image)):
-#         for j in range(len(image[i])):
-#             # pixel = np.average(image[i,j])
-#             # print(type(pixel))
-#             # image_copy[i,j] = np.array([pixel])
-#             image_copy[i,j] = np.average(image[i,j])
-#     return image_copy
+from skimage import color
 
 def grayscale_image(image):
     image_file = Image.fromarray(image,'RGB')

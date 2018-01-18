@@ -159,8 +159,11 @@ class GAN():
     def train_on_batch(self,X,y):
         return self.gan.train_on_batch(X,y)
 
-    def save(self,name):
+    def save_g(self,name):
         self.generator.save('../models/' + name + '.h5')
+
+    def save_d(self,name):
+        self.discriminator.save('../models/' + name + '.h5')
 
     def predict(self,X):
         return self.g.predict(X)
