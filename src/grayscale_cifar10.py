@@ -5,19 +5,34 @@ from PIL import Image
 from skimage import color
 
 def grayscale_image(image):
-    image_file = Image.fromarray(image,'RGB')
-    arr = np.array(image_file.convert('L'))
-    # arr = arr / 255 * 2 - 1
+    # image_file = Image.fromarray(image,'RGB')
+    # arr = np.array(image_file.convert('L'))
+    # arr = arr / 100
+    arr = color.rgb2grey(image)
     return arr[...,np.newaxis]
+
+def un_scale(image):
+    image = np.squeeze(image)
+    image = image * 100
+    return image
 
 def rgb_to_lab(image):
     lab = color.rgb2lab(image)
-    # lab = np.array([[p[0]/100,(p[1] + 128)/255,(p[2] + 128)/255] for row in image for p in row])
-    return lab
+    new_img = np.zeros((32,32,3))
+    for i in range(len(lab)):
+        for j in range(len(lab[i])):
+            p = lab[i,j]
+            new_img[i,j] = [p[0]/100,(p[1] + 128)/255,(p[2] + 128)/255]
+    return new_img
 
 def lab_to_rgb(image):
-    rgb = color.lab2rgb(image)
-    return rgb
+    new_img = np.zeros((32,32,3))
+    for i in range(len(image)):
+        for j in range(len(image[i])):
+            p = image[i,j]
+            new_img[i,j] = [p[0] * 100,p[1] * 255 - 128,p[2] * 255 - 128]
+    # rgb = color.lab2rgb(new_img)
+    return new_img
 
 if __name__ == '__main__':
     (X_train, y_train), (X_test, y_test) = cifar10.load_data()
@@ -28,14 +43,15 @@ if __name__ == '__main__':
     X_train_true = X_train
     X_train_true = np.array([rgb_to_lab(image) for image in X_train_true])
     # X_train_true_img = lab_to_rgb(X_train_true[0])
-    # X_train_true_img = Image.fromarray(X_train_true_img,'RGB')
+    # X_train_true_img = Image.fromarray(X_train_true_img,'LAB')
     # X_train_true_img.show()
     with open('../data/X_train_true.p','wb') as f:
         pickle.dump(X_train_true,f)
     print('X_train_true done...')
 
     X_train = np.array([grayscale_image(image) for image in X_train])
-    # X_train_img = Image.fromarray(X_train[0],'L')
+    # X_train_img = un_grayscale(X_train[0])
+    # X_train_img = Image.fromarray(X_train_img,'L')
     # X_train_img.show()
     with open('../data/X_train.p','wb') as f:
         pickle.dump(X_train,f)
