@@ -28,11 +28,8 @@ def train_discriminator(X_train, X_train_true, X_test, X_test_true, gan):
     discriminator_accuracy(y_pred,y_test_concat)
 
 def discriminator_accuracy(y_pred,y_true):
-    y_pred = np.argmax(y_pred, axis=1)
-    y_true = np.argmax(y_true, axis=1)
-    n_wrong = np.sum(np.absolute(y_pred - y_true))
     n = len(y_pred)
-    n_right = n - n_wrong
+    n_right = np.sum(y_pred == y_true)
     accuracy = round((n_right)/n * 100,2)
     print('Accuracy:',accuracy)
     print(n_right,"of",n,"correct \n")
