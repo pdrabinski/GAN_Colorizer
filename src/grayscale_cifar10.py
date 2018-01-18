@@ -12,7 +12,12 @@ def grayscale_image(image):
 
 def rgb_to_lab(image):
     lab = color.rgb2lab(image)
+    # lab = np.array([[p[0]/100,(p[1] + 128)/255,(p[2] + 128)/255] for row in image for p in row])
     return lab
+
+def lab_to_rgb(image):
+    rgb = color.lab2rgb(image)
+    return rgb
 
 if __name__ == '__main__':
     (X_train, y_train), (X_test, y_test) = cifar10.load_data()
@@ -22,7 +27,8 @@ if __name__ == '__main__':
 
     X_train_true = X_train
     X_train_true = np.array([rgb_to_lab(image) for image in X_train_true])
-    # X_train_true_img = Image.fromarray(X_train_true[0],'RGB')
+    # X_train_true_img = lab_to_rgb(X_train_true[0])
+    # X_train_true_img = Image.fromarray(X_train_true_img,'RGB')
     # X_train_true_img.show()
     with open('../data/X_train_true.p','wb') as f:
         pickle.dump(X_train_true,f)
@@ -37,7 +43,8 @@ if __name__ == '__main__':
 
     X_test_true = np.array(X_test)
     X_test_true = np.array([rgb_to_lab(image) for image in X_test_true])
-    # X_test_true_img = Image.fromarray(X_test_true[0],'RGB')
+    # X_test_true_img = lab_to_rgb(X_test_true[0])
+    # X_test_true_img = Image.fromarray(X_test_true_img,'RGB')
     # X_test_true_img.show()
     with open('../data/X_test_true.p','wb') as f:
         pickle.dump(X_test_true,f)
