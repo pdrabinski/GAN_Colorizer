@@ -14,7 +14,7 @@ def train_discriminator(X_train, X_train_true, X_test, X_test_true, gan):
     y_train = np.zeros([2 * n,1])
     y_train[:n] = 1
     y_train[n:] = 0
-    rand_arr = np.range(len(X_train_concat))
+    rand_arr = np.arange(len(X_train_concat))
     np.random.shuffle(rand_arr)
     X_train_concat = X_train_concat[rand_arr]
     y_train = y_train[rand_arr]
@@ -26,7 +26,7 @@ def train_discriminator(X_train, X_train_true, X_test, X_test_true, gan):
     y_test_concat = np.zeros([2 * n,1])
     y_test_concat[:n] = 1
     y_test_concat[n:] = 0
-    rand_arr = np.range(len(X_test_concat))
+    rand_arr = np.arange(len(X_test_concat))
     np.random.shuffle(rand_arr)
     X_test_concat = X_test_concat[rand_arr]
     y_test_concat = y_test_concat[rand_arr]
@@ -35,7 +35,7 @@ def train_discriminator(X_train, X_train_true, X_test, X_test_true, gan):
     gan.d.make_trainable(True)
     gan.d.compile()
     gan.d.fit(X_train_concat,y_train,X_test_concat,y_test_concat,epochs=1)
-    y_pred = gan.d.predict(X_test_concat)
+    # y_pred = gan.d.predict(X_test_concat)
     # print(y_pred)
     # discriminator_accuracy(y_pred,y_test_concat)
 
@@ -61,7 +61,7 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
         n = batch_size
         y_train = np.zeros([n * 2])
         y_train[:n] = 1
-        rand_arr = np.range(len(X_train_disc))
+        rand_arr = np.arange(len(X_train_disc))
         np.random.shuffle(rand_arr)
         X_train_disc = X_train_disc[rand_arr]
         y_train = y_train[rand_arr]
