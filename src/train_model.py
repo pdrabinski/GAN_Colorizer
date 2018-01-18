@@ -1,6 +1,6 @@
 import pickle
 import numpy as np
-from gan import GAN, Generator, Discriminator
+from gan import GAN
 import matplotlib.pyplot as plt
 
 def load_images(filepath):
@@ -18,9 +18,9 @@ def train_discriminator(X_train, X_train_true, X_test, X_test_true, gan):
     test_generated_images = gan.predict(X_test)
     X_test_concat = np.concatenate((X_test_true,test_generated_images))
     n = len(X_test)
-    y_test_concat = np.zeros([2 * n,2])
-    y_test_concat[:n,1] = 1
-    y_test_concat[n:,0] = 1
+    y_test_concat = np.zeros([2 * n])
+    y_test_concat[:n] = 1
+    y_test_concat[n:] = 0
 
     gan.d.make_trainable(True)
     gan.d.fit(X_train_concat,y_train,X_test_concat,y_test_concat,epochs=1)
@@ -50,9 +50,9 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
         #try shuffling generated images and true the same way
         X_train_disc = np.concatenate((X_train_true[:batch_size],generated_images))
         n = batch_size
-        y_train = np.zeros([n * 2,2])
-        y_train[:n,1] = 1
-        y_train[n:,0] = 1
+        y_train = np.zeros([n * 2])
+        y_train[:n] = 1
+        y_train[n:] = 0
 
         #train discriminator
         gan.d.make_trainable(True)
@@ -63,7 +63,7 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
         #train GAN on grayscaled images , set output class to colorized
         n = batch_size
         y_train = np.zeros([n,2])
-        y_train[:,1] = 1
+        y_train[:] = 1
         gan.d.make_trainable(False)
         gan.d.compile()
         X_train_gen = X_train
