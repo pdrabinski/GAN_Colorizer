@@ -22,6 +22,10 @@ def view_image(images, model):
         os.makedirs('../images/test_images/' + time.strftime('%d'))
     img_lst[0].save('../images/test_images/' + time.strftime('%d') + '/' + time.strftime('%H:%M:%S') + '.png')
 
+def predict_on_generated_images(images,model):
+    real_or_fake = model.predict(images)
+    return real_or_fake
+
 if __name__ =='__main__':
     model = load_model('../models/model_256_100.h5')
     images = load_images('../data/X_test.p')
