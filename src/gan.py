@@ -1,5 +1,5 @@
 from keras.models import Model
-from keras.layers import Conv2D, MaxPooling2D, Activation, BatchNormalization, UpSampling2D, merge, Dropout, Flatten, Dense, Input, AveragePooling2D, LeakyReLU
+from keras.layers import Conv2D, MaxPooling2D, Activation, BatchNormalization, UpSampling2D, merge, Dropout, Flatten, Dense, Input, LeakyReLU
 from keras.optimizers import Adam
 
 class Generator():
@@ -40,7 +40,7 @@ class Generator():
         self.model = Activation('relu')(self.model)
         self.model = Conv2D(2, (3, 3), padding='same')(self.model)
         self.model = merge(inputs=[self.model,self.g_input], mode='concat')
-        self.model = Activation('tanh')(self.model)
+        self.model = Activation('linear')(self.model)
 
     def compile(self):
         self.generator = Model(self.g_input, self.model)
@@ -90,8 +90,6 @@ class Discriminator():
         self.model = LeakyReLU(.2)(self.model)
         self.model = Dropout(.25)(self.model)
         self.model = BatchNormalization()(self.model)
-
-
 
         self.model = Flatten()(self.model)
         self.model = Dense(512)(self.model)

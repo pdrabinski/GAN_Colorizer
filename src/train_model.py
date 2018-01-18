@@ -59,7 +59,7 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
         #try shuffling generated images and true the same way
         X_train_disc = np.concatenate((X_train_true[:batch_size],generated_images))
         n = batch_size
-        y_train = np.zeros([n * 2])
+        y_train = np.zeros([n * 2,1])
         y_train[:n] = 1
         rand_arr = np.arange(len(X_train_disc))
         np.random.shuffle(rand_arr)
@@ -97,6 +97,7 @@ def plot_losses(losses,label, batch_epochs, batch_size):
     plt.plot(losses)
     plt.title(label)
     plt.savefig('../images/' + label + '_' + str(batch_size) + '_' + str(batch_epochs) + '_epochs.png')
+    plt.close()
 
 
 if __name__ == '__main__':
@@ -121,6 +122,6 @@ if __name__ == '__main__':
     train_discriminator(X_train, X_train_true, X_test, X_test_true, gan)
 
     #Train GAN
-    batch_size=128
-    batch_epochs=100
+    batch_size=512
+    batch_epochs=50
     train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, gan)
