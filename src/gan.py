@@ -72,12 +72,12 @@ class Discriminator():
     def build(self, input_shape):
         self.d_input = Input(shape=input_shape)
 
-        self.model = Conv2D(32, (3, 3), padding='same', activation='relu')(self.d_input)
-        self.model = Conv2D(32, (3, 3), padding='same', activation='relu', strides=2)(self.d_input)
+        self.model = Conv2D(32, (3, 3), padding='same', activation='relu')(self.model)
+        self.model = Conv2D(32, (3, 3), padding='same', activation='relu', strides=2)(self.model)
         self.model = Dropout(.25)(self.model)
 
         self.model = Conv2D(64, (3, 3), padding='same', activation='relu')(self.model)
-        self.model = Conv2D(64, (3, 3), padding='same', activation='relu', strides=2)(self.d_input)
+        self.model = Conv2D(64, (3, 3), padding='same', activation='relu', strides=2)(self.model)
         self.model = Dropout(.25)(self.model)
 
         self.model = Flatten()(self.model)
