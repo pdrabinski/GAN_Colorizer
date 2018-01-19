@@ -125,7 +125,7 @@ class GAN():
         X_test = X_test[rand_arr]
         y_test = y_test[rand_arr]
 
-        self.discriminator.fit(X_train,y_train,X_test,y_test,epochs=1)
+        self.discriminator.fit(x=X_train,y=y_train,validation_data=(X_test,y_test),epochs=1)
         metrics = self.discriminator.evaluate(x=X_test, y=y_test)
         print('\n accuracy:',metrics[1])
         if metrics[1] < .95:
