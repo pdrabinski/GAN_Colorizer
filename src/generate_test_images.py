@@ -27,24 +27,29 @@ def lab_to_rgb(l_layer, ab_layers):
     return new_img
 
 def view_image(X_l, X_ab, model):
-    img_lst = model.predict(X_l)
-    # img_lst = [(img + 1) * 128 for img in img_lst]
-    # print(img_lst)
-    print(img_lst[1].shape)
-    img_lst = [lab_to_rgb(X_l[i], img_lst[i]) for i in range(len(img_lst))]
-    img_lst = [Image.fromarray(image,'RGB') for image in img_lst]
-    for i in img_lst:
-        i.show()
+    img_lst_gen = model.predict(X_l)
+
+    #Merge L and predicted AB
+    img_lst_gen = [lab_to_rgb(X_l[i], img_lst_gen[i]) for i in range(len(img_lst_gen))]
+    img_lst_gen = [Image.fromarray(image,'RGB') for image in img_lst_gen]
+
+    #Merge L and AB to produce original true images
+    img_lst_real = [lab_to_rgb(X_l[i], X_ab[i]) for i in range(len(X_l))]
+    img_lst_real = [Image.fromarray(image,'RGB') for image in img_lst_real]
+
+    for i in range(len(img_lst_gen)):
+        img_lst_gen[i].show()
+        img_lst_real[i].show()
     if not os.path.exists('../test_images/' + time.strftime('%d')):
         os.makedirs('../test_images/' + time.strftime('%d'))
-    img_lst[0].save('../test_images/' + time.strftime('%d') + '/' + time.strftime('%H:%M:%S') + '.png')
+    img_lst_gen[0].save('../test_images/' + time.strftime('%d') + '/' + time.strftime('%H:%M:%S') + '.png')
 
 def predict_on_generated_images(images,model):
     real_or_fake = model.predict(images)
     return real_or_fake
 
 if __name__ =='__main__':
-    model = load_model('../models/gen_model_512_50.h5')
+    model = load_model('../models/gen_model_512_100.h5')
     (X_test_l,X_test_ab) = load_images('../data/X_test.p')
     rand_arr = np.arange(len(X_test_l))
     np.random.shuffle(rand_arr)

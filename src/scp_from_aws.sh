@@ -12,7 +12,10 @@ ID=~/.ssh/my_aws_keypair.pem
 # USERname to login as
 USER=ubuntu
 # HOST to login to
-HOST=ec2-54-209-79-179.compute-1.amazonaws.com
+#P2xlarge
+# HOST=ec2-34-230-3-26.compute-1.amazonaws.com
+# P2.8xlarge
+HOST=ec2-54-236-6-6.compute-1.amazonaws.com
 #--- end config
 
 # rm ../images/*
