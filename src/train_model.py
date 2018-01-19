@@ -93,6 +93,8 @@ def train(X_train_L, X_train_AB, X_test_L, X_test_AB, batch_epochs, batch_size, 
         g_losses.append(g_loss)
         gen_acc = g_loss[1]
         print('Generator Accuracy: ', gen_acc)
+        if disc_acc < .9:
+            train_discriminator_whole_batch(X_train_L, X_train_AB, X_test_L, X_test_AB, gan)
         if e % 5 == 4:
             print(e + 1,"batches done")
         if e % 25 == 24:
@@ -134,5 +136,5 @@ if __name__ == '__main__':
 
     #Train GAN
     batch_size=512
-    batch_epochs=50
+    batch_epochs=500
     train(X_train_L, X_train_AB, X_test_L, X_test_AB, batch_epochs, batch_size, gan)
