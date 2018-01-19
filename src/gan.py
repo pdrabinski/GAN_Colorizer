@@ -72,7 +72,7 @@ class Discriminator():
     def build(self, input_shape):
         self.d_input = Input(shape=input_shape)
 
-        self.model = Conv2D(64, (3, 3), padding='same', stride=2)(self.d_input)
+        self.model = Conv2D(64, (3, 3), padding='same', strides=2)(self.d_input)
         self.model = LeakyReLU(.2)(self.model)
         self.model = Dropout(.25)(self.model)
 
