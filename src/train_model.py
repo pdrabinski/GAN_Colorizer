@@ -26,10 +26,10 @@ def train_discriminator_whole_batch(X_train_L, X_train_AB, X_test_L, X_test_AB, 
     y_test_concat = np.zeros([2 * n,1])
     y_test_concat[:n] = 1
     y_test_concat[n:] = 0
-    rand_arr = np.arange(len(X_test_concat))
-    np.random.shuffle(rand_arr)
-    X_test_concat = X_test_concat[rand_arr]
-    y_test_concat = y_test_concat[rand_arr]
+    # rand_arr = np.arange(len(X_test_concat))
+    # np.random.shuffle(rand_arr)
+    # X_test_concat = X_test_concat[rand_arr]
+    # y_test_concat = y_test_concat[rand_arr]
     # print(y_test_concat)
 
     gan.d.make_trainable(True)
@@ -64,19 +64,24 @@ def train(X_train_L, X_train_AB, X_test_L, X_test_AB, batch_epochs, batch_size, 
         X_train_disc = X_train_disc[:batch_size]
         generated_images = gan.g.predict(X_train_disc)
         np.random.shuffle(X_train_AB)
-        X_train_disc = np.concatenate((X_train_AB[:batch_size],generated_images))
+        # X_train_disc = np.concatenate((X_train_AB[:batch_size],generated_images))
         n = batch_size
-        y_train = np.zeros([n * 2,1])
-        y_train[:n] = 1
-        rand_arr = np.arange(len(X_train_disc))
-        np.random.shuffle(rand_arr)
-        X_train_disc = X_train_disc[rand_arr]
-        y_train = y_train[rand_arr]
+        # y_train = np.zeros([n * 2,1])
+        # y_train[:n] = 1
+        y_train_real = np.ones([n,1])
+        y_train_fake = np.zeros([n,1])
+        # rand_arr = np.arange(len(X_train_disc))
+        # np.random.shuffle(rand_arr)
+        # X_train_disc = X_train_disc[rand_arr]
+        # y_train = y_train[rand_arr]
 
         #train discriminator
         gan.d.make_trainable(True)
         gan.d.compile()
-        d_loss = gan.d.train_on_batch(X_train_disc,y_train)
+        gan.compile()
+        # d_loss = gan.d.train_on_batch(X_train_disc,y_train)
+        d_loss = gan.d.train_on_batch(X_train_AB[:batch_size],y_train_real)
+        d_loss = gan.d.train_on_batch(generated_images,y_train_fake)
         d_losses.append(d_loss)
         disc_acc = d_loss[1]
         print("Discriminator Accuracy: ", disc_acc)
@@ -87,6 +92,7 @@ def train(X_train_L, X_train_AB, X_test_L, X_test_AB, batch_epochs, batch_size, 
         y_train = np.ones([n])
         gan.d.make_trainable(False)
         gan.d.compile()
+        gan.compile()
         X_train_gen = X_train_L
         np.random.shuffle(X_train_gen)
         g_loss = gan.train_on_batch(X_train_gen[:batch_size],y_train)
@@ -129,7 +135,7 @@ if __name__ == '__main__':
     color_shape = X_train_AB.shape[1:]
 
     gan = GAN()
-    gan.compile(input_shape=bw_shape, output_shape=color_shape)
+    gan.build(input_shape=bw_shape, output_shape=color_shape)
 
     # Pre-train the Discriminator
     train_discriminator_whole_batch(X_train_L, X_train_AB, X_test_L, X_test_AB, gan)

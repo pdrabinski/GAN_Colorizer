@@ -90,6 +90,8 @@ class Discriminator():
         self.model = Dense(1)(self.model)
         self.model = Activation('sigmoid')(self.model)
 
+        self.discriminator = Model(self.d_input,self.model)
+
 
         # self.model = LeakyReLU(.2)(self.model)
         # self.model = Dropout(.25)(self.model)
@@ -130,7 +132,7 @@ class Discriminator():
         return self.discriminator
 
     def compile(self):
-        self.discriminator = Model(self.d_input,self.model)
+        # self.discriminator = Model(self.d_input,self.model)
         opt = Adam(lr=.0001)
         self.discriminator.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
         return self.discriminator
@@ -156,7 +158,7 @@ class Discriminator():
         self.discriminator.save('../models/' + name +'.h5')
 
 class GAN():
-    def compile(self,input_shape, output_shape):
+    def build(self,input_shape, output_shape):
         gan_input = Input(shape=input_shape)
         self.g = Generator()
         self.g.build(input_shape=input_shape)
@@ -173,6 +175,9 @@ class GAN():
         print('GAN summary...')
         print(self.gan.summary())
 
+    def compile(self):
+        opt = Adam(lr=.001)
+        self.gan.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
     # def d_make_trainable(self, val):
     #     self.d.make_trainable(val)
     #
