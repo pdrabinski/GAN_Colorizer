@@ -22,7 +22,7 @@ GAN's can circumvent this by developing their own "intuition" over thousands of 
 
 ####  GAN summary...
 _________________________________________________________________
-###### Layer (type)&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Output Shape&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Params
+###### Layer (type)&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Output Shape&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Params
 _________________________________________________________________
 input_1 (InputLayer)&nbsp;&nbsp;&nbsp;&ensp;(None, 32, 32, 1) &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;0
 _________________________________________________________________
