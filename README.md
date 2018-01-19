@@ -18,7 +18,11 @@ Colorizing black and white photos is currently a painstaking and labor-intensive
 
 GAN's can circumvent this by developing their own "intuition" over thousands of training iterations that research has shown is remarkably accurate. I would like to replicate these studies, but with as simple a Keras model as will still produce accurate results. Personally, I hope to learn how GANs train themselves, how Convolutional and Deconvolutonal layers can work together, and about Keras.
 
-## Methods
+## Color
+
+Most images use the RGB colorspace.
+
+![RGB](/images/rgb.jpg)
 
 Utilizing the CIE-LAB color space to preserve the gray scaled image.
 
