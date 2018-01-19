@@ -16,7 +16,7 @@ class GAN():
 
         self.generator = self.build_generator()
         opt = Adam(lr=.001)
-        self.generator.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
+        self.generator.compile(loss='binary_crossentropy', optimizer=opt)
         print('Generator Summary...')
         print(self.generator.summary())
 
@@ -32,7 +32,7 @@ class GAN():
         real_or_fake = self.discriminator(img_color)
         self.gan = Model(gan_input,real_or_fake)
         opt = Adam(lr=.001)
-        self.gan.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
+        self.gan.compile(loss='binary_crossentropy', optimizer=opt)
         print('\n')
         print('GAN summary...')
         print(self.gan.summary())
@@ -135,8 +135,6 @@ class GAN():
         self.pre_train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
         g_losses = []
         d_losses = []
-        disc_acc = 0
-        gen_acc = 0
         for e in range(batch_epochs):
             #generate images
             X_train_disc = X_train_L
@@ -163,8 +161,7 @@ class GAN():
             g_loss = self.gan.train_on_batch(x=X_train_gen[:batch_size],y=y_train)
 
             g_losses.append(g_loss)
-            gen_acc = g_loss[1]
-            print('Generator Accuracy: ', gen_acc)
+            print('Generator Loss: ', g_loss)
             if disc_acc < .9:
                 self.pre_train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
             if e % 5 == 4:
