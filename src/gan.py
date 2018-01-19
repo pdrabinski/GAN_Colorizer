@@ -40,7 +40,7 @@ class Generator():
         self.model = Activation('relu')(self.model)
         self.model = Conv2D(2, (3, 3), padding='same')(self.model)
         self.model = Activation('sigmoid')(self.model)
-        self.model = merge(inputs=[self.model,self.g_input], mode='concat')
+        self.model = merge(inputs=[self.g_input, self.model], mode='concat')
         # self.model = Activation('linear')(self.model)
 
     def compile(self):
