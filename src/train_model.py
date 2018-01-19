@@ -12,20 +12,20 @@ def train_discriminator_whole_batch(X_train_L, X_train_AB, X_test_L, X_test_AB, 
     X_train = np.concatenate((X_train_AB,generated_images))
     n = len(X_train_L)
     y_train = np.array([[1]] * n + [[0]] * n)
-    # rand_arr = np.arange(len(X_train_concat))
-    # np.random.shuffle(rand_arr)
-    # X_train_concat = X_train_concat[rand_arr]
-    # y_train = y_train[rand_arr]
+    rand_arr = np.arange(len(X_train))
+    np.random.shuffle(rand_arr)
+    X_train = X_train[rand_arr]
+    y_train = y_train[rand_arr]
     # print(y_train)
 
     test_generated_images = gan.predict(X_test_L)
     X_test = np.concatenate((X_test_AB,test_generated_images))
     n = len(X_test_L)
     y_test = np.array([[1]] * n + [[0]] * n)
-    # rand_arr = np.arange(len(X_test_concat))
-    # np.random.shuffle(rand_arr)
-    # X_test_concat = X_test_concat[rand_arr]
-    # y_test_concat = y_test_concat[rand_arr]
+    rand_arr = np.arange(len(X_test))
+    np.random.shuffle(rand_arr)
+    X_test = X_test[rand_arr]
+    y_test = y_test[rand_arr]
     # print(y_test_concat)
 
     gan.d.fit(X_train,y_train,X_test,y_test,epochs=1)
