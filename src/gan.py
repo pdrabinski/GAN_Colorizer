@@ -94,8 +94,8 @@ class GAN():
         model = Dense(512)(model)
         model = LeakyReLU(.2)(model)
         model = Dropout(.5)(model)
-        model = Dense(2)(model)
-        model = Activation('softmax')(model)
+        model = Dense(1)(model)
+        model = Activation('sigmoid')(model)
 
         disc = Model(d_input,model)
         return disc
