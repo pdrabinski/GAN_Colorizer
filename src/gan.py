@@ -28,7 +28,7 @@ class GAN():
 
         gan_input = Input(shape=self.g_input_shape)
         img_color = self.generator(gan_input)
-        self.discriminator.trainable(False)
+        self.discriminator.trainable = False
         real_or_fake = self.discriminator(img_color)
         self.gan = Model(gan_input,real_or_fake)
         opt = Adam(lr=.001)
