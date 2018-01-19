@@ -36,6 +36,7 @@ def train_discriminator_whole_batch(X_train_L, X_train_AB, X_test_L, X_test_AB, 
     gan.d.compile()
     gan.d.fit(X_train_concat,y_train,X_test_concat,y_test_concat,epochs=1)
     metrics = gan.d.evaluate(x=X_test_concat, y=y_test_concat)
+    print(metrics)
     while metrics[1] < .95:
         train_discriminator_whole_batch(X_train_L, X_train_AB, X_test_L, X_test_AB, gan)
 
@@ -50,7 +51,7 @@ def discriminator_accuracy(y_pred,y_true):
     print('Accuracy:',accuracy)
     print(n_right,"of",n,"correct \n")
 
-def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, gan):
+def train(X_train_L, X_train_AB, X_test_L, X_test_AB, batch_epochs, batch_size, gan):
     g_losses = []
     d_losses = []
     disc_acc = 0
@@ -58,13 +59,12 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
     for e in range(batch_epochs):
         #generate images
         # print('training discriminator...')
-        X_train_disc = X_train
+        X_train_disc = X_train_L
         np.random.shuffle(X_train_disc)
         X_train_disc = X_train_disc[:batch_size]
         generated_images = gan.g.predict(X_train_disc)
-        np.random.shuffle(X_train_true)
-        #try shuffling generated images and true the same way
-        X_train_disc = np.concatenate((X_train_true[:batch_size],generated_images))
+        np.random.shuffle(X_train_AB)
+        X_train_disc = np.concatenate((X_train_AB[:batch_size],generated_images))
         n = batch_size
         y_train = np.zeros([n * 2,1])
         y_train[:n] = 1
@@ -80,13 +80,14 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
         d_losses.append(d_loss)
         disc_acc = d_loss[1]
         print("Discriminator Accuracy: ", disc_acc)
+
         #train GAN on grayscaled images , set output class to colorized
         # print('training generator...')
         n = batch_size
         y_train = np.ones([n])
         gan.d.make_trainable(False)
         gan.d.compile()
-        X_train_gen = X_train
+        X_train_gen = X_train_L
         np.random.shuffle(X_train_gen)
         g_loss = gan.train_on_batch(X_train_gen[:batch_size],y_train)
         g_losses.append(g_loss)
@@ -133,6 +134,6 @@ if __name__ == '__main__':
     train_discriminator_whole_batch(X_train_L, X_train_AB, X_test_L, X_test_AB, gan)
 
     #Train GAN
-    # batch_size=512
-    # batch_epochs=50
-    # train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, gan)
+    batch_size=512
+    batch_epochs=50
+    train(X_train_L, X_train_AB, X_test_L, X_test_AB, batch_epochs, batch_size, gan)

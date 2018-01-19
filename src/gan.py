@@ -78,10 +78,10 @@ class Discriminator():
         self.model = LeakyReLU(.2)(self.model)
         self.model = BatchNormalization()(self.model)
 
-        # self.model = Conv2D(128, (3, 3), padding='same')(self.model)
-        # self.model = LeakyReLU(.2)(self.model)
-        # self.model = Conv2D(128, (3, 3), padding='same')(self.model)
-        # self.model = LeakyReLU(.2)(self.model)
+        self.model = Conv2D(128, (3, 3), padding='same')(self.model)
+        self.model = LeakyReLU(.2)(self.model)
+        self.model = Conv2D(128, (3, 3), padding='same')(self.model)
+        self.model = LeakyReLU(.2)(self.model)
 
         self.model = Conv2D(256,(3,3), padding='same',strides=(2,2))(self.model)
         self.model = LeakyReLU(.2)(self.model)
