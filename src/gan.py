@@ -188,5 +188,8 @@ if __name__ == '__main__':
     (X_test_L, X_test_AB) = load_images('../data/X_test.p')
     print('X_test done...')
 
+    batch_epochs = 100
+    batch_size = 256
+
     gan = GAN()
-    gan.train()
+    gan.train(X_train_L, X_train_AB, X_test_L, X_test_AB, batch_epochs, batch_size)
