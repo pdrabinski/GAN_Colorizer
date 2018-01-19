@@ -129,7 +129,7 @@ class GAN():
         metrics = self.discriminator.evaluate(x=X_test, y=y_test)
         print('\n accuracy:',metrics[1])
         if metrics[1] < .95:
-            self.train_discriminator_whole_batch(X_train_L, X_train_AB, X_test_L, X_test_AB)
+            self.pre_train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
 
     def train(self, X_train_L, X_train_AB, X_test_L, X_test_AB, batch_epochs, batch_size):
         self.pre_train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
