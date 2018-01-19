@@ -1,4 +1,4 @@
-# GAN Colorizer
+# GANs: Not always Black and White
 _________________________________________________________________
 Using a generative adversarial network to "hallucinate" color in black and white photos.
 
