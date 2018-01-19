@@ -83,6 +83,7 @@ def train(X_train_L, X_train_AB, X_test_L, X_test_AB, batch_epochs, batch_size, 
         X_train_gen = X_train_L
         np.random.shuffle(X_train_gen)
         g_loss = gan.train_on_batch(X_train_gen[:batch_size],y_train)
+
         g_losses.append(g_loss)
         gen_acc = g_loss[1]
         print('Generator Accuracy: ', gen_acc)
