@@ -22,7 +22,7 @@ GAN's can circumvent this by developing their own "intuition" over thousands of 
 
 Most images use the RGB colorspace.
 
-![RGB](/images/rgb.jpg)
+![RGB](/test_images/rgb.jpg)
 
 Utilizing the CIE-LAB color space to preserve the gray scaled image.
 
