@@ -40,7 +40,7 @@ class Generator():
         self.model = Activation('relu')(self.model)
         self.model = Conv2D(2, (3, 3), padding='same')(self.model)
         self.model = Activation('sigmoid')(self.model)
-        self.model = merge(inputs=[self.g_input, self.model], mode='concat')
+        # self.model = merge(inputs=[self.g_input, self.model], mode='concat')
         # self.model = Activation('linear')(self.model)
 
     def compile(self):
@@ -73,21 +73,17 @@ class Discriminator():
         self.d_input = Input(shape=input_shape)
         self.model = Conv2D(64, (3, 3), padding='same')(self.d_input)
         self.model = LeakyReLU(.2)(self.model)
-        # self.model = MaxPooling2D(pool_size=(2,2))(self.model)
         self.model = Dropout(.25)(self.model)
-        # self.model = AveragePooling2D(pool_size=(2,2))(self.model)
-        self.model = Conv2D(64,(3,3),padding='same', strides=(2,2))(self.model)
+        self.model = Conv2D(128,(3,3),padding='same', strides=(2,2))(self.model)
         self.model = LeakyReLU(.2)(self.model)
         self.model = BatchNormalization()(self.model)
 
+        # self.model = Conv2D(128, (3, 3), padding='same')(self.model)
+        # self.model = LeakyReLU(.2)(self.model)
+        # self.model = Conv2D(128, (3, 3), padding='same')(self.model)
+        # self.model = LeakyReLU(.2)(self.model)
 
-        self.model = Conv2D(64, (3, 3), padding='same')(self.model)
-        self.model = LeakyReLU(.2)(self.model)
-        self.model = Conv2D(128, (3, 3), padding='same')(self.model)
-        self.model = LeakyReLU(.2)(self.model)
-        # self.model = MaxPooling2D(pool_size=(2, 2))(self.model)
-        # self.model = AveragePooling2D(pool_size=(2,2))(self.model)
-        self.model = Conv2D(128,(3,3), padding='same',strides=(2,2))(self.model)
+        self.model = Conv2D(256,(3,3), padding='same',strides=(2,2))(self.model)
         self.model = LeakyReLU(.2)(self.model)
         self.model = Dropout(.25)(self.model)
         self.model = BatchNormalization()(self.model)
@@ -117,6 +113,9 @@ class Discriminator():
     def fit(self, X_train, y_train, X_test, y_test, batch_size=32, epochs=100):
         self.discriminator.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, verbose=1,validation_data=(X_test,y_test), shuffle=True)
 
+    def evaluate(self, x,y):
+        return self.discriminator.evaluate(x=x,y=y)
+
     def predict(self, X, batch_size=32):
         return self.discriminator.predict(X,batch_size=batch_size, verbose=1)
 
@@ -144,16 +143,16 @@ class GAN():
         gan_V = self.d.discriminator(model)
         self.gan = Model(gan_input,gan_V)
         opt = Adam(lr=.001)
-        self.gan.compile(loss='binary_crossentropy', optimizer=opt)
+        self.gan.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
         print('\n')
         print('GAN summary...')
         print(self.gan.summary())
 
-    def d_make_trainable(self, val):
-        self.d.make_trainable(val)
-
-    def g_make_trainable(self,val):
-        self.g._make_trainable(val)
+    # def d_make_trainable(self, val):
+    #     self.d.make_trainable(val)
+    #
+    # def g_make_trainable(self,val):
+    #     self.g._make_trainable(val)
 
     def train_on_batch(self,X,y):
         return self.gan.train_on_batch(X,y)

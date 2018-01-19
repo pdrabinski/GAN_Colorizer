@@ -7,10 +7,10 @@ def load_images(filepath):
     with open(filepath, 'rb') as f:
         return pickle.load(f)
 
-def train_discriminator(X_train, X_train_true, X_test, X_test_true, gan):
-    generated_images = gan.g.predict(X_train)
-    X_train_concat = np.concatenate((X_train_true,generated_images))
-    n = len(X_train)
+def train_discriminator_whole_batch(X_train_L, X_train_AB, X_test_L, X_test_AB, gan):
+    generated_images = gan.g.predict(X_train_L)
+    X_train_concat = np.concatenate((X_train_AB,generated_images))
+    n = len(X_train_L)
     y_train = np.zeros([2 * n,1])
     y_train[:n] = 1
     y_train[n:] = 0
@@ -20,9 +20,9 @@ def train_discriminator(X_train, X_train_true, X_test, X_test_true, gan):
     y_train = y_train[rand_arr]
     # print(y_train)
 
-    test_generated_images = gan.predict(X_test)
-    X_test_concat = np.concatenate((X_test_true,test_generated_images))
-    n = len(X_test)
+    test_generated_images = gan.predict(X_test_L)
+    X_test_concat = np.concatenate((X_test_AB,test_generated_images))
+    n = len(X_test_L)
     y_test_concat = np.zeros([2 * n,1])
     y_test_concat[:n] = 1
     y_test_concat[n:] = 0
@@ -35,6 +35,10 @@ def train_discriminator(X_train, X_train_true, X_test, X_test_true, gan):
     gan.d.make_trainable(True)
     gan.d.compile()
     gan.d.fit(X_train_concat,y_train,X_test_concat,y_test_concat,epochs=1)
+    metrics = gan.d.evaluate(x=X_test_concat, y=y_test_concat)
+    while metrics[1] < .95:
+        train_discriminator_whole_batch(X_train_L, X_train_AB, X_test_L, X_test_AB, gan)
+
     # y_pred = gan.d.predict(X_test_concat)
     # print(y_pred)
     # discriminator_accuracy(y_pred,y_test_concat)
@@ -49,8 +53,11 @@ def discriminator_accuracy(y_pred,y_true):
 def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, gan):
     g_losses = []
     d_losses = []
+    disc_acc = 0
+    gen_acc = 0
     for e in range(batch_epochs):
         #generate images
+        # print('training discriminator...')
         X_train_disc = X_train
         np.random.shuffle(X_train_disc)
         X_train_disc = X_train_disc[:batch_size]
@@ -65,15 +72,16 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
         np.random.shuffle(rand_arr)
         X_train_disc = X_train_disc[rand_arr]
         y_train = y_train[rand_arr]
-        # y_train[n:] = 0
 
         #train discriminator
         gan.d.make_trainable(True)
         gan.d.compile()
-        loss = gan.d.train_on_batch(X_train_disc,y_train)
-        d_losses.append(loss)
-
+        d_loss = gan.d.train_on_batch(X_train_disc,y_train)
+        d_losses.append(d_loss)
+        disc_acc = d_loss[1]
+        print("Discriminator Accuracy: ", disc_acc)
         #train GAN on grayscaled images , set output class to colorized
+        # print('training generator...')
         n = batch_size
         y_train = np.ones([n])
         gan.d.make_trainable(False)
@@ -82,6 +90,9 @@ def train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, 
         np.random.shuffle(X_train_gen)
         g_loss = gan.train_on_batch(X_train_gen[:batch_size],y_train)
         g_losses.append(g_loss)
+        gen_acc = g_loss[1]
+        g_losses.append(gen_acc)
+        print('Generator Accuracy: ', gen_acc)
         if e % 5 == 4:
             print(e + 1,"batches done")
         if e % 25 == 24:
@@ -102,26 +113,26 @@ def plot_losses(losses,label, batch_epochs, batch_size):
 
 if __name__ == '__main__':
     #Load images
-    X_train = load_images('../data/X_train.p')
+    (X_train_L, X_train_AB) = load_images('../data/X_train.p')
     print('X_train done...')
-    X_test = load_images('../data/X_test.p')
+    (X_test_L, X_test_AB) = load_images('../data/X_test.p')
     print('X_test done...')
-    X_train_true = load_images('../data/X_train_true.p')
-    print('X_train_true done...')
-    X_test_true = load_images('../data/X_test_true.p')
-    print('X_test_true done...')
+    # X_train_true = load_images('../data/X_train_true.p')
+    # print('X_train_true done...')
+    # X_test_true = load_images('../data/X_test_true.p')
+    # print('X_test_true done...')
 
     # Create Stacked GAN
-    bw_shape = X_train.shape[1:]
-    color_shape = X_train_true.shape[1:]
+    bw_shape = X_train_L.shape[1:]
+    color_shape = X_train_AB.shape[1:]
 
     gan = GAN()
     gan.compile(input_shape=bw_shape, output_shape=color_shape)
 
     # Pre-train the Discriminator
-    train_discriminator(X_train, X_train_true, X_test, X_test_true, gan)
+    train_discriminator_whole_batch(X_train_L, X_train_AB, X_test_L, X_test_AB, gan)
 
     #Train GAN
-    batch_size=512
-    batch_epochs=50
-    train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, gan)
+    # batch_size=512
+    # batch_epochs=50
+    # train(X_train, X_test, X_train_true, X_test_true, batch_epochs, batch_size, gan)
