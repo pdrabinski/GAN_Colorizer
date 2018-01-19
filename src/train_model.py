@@ -92,7 +92,6 @@ def train(X_train_L, X_train_AB, X_test_L, X_test_AB, batch_epochs, batch_size, 
         g_loss = gan.train_on_batch(X_train_gen[:batch_size],y_train)
         g_losses.append(g_loss)
         gen_acc = g_loss[1]
-        g_losses.append(gen_acc)
         print('Generator Accuracy: ', gen_acc)
         if e % 5 == 4:
             print(e + 1,"batches done")
