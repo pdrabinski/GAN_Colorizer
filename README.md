@@ -1,4 +1,4 @@
-### GAN Colorizer
+# GAN Colorizer
 _________________________________________________________________
 Using a generative adversarial network to "hallucinate" color in black and white photos.
 
@@ -20,19 +20,19 @@ GAN's can circumvent this by developing their own "intuition" over thousands of 
 
 ## Initial Results
 
-GAN summary...
+####  GAN summary...
 _________________________________________________________________
-Layer (type)                 Output Shape              Params
+###### Layer (type)&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Output Shape&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Params
 _________________________________________________________________
-input_1 (InputLayer)         (None, 32, 32, 1)         0
+input_1 (InputLayer)&nbsp;&nbsp;&nbsp;&ensp;(None, 32, 32, 1) &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;0
 _________________________________________________________________
-model_1 (Model)              (None, 32, 32, 2)         380930
+model_1 (Model)&ensp;&ensp;&ensp;&ensp;&ensp;(None, 32, 32, 2)&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;380930
 _________________________________________________________________
-model_2 (Model)              (None, 1)                 2163457
+model_2 (Model) &ensp;&ensp;&ensp;&ensp;(None, 1)&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;2163457
 _________________________________________________________________
-Total params: 2,544,387
-Trainable params: 2,543,555
-Non-trainable params: 832
+Total params: 2,544,387 <br>
+Trainable params: 2,543,555<br>
+Non-trainable params: 832<br>
 _________________________________________________________________
 
 ![Inital results](/test_images/18/forpres.png)
