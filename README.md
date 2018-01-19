@@ -20,17 +20,20 @@ GAN's can circumvent this by developing their own "intuition" over thousands of 
 
 ## Color
 
+### RGB
 Most images use the RGB colorspace.
 
-![RGB](/test_images/rgb.jpg)
+![RGB](/test_images/rgb.jpg | width=500)
 
-Utilizing the CIE-LAB color space to preserve the gray scaled image.
+### CIE-LAB
+
+This project will be utilizing the CIE-LAB color space to preserve the gray scaled image.
 
 ![CIE](/test_images/cie.png)
 
 ## Initial Results
 
-####  GAN summary...
+####  GAN summary
 _________________________________________________________________
 ###### Layer (type)&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Output Shape&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Params
 _________________________________________________________________
