@@ -88,7 +88,7 @@ class Discriminator():
         self.model = LeakyReLU(.2)(self.model)
         self.model = Dropout(.5)(self.model)
         self.model = Dense(1)(self.model)
-        self.model = Activation('softmax')(self.model)
+        self.model = Activation('sigmoid')(self.model)
 
         self.discriminator = Model(self.d_input,self.model)
 
