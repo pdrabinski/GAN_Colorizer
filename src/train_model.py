@@ -1,6 +1,6 @@
 import pickle
 import numpy as np
-from gan import GAN
+from gan_old import GAN
 import matplotlib.pyplot as plt
 
 def load_images(filepath):
@@ -9,33 +9,27 @@ def load_images(filepath):
 
 def train_discriminator_whole_batch(X_train_L, X_train_AB, X_test_L, X_test_AB, gan):
     generated_images = gan.g.predict(X_train_L)
-    X_train_concat = np.concatenate((X_train_AB,generated_images))
+    X_train = np.concatenate((X_train_AB,generated_images))
     n = len(X_train_L)
-    y_train = np.zeros([2 * n,1])
-    y_train[:n] = 1
-    y_train[n:] = 0
-    rand_arr = np.arange(len(X_train_concat))
-    np.random.shuffle(rand_arr)
-    X_train_concat = X_train_concat[rand_arr]
-    y_train = y_train[rand_arr]
+    y_train = np.array([[1]] * n + [[0]] * n)
+    # rand_arr = np.arange(len(X_train_concat))
+    # np.random.shuffle(rand_arr)
+    # X_train_concat = X_train_concat[rand_arr]
+    # y_train = y_train[rand_arr]
     # print(y_train)
 
     test_generated_images = gan.predict(X_test_L)
-    X_test_concat = np.concatenate((X_test_AB,test_generated_images))
+    X_test = np.concatenate((X_test_AB,test_generated_images))
     n = len(X_test_L)
-    y_test_concat = np.zeros([2 * n,1])
-    y_test_concat[:n] = 1
-    y_test_concat[n:] = 0
+    y_test = np.array([[1]] * n + [[0]] * n)
     # rand_arr = np.arange(len(X_test_concat))
     # np.random.shuffle(rand_arr)
     # X_test_concat = X_test_concat[rand_arr]
     # y_test_concat = y_test_concat[rand_arr]
     # print(y_test_concat)
 
-    gan.d.make_trainable(True)
-    gan.d.compile()
-    gan.d.fit(X_train_concat,y_train,X_test_concat,y_test_concat,epochs=1)
-    metrics = gan.d.evaluate(x=X_test_concat, y=y_test_concat)
+    gan.d.fit(X_train,y_train,X_test,y_test,epochs=1)
+    metrics = gan.d.evaluate(x=X_test, y=y_test)
     print('\n accuracy:',metrics[1])
     if metrics[1] < .95:
         train_discriminator_whole_batch(X_train_L, X_train_AB, X_test_L, X_test_AB, gan)
@@ -75,10 +69,6 @@ def train(X_train_L, X_train_AB, X_test_L, X_test_AB, batch_epochs, batch_size, 
         # X_train_disc = X_train_disc[rand_arr]
         # y_train = y_train[rand_arr]
 
-        #train discriminator
-        gan.d.make_trainable(True)
-        gan.d.compile()
-        gan.compile()
         # d_loss = gan.d.train_on_batch(X_train_disc,y_train)
         d_loss = gan.d.train_on_batch(X_train_AB[:batch_size],y_train_real)
         d_loss = gan.d.train_on_batch(generated_images,y_train_fake)
@@ -90,9 +80,6 @@ def train(X_train_L, X_train_AB, X_test_L, X_test_AB, batch_epochs, batch_size, 
         # print('training generator...')
         n = batch_size
         y_train = np.ones([n])
-        gan.d.make_trainable(False)
-        gan.d.compile()
-        gan.compile()
         X_train_gen = X_train_L
         np.random.shuffle(X_train_gen)
         g_loss = gan.train_on_batch(X_train_gen[:batch_size],y_train)
