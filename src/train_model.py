@@ -36,7 +36,7 @@ def train_discriminator_whole_batch(X_train_L, X_train_AB, X_test_L, X_test_AB, 
     gan.d.compile()
     gan.d.fit(X_train_concat,y_train,X_test_concat,y_test_concat,epochs=1)
     metrics = gan.d.evaluate(x=X_test_concat, y=y_test_concat)
-    print('accuracy:',metrics[1])
+    print('\n accuracy:',metrics[1])
     if metrics[1] < .95:
         train_discriminator_whole_batch(X_train_L, X_train_AB, X_test_L, X_test_AB, gan)
 

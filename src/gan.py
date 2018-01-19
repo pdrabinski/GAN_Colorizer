@@ -72,24 +72,13 @@ class Discriminator():
     def build(self, input_shape):
         self.d_input = Input(shape=input_shape)
 
-        self.model = Conv2D(64, (3, 3), padding='same', strides=2)(self.d_input)
-        self.model = LeakyReLU(.2)(self.model)
+        self.model = Conv2D(32, (3, 3), padding='same', activation='relu')(self.d_input)
+        self.model = Conv2D(32, (3, 3), padding='same', activation='relu', strides=2)(self.d_input)
         self.model = Dropout(.25)(self.model)
 
-        self.model = Conv2D(128,(3,3),padding='same', strides=(2,2))(self.model)
-        self.model = LeakyReLU(.2)(self.model)
-        # self.model = BatchNormalization()(self.model)
-
-        self.model = Conv2D(128, (3, 3), padding='same')(self.model)
-        self.model = LeakyReLU(.2)(self.model)
+        self.model = Conv2D(64, (3, 3), padding='same', activation='relu')(self.d_input)
+        self.model = Conv2D(64, (3, 3), padding='same', activation='relu', strides=2)(self.d_input)
         self.model = Dropout(.25)(self.model)
-        # self.model = Conv2D(128, (3, 3), padding='same')(self.model)
-        # self.model = LeakyReLU(.2)(self.model)
-
-        self.model = Conv2D(256,(3,3), padding='same',strides=(2,2))(self.model)
-        self.model = LeakyReLU(.2)(self.model)
-        self.model = Dropout(.25)(self.model)
-        # self.model = BatchNormalization()(self.model)
 
         self.model = Flatten()(self.model)
         self.model = Dense(512)(self.model)
@@ -97,6 +86,36 @@ class Discriminator():
         self.model = Dropout(.5)(self.model)
         self.model = Dense(1)(self.model)
         self.model = Activation('sigmoid')(self.model)
+
+
+        # self.model = LeakyReLU(.2)(self.model)
+        # self.model = Dropout(.25)(self.model)
+        #
+        # self.model = Conv2D(32, (3, 3), padding='same', strides=2)(self.d_input)
+        # self.model = LeakyReLU(.2)(self.model)
+        # self.model = Dropout(.25)(self.model)
+        #
+        # self.model = Conv2D(128,(3,3),padding='same', strides=(2,2))(self.model)
+        # self.model = LeakyReLU(.2)(self.model)
+        # # self.model = BatchNormalization()(self.model)
+        #
+        # self.model = Conv2D(128, (3, 3), padding='same')(self.model)
+        # self.model = LeakyReLU(.2)(self.model)
+        # self.model = Dropout(.25)(self.model)
+        # # self.model = Conv2D(128, (3, 3), padding='same')(self.model)
+        # # self.model = LeakyReLU(.2)(self.model)
+        #
+        # self.model = Conv2D(256,(3,3), padding='same',strides=(2,2))(self.model)
+        # self.model = LeakyReLU(.2)(self.model)
+        # self.model = Dropout(.25)(self.model)
+        # # self.model = BatchNormalization()(self.model)
+        #
+        # self.model = Flatten()(self.model)
+        # self.model = Dense(512)(self.model)
+        # self.model = LeakyReLU(.2)(self.model)
+        # self.model = Dropout(.5)(self.model)
+        # self.model = Dense(1)(self.model)
+        # self.model = Activation('sigmoid')(self.model)
 
     def compile_w_summary(self):
         self.discriminator = Model(self.d_input,self.model)
