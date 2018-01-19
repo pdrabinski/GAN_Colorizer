@@ -39,7 +39,7 @@ class GAN():
 
     def build_generator(self):
         g_input = Input(shape=self.g_input_shape)
-        model = Conv2D(32, (3, 3), padding='same')(self.g_input)
+        model = Conv2D(32, (3, 3), padding='same')(g_input)
         model = Activation('relu')(model)
         model = Conv2D(32, (3, 3), padding='same')(model)
         model = Activation('relu')(model)
