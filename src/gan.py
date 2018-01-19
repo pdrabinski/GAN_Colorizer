@@ -125,7 +125,7 @@ class GAN():
         X_test = X_test[rand_arr]
         y_test = y_test[rand_arr]
 
-        self.discriminator.fit(x=X_train,y=y_train,validation_data=(X_test,y_test),epochs=1)
+        self.discriminator.fit(x=X_train,y=y_train,epochs=1)
         metrics = self.discriminator.evaluate(x=X_test, y=y_test)
         print('\n accuracy:',metrics[1])
         if metrics[1] < .95:
@@ -142,7 +142,7 @@ class GAN():
             X_train_disc = X_train_L
             np.random.shuffle(X_train_disc)
             X_train_disc = X_train_disc[:batch_size]
-            generated_images = self.generator.predict(X_train_disc)
+            generated_images = self.generator.predict(X_train_disc, verbose=1)
             np.random.shuffle(X_train_AB)
 
             n = batch_size
@@ -157,10 +157,10 @@ class GAN():
 
             #train GAN on grayscaled images , set output class to colorized
             n = batch_size
-            y_train = np.ones([n])
+            y_train = np.ones([n,1])
             X_train_gen = X_train_L
             np.random.shuffle(X_train_gen)
-            g_loss = self.gan.train_on_batch(X_train_gen[:batch_size],y_train)
+            g_loss = self.gan.train_on_batch(x=X_train_gen[:batch_size],y=y_train)
 
             g_losses.append(g_loss)
             gen_acc = g_loss[1]
