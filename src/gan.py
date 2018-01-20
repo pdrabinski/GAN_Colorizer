@@ -27,7 +27,7 @@ class GAN():
         print('Discriminator Summary...')
         print(self.discriminator.summary())
 
-        gan_input = Input(shape=self.g_input_shape, data_format='channels_last')
+        gan_input = Input(shape=self.g_input_shape)
         img_color = self.generator(gan_input)
         self.discriminator.trainable = False
         real_or_fake = self.discriminator(img_color)
