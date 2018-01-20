@@ -180,12 +180,12 @@ class GAN():
 
 if __name__ == '__main__':
     (X_train_L, X_train_AB) = load_images('../data/X_train.p')
-    X_train_L = X_train_L.astype('np.float32')
-    X_train_AB = X_train_AB.astype('np.float32')
+    X_train_L = X_train_L.astype('float32')
+    X_train_AB = X_train_AB.astype('float32')
     print('X_train done...')
     (X_test_L, X_test_AB) = load_images('../data/X_test.p')
-    X_test_L = X_test_L.astype('np.float32')
-    X_test_AB = X_test_AB.astype('np.float32')
+    X_test_L = X_test_L.astype('float32')
+    X_test_AB = X_test_AB.astype('float32')
     print('X_test done...')
 
     batch_epochs = 100
