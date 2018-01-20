@@ -40,7 +40,7 @@ class GAN():
 
     def build_generator(self):
         model = Sequential()
-        model.add(Conv2D(32, (3, 3), padding='same', activation='relu', input_shape=self.g_input_shape))
+        model.add(Conv2D(32, (3, 3), padding='same', activation='relu', input_shape=self.g_input_shape, data_format='channels_last'))
         model.add(Conv2D(64, (3, 3), padding='same', strides=2, activation='relu'))
         model.add(BatchNormalization())
         # model = MaxPooling2D(pool_size=(2, 2))(model)
@@ -72,7 +72,7 @@ class GAN():
 
     def build_discriminator(self):
         model = Sequential()
-        model.add(Conv2D(32, (3, 3), padding='same', activation='relu', input_shape=self.d_input_shape))
+        model.add(Conv2D(32, (3, 3), padding='same', activation='relu', input_shape=self.d_input_shape, data_format='channels_last'))
         model.add(Conv2D(32, (3, 3), padding='same', activation='relu'))
         model.add(MaxPooling2D(pool_size=(2, 2)))
         model.add(Dropout(.25))
@@ -135,7 +135,7 @@ class GAN():
             np.random.shuffle(X_train_AB)
 
             n = batch_size
-            y_train_real = np.concatenate((np.zeros([n,1]), np.ones([n,1])), axis=-1)
+            y_train_real = np.concatenate((np.zeros([n,1]), np.zeros([n,1])), axis=-1)
             y_train_fake = np.concatenate((np.ones([n,1]), np.zeros([n,1])), axis=-1)
 
             noise = np.random.rand(batch_size,32,32,2) * 2 -1
@@ -180,12 +180,12 @@ class GAN():
 
 if __name__ == '__main__':
     (X_train_L, X_train_AB) = load_images('../data/X_train.p')
-    X_train_L = X_train_L.astype('float32')
-    X_train_AB = X_train_AB.astype('float32')
+    X_train_L = X_train_L.astype('np.float32')
+    X_train_AB = X_train_AB.astype('np.float32')
     print('X_train done...')
     (X_test_L, X_test_AB) = load_images('../data/X_test.p')
-    X_test_L = X_test_L.astype('float32')
-    X_test_AB = X_test_AB.astype('float32')
+    X_test_L = X_test_L.astype('np.float32')
+    X_test_AB = X_test_AB.astype('np.float32')
     print('X_test done...')
 
     batch_epochs = 100
