@@ -1,6 +1,7 @@
 from keras.models import Model
 from keras.layers import Conv2D, MaxPooling2D, Activation, BatchNormalization, UpSampling2D, Dropout, Flatten, Dense, Input, LeakyReLU, Conv2DTranspose
 from keras.optimizers import Adam
+from keras.models import Sequential
 import numpy as np
 import matplotlib.pyplot as plt
 import pickle
@@ -38,67 +39,57 @@ class GAN():
         print(self.gan.summary())
 
     def build_generator(self):
-        g_input = Input(shape=self.g_input_shape)
-        model = Conv2D(32, (3, 3), padding='same')(g_input)
-        model = Activation('relu')(model)
-        model = Conv2D(32, (3, 3), padding='same', strides=2)(model)
-        model = Activation('relu')(model)
-        model = BatchNormalization()(model)
+        model = Sequential()
+        model.add(Conv2D(32, (3, 3), padding='same', activation='relu', input_shape=self.g_input_shape))
+        model.add(Conv2D(64, (3, 3), padding='same', strides=2, activation='relu'))
+        model.add(BatchNormalization())
         # model = MaxPooling2D(pool_size=(2, 2))(model)
 
-        model = Conv2D(64, (3, 3), padding='same')(model)
-        model = Activation('relu')(model)
-        model = Conv2D(64, (3, 3), padding='same', strides=2)(model)
-        model = Activation('relu')(model)
-        model = BatchNormalization()(model)
+        model.add(Conv2D(128, (3, 3), padding='same', activation='relu', strides=2))
+        model.add(Conv2D(128, (3, 3), padding='same', activation='relu'))
+        model.add(BatchNormalization())
         # model = MaxPooling2D(pool_size=(2, 2))(model)
 
-        model = Conv2D(128, (3, 3), padding='same')(model)
-        model = Activation('relu')(model)
-        model = BatchNormalization()(model)
+        model.add(Conv2D(256, (3, 3), padding='same'))
+        model.add(Activation('relu'))
+        model.add(BatchNormalization())
 
         # model = UpSampling2D(size=(2,2))(model)
-        model = Conv2DTranspose(128, (3, 3), padding='same', strides=2)(model)
-        model = Activation('relu')(model)
-        model = BatchNormalization()(model)
+        model.add(Conv2DTranspose(128, (3, 3), padding='same', strides=2, activation='relu'))
+        model.add(BatchNormalization())
 
         # model = UpSampling2D(size=(2,2))(model)
-        model = Conv2DTranspose(64, (3, 3), padding='same', strides=2)(model)
-        model = Activation('relu')(model)
-        model = BatchNormalization()(model)
+        model.add(Conv2DTranspose(64, (3, 3), padding='same', strides=2, activation='relu'))
+        model.add(BatchNormalization())
 
-        model = Conv2D(32, (3, 3), padding='same')(model)
-        model = Activation('relu')(model)
-        model = Conv2D(2, (3, 3), padding='same')(model)
-        model = Activation('tanh')(model)
+        model.add(Conv2D(32, (3, 3), padding='same', activation='relu'))
+        model.add(Conv2D(2, (3, 3), padding='same'))
+        model.add(Activation('tanh'))
         # self.model = BatchNormalization()(self.model)
         # self.model = merge(inputs=[self.g_input, self.model], mode='concat')
         # self.model = Activation('linear')(self.model)
-        gen = Model(g_input, model)
-        return gen
+        return model
 
     def build_discriminator(self):
-        d_input = Input(shape=self.d_input_shape)
+        model = Sequential()
+        model.add(Conv2D(32, (3, 3), padding='same', activation='relu', input_shape=self.d_input_shape))
+        model.add(Conv2D(32, (3, 3), padding='same', activation='relu'))
+        model.add(MaxPooling2D(pool_size=(2, 2)))
+        model.add(Dropout(.25))
 
-        model = Conv2D(32, (3, 3), padding='same', activation='relu')(d_input)
-        model = Conv2D(32, (3, 3), padding='same', activation='relu')(model)
-        model = MaxPooling2D(pool_size=(2, 2))(model)
-        model = Dropout(.25)(model)
+        model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
+        model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
+        model.add(MaxPooling2D(pool_size=(2, 2)))
+        model.add(Dropout(.25))
 
-        model = Conv2D(64, (3, 3), padding='same', activation='relu')(model)
-        model = Conv2D(64, (3, 3), padding='same', activation='relu')(model)
-        model = MaxPooling2D(pool_size=(2, 2))(model)
-        model = Dropout(.25)(model)
+        model.add(Flatten())
+        model.add(Dense(512))
+        model.add(LeakyReLU(.2))
+        model.add(Dropout(.5))
+        model.add(Dense(2))
+        model.add(Activation('softmax'))
 
-        model = Flatten()(model)
-        model = Dense(512)(model)
-        model = LeakyReLU(.2)(model)
-        model = Dropout(.5)(model)
-        model = Dense(2)(model)
-        model = Activation('softmax')(model)
-
-        disc = Model(d_input,model)
-        return disc
+        return model
 
     def save_g(self,name):
         self.generator.save('../models/' + name + '.h5')
@@ -162,7 +153,9 @@ class GAN():
             X_train_gen = X_train_L
             np.random.shuffle(X_train_gen)
             self.discriminator.trainable=False
+            self.discriminator.compile(loss='categorical_crossentropy', optimizer=Adam(lr=.0001), metrics=['accuracy'])
             self.gan.compile(loss='categorical_crossentropy', optimizer=Adam(lr=.001))
+
             g_loss = self.gan.train_on_batch(x=X_train_gen[:batch_size],y=y_train)
 
             g_losses.append(g_loss)
@@ -191,7 +184,7 @@ if __name__ == '__main__':
     print('X_test done...')
 
     batch_epochs = 100
-    batch_size = 256
+    batch_size = 128
 
     gan = GAN()
     gan.train(X_train_L, X_train_AB, X_test_L, X_test_AB, batch_epochs, batch_size)
