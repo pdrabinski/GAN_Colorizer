@@ -1,5 +1,5 @@
 from keras.models import Model
-from keras.layers import Conv2D, MaxPooling2D, Activation, BatchNormalization, UpSampling2D, merge, Dropout, Flatten, Dense, Input, LeakyReLU
+from keras.layers import Conv2D, MaxPooling2D, Activation, BatchNormalization, UpSampling2D, Dropout, Flatten, Dense, Input, LeakyReLU, Conv2DTranspose
 from keras.optimizers import Adam
 import numpy as np
 import matplotlib.pyplot as plt
@@ -41,29 +41,29 @@ class GAN():
         g_input = Input(shape=self.g_input_shape)
         model = Conv2D(32, (3, 3), padding='same')(g_input)
         model = Activation('relu')(model)
-        model = Conv2D(32, (3, 3), padding='same')(model)
+        model = Conv2D(32, (3, 3), padding='same', strides=2)(model)
         model = Activation('relu')(model)
         model = BatchNormalization()(model)
-        model = MaxPooling2D(pool_size=(2, 2))(model)
+        # model = MaxPooling2D(pool_size=(2, 2))(model)
 
         model = Conv2D(64, (3, 3), padding='same')(model)
         model = Activation('relu')(model)
-        model = Conv2D(64, (3, 3), padding='same')(model)
+        model = Conv2D(64, (3, 3), padding='same', strides=2)(model)
         model = Activation('relu')(model)
         model = BatchNormalization()(model)
-        model = MaxPooling2D(pool_size=(2, 2))(model)
+        # model = MaxPooling2D(pool_size=(2, 2))(model)
 
         model = Conv2D(128, (3, 3), padding='same')(model)
         model = Activation('relu')(model)
         model = BatchNormalization()(model)
 
-        model = UpSampling2D(size=(2,2))(model)
-        model = Conv2D(128, (3, 3), padding='same')(model)
+        # model = UpSampling2D(size=(2,2))(model)
+        model = Conv2DTranspose(128, (3, 3), padding='same')(model)
         model = Activation('relu')(model)
         model = BatchNormalization()(model)
 
-        model = UpSampling2D(size=(2,2))(model)
-        model = Conv2D(64, (3, 3), padding='same')(model)
+        # model = UpSampling2D(size=(2,2))(model)
+        model = Conv2DTranspose(64, (3, 3), padding='same')(model)
         model = Activation('relu')(model)
         model = BatchNormalization()(model)
 
@@ -170,8 +170,8 @@ class GAN():
                 self.plot_losses(g_losses,'Generative_Losses',e, batch_size)
                 self.plot_losses(d_losses,'Discriminative_Losses',e, batch_size)
 
-        self.generator.save('gen_model_' + str(batch_size) + '_' + str(batch_epochs))
-        self.discriminator.save('disc_model_' + str(batch_size) + '_' + str(batch_epochs))
+        self.generator.save('../models/gen_model_' + str(batch_size) + '_' + str(batch_epochs)+'.h5')
+        self.discriminator.save('../models/disc_model_' + str(batch_size) + '_' + str(batch_epochs)+'.h5')
 
     def plot_losses(self, losses, label, batch_epochs, batch_size):
         plt.plot(losses)
