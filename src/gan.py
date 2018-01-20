@@ -58,12 +58,12 @@ class GAN():
         model = BatchNormalization()(model)
 
         # model = UpSampling2D(size=(2,2))(model)
-        model = Conv2DTranspose(128, (3, 3), padding='same')(model)
+        model = Conv2DTranspose(128, (3, 3), padding='same', strides=2)(model)
         model = Activation('relu')(model)
         model = BatchNormalization()(model)
 
         # model = UpSampling2D(size=(2,2))(model)
-        model = Conv2DTranspose(64, (3, 3), padding='same')(model)
+        model = Conv2DTranspose(64, (3, 3), padding='same', strides=2)(model)
         model = Activation('relu')(model)
         model = BatchNormalization()(model)
 
@@ -147,6 +147,9 @@ class GAN():
             y_train_real = np.concatenate((np.zeros([n,1]), np.ones([n,1])), axis=-1)
             y_train_fake = np.concatenate((np.ones([n,1]), np.zeros([n,1])), axis=-1)
 
+            self.discriminator.trainable = True
+            self.discriminator.compile()
+
             d_loss = self.discriminator.train_on_batch(X_train_AB[:batch_size],y_train_real)
             d_loss = self.discriminator.train_on_batch(generated_images,y_train_fake)
             d_losses.append(d_loss)
@@ -158,6 +161,8 @@ class GAN():
             y_train = np.concatenate((np.zeros([n,1]), np.ones([n,1])), axis=-1)
             X_train_gen = X_train_L
             np.random.shuffle(X_train_gen)
+            self.discriminator.trainable=False
+            self.gan.compile()
             g_loss = self.gan.train_on_batch(x=X_train_gen[:batch_size],y=y_train)
 
             g_losses.append(g_loss)
