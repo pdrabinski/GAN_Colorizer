@@ -147,7 +147,7 @@ class GAN():
             d_loss = self.discriminator.fit(x=noise,y=y_train_fake)
             d_loss = self.discriminator.fit(x=generated_images,y=y_train_fake)
             d_losses.append(d_loss)
-            print('d_loss:', d_loss['loss'])
+            print('d_loss:', d_loss.history['loss'][-1])
             # print("Discriminator Accuracy: ", disc_acc)
 
             #train GAN on grayscaled images , set output class to colorized
@@ -158,10 +158,11 @@ class GAN():
 
             g_loss = self.gan.fit(x=X_train[:batch_size],y=y_train)
 
-            g_losses.append(g_loss)
-            print('Generator Loss: ', g_losses['loss'][-1])
-            # if disc_acc < .9:
-            #     self.pre_train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
+            g_losses.append(g_loss.history['loss'][-1])
+            print('Generator Loss: ', g_loss.history['loss'][-1])
+            disc_acc = g_loss.history['acc'][-1]
+            if disc_acc < .9:
+                self.pre_train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
             if e % 5 == 4:
                 print(e + 1,"batches done")
             if e % 25 == 24:
