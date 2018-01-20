@@ -152,13 +152,13 @@ class GAN():
             y_train = np.concatenate((np.zeros([n,1]), np.ones([n,1])), axis=-1)
             np.random.shuffle(X_train)
             self.discriminator.trainable=False
-            if e == 0:
+            if e == 1:
                 print(self.gan.summary())
             self.discriminator.compile(loss='categorical_crossentropy', optimizer=Adam(lr=.0001), metrics=['accuracy'])
-            if e == 0:
+            if e == 1:
                 print(self.gan.summary())
             self.gan.compile(loss='categorical_crossentropy', optimizer=Adam(lr=.001))
-            if e == 0:
+            if e == 1:
                 print(self.gan.summary())
 
             g_loss = self.gan.train_on_batch(x=X_train[:batch_size],y=y_train)
