@@ -148,7 +148,7 @@ class GAN():
             y_train_fake = np.concatenate((np.ones([n,1]), np.zeros([n,1])), axis=-1)
 
             self.discriminator.trainable = True
-            self.discriminator.compile()
+            self.discriminator.compile(loss='categorical_crossentropy', optimizer=Adam(lr=.0001), metrics=['accuracy'])
 
             d_loss = self.discriminator.train_on_batch(X_train_AB[:batch_size],y_train_real)
             d_loss = self.discriminator.train_on_batch(generated_images,y_train_fake)
@@ -162,7 +162,7 @@ class GAN():
             X_train_gen = X_train_L
             np.random.shuffle(X_train_gen)
             self.discriminator.trainable=False
-            self.gan.compile()
+            self.gan.compile(loss='categorical_crossentropy', optimizer=Adam(lr=.001))
             g_loss = self.gan.train_on_batch(x=X_train_gen[:batch_size],y=y_train)
 
             g_losses.append(g_loss)
