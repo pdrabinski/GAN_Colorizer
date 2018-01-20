@@ -70,7 +70,7 @@ class GAN():
         model = Conv2D(32, (3, 3), padding='same')(model)
         model = Activation('relu')(model)
         model = Conv2D(2, (3, 3), padding='same')(model)
-        model = Activation('sigmoid')(model)
+        model = Activation('tanh')(model)
         # self.model = BatchNormalization()(self.model)
         # self.model = merge(inputs=[self.g_input, self.model], mode='concat')
         # self.model = Activation('linear')(self.model)

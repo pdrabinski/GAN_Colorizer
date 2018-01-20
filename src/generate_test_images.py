@@ -17,8 +17,8 @@ def lab_to_rgb(l_layer, ab_layers):
     for i in range(len(ab_layers)):
         for j in range(len(ab_layers[i])):
             p = ab_layers[i,j]
-            new_img[i,j] = [p[0] * 255 - 128,p[1] * 255 - 128]
-            rescaled_l[i,j] = [l_layer[i,j] * 100]
+            new_img[i,j] = [(p[0] +1) / 2 * 255 - 128,(p[1] +1) / 2 * 255 - 128]
+            rescaled_l[i,j] = [(l_layer[i,j] + 1) * 50]
     # print(rescaled_l.shape)
     # print(new_img.shape)
     new_img = np.concatenate((rescaled_l,new_img),axis=-1)
