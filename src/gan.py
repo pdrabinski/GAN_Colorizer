@@ -40,7 +40,7 @@ class GAN():
 
     def build_generator(self):
         model = Sequential()
-        model.add(Conv2D(32, (3, 3), padding='same', activation='relu', input_shape=self.g_input_shape, data_format='channels_last'))
+        model.add(Conv2D(32, (3, 3), padding='same', activation='relu', input_shape=self.g_input_shape)
         model.add(Conv2D(64, (3, 3), padding='same', strides=2, activation='relu'))
         model.add(BatchNormalization())
         # model = MaxPooling2D(pool_size=(2, 2))(model)
@@ -72,7 +72,7 @@ class GAN():
 
     def build_discriminator(self):
         model = Sequential()
-        model.add(Conv2D(32, (3, 3), padding='same', activation='relu', input_shape=self.d_input_shape, data_format='channels_last'))
+        model.add(Conv2D(32, (3, 3), padding='same', activation='relu', input_shape=self.d_input_shape)
         model.add(Conv2D(32, (3, 3), padding='same', activation='relu'))
         model.add(MaxPooling2D(pool_size=(2, 2)))
         model.add(Dropout(.25))
