@@ -126,11 +126,11 @@ class GAN():
         self.pre_train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
         g_losses = []
         d_losses = []
+        X_train = X_train_L
         for e in range(batch_epochs):
             #generate images
-            X_train_disc = X_train_L
-            np.random.shuffle(X_train_disc)
-            X_train_disc = X_train_disc[:batch_size]
+            np.random.shuffle(X_train)
+            X_train_disc = X_train[:batch_size]
             generated_images = self.generator.predict(X_train_disc, verbose=1)
             np.random.shuffle(X_train_AB)
 
@@ -150,13 +150,16 @@ class GAN():
             #train GAN on grayscaled images , set output class to colorized
             n = batch_size
             y_train = np.concatenate((np.zeros([n,1]), np.ones([n,1])), axis=-1)
-            X_train_gen = X_train_L
-            np.random.shuffle(X_train_gen)
+            np.random.shuffle(X_train)
             self.discriminator.trainable=False
             self.discriminator.compile(loss='categorical_crossentropy', optimizer=Adam(lr=.0001), metrics=['accuracy'])
+            if e == 0:
+                print(self.gan.summary())
             self.gan.compile(loss='categorical_crossentropy', optimizer=Adam(lr=.001))
+            if e == 0:
+                print(self.gan.summary())
 
-            g_loss = self.gan.train_on_batch(x=X_train_gen[:batch_size],y=y_train)
+            g_loss = self.gan.train_on_batch(x=X_train[:batch_size],y=y_train)
 
             g_losses.append(g_loss)
             print('Generator Loss: ', g_loss)
