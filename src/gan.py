@@ -138,11 +138,14 @@ class GAN():
             y_train_real = np.concatenate((np.zeros([n,1]), np.ones([n,1])), axis=-1)
             y_train_fake = np.concatenate((np.ones([n,1]), np.zeros([n,1])), axis=-1)
 
+            noise = np.random.rand(batch_size,32,32,2) * 2 -1
+
             self.discriminator.trainable = True
             self.discriminator.compile(loss='categorical_crossentropy', optimizer=Adam(lr=.0001), metrics=['accuracy'])
 
-            d_loss = self.discriminator.train_on_batch(X_train_AB[:batch_size],y_train_real)
-            d_loss = self.discriminator.train_on_batch(generated_images,y_train_fake)
+            d_loss = self.discriminator.fit(x=X_train_AB[:batch_size],y=y_train_real)
+            d_loss = self.discriminator.fit(x=noise,y=y_train_fake)
+            d_loss = self.discriminator.fit(x=generated_images,y=y_train_fake)
             d_losses.append(d_loss)
             disc_acc = d_loss[1]
             print("Discriminator Accuracy: ", disc_acc)
@@ -153,7 +156,7 @@ class GAN():
             np.random.shuffle(X_train)
             self.discriminator.trainable=False
 
-            g_loss = self.gan.train_on_batch(x=X_train[:batch_size],y=y_train)
+            g_loss = self.gan.fit(x=X_train[:batch_size],y=y_train)
 
             g_losses.append(g_loss)
             print('Generator Loss: ', g_loss)
