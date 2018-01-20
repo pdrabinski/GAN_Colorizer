@@ -147,8 +147,8 @@ class GAN():
             d_loss = self.discriminator.fit(x=noise,y=y_train_fake)
             d_loss = self.discriminator.fit(x=generated_images,y=y_train_fake)
             d_losses.append(d_loss)
-            disc_acc = d_loss[1]
-            print("Discriminator Accuracy: ", disc_acc)
+            print('d_loss:', d_loss)
+            # print("Discriminator Accuracy: ", disc_acc)
 
             #train GAN on grayscaled images , set output class to colorized
             n = batch_size
