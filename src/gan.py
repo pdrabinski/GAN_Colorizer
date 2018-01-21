@@ -166,8 +166,8 @@ class GAN():
             if disc_acc < .9:
                 self.pre_train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
             if e % 5 == 4:
-                print(e + 1,"batches done")a
-            if e % 100 == 24:
+                print(e + 1,"batches done")
+            if e % 1000 == 999:
                 self.plot_losses(g_losses,'Generative_Losses',e, batch_size)
                 self.plot_losses(d_acc,'Discriminative_Losses',e, batch_size)
 
