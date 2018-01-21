@@ -64,6 +64,7 @@ class GAN():
 
         model.add(Conv2D(32, (3, 3), padding='same', activation='relu'))
         model.add(Conv2D(2, (3, 3), padding='same'))
+        model.add(BatchNormalization())
         model.add(Activation('tanh'))
         # self.model = BatchNormalization()(self.model)
         # self.model = merge(inputs=[self.g_input, self.model], mode='concat')
@@ -85,6 +86,7 @@ class GAN():
         model.add(Flatten())
         model.add(Dense(512))
         model.add(LeakyReLU(.2))
+        model.add(BatchNormalization())
         model.add(Dropout(.5))
         model.add(Dense(2))
         model.add(Activation('softmax'))
@@ -140,9 +142,6 @@ class GAN():
 
             noise = np.random.rand(batch_size,32,32,2) * 2 -1
 
-            self.discriminator.trainable = True
-            self.discriminator.compile(loss='categorical_crossentropy', optimizer=Adam(lr=.0001), metrics=['accuracy'])
-
             d_loss = self.discriminator.fit(x=X_train_AB[:batch_size],y=y_train_real)
             d_loss = self.discriminator.fit(x=noise,y=y_train_fake)
             d_loss = self.discriminator.fit(x=generated_images,y=y_train_fake)
@@ -154,7 +153,6 @@ class GAN():
             n = batch_size
             y_train = np.concatenate((np.zeros([n,1]), np.ones([n,1])), axis=-1)
             np.random.shuffle(X_train)
-            self.discriminator.trainable=False
 
             g_loss = self.gan.fit(x=X_train[:batch_size],y=y_train)
 
