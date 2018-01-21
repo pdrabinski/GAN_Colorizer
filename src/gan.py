@@ -146,8 +146,8 @@ class GAN():
             d_loss = self.discriminator.fit(x=X_train_AB[:batch_size],y=y_train_real)
             d_loss = self.discriminator.fit(x=noise,y=y_train_fake)
             d_loss = self.discriminator.fit(x=generated_images,y=y_train_fake)
-            d_losses.append(d_loss['loss'][-1])
-            d_acc.append(d_loss['acc'][-1])
+            d_losses.append(d_loss.history['loss'][-1])
+            d_acc.append(d_loss.history['acc'][-1])
             print('d_loss:', d_loss.history['loss'][-1])
             # print("Discriminator Accuracy: ", disc_acc)
 
