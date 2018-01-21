@@ -146,7 +146,8 @@ class GAN():
             noise = np.random.rand(batch_size,32,32,2) * 2 -1
 
             d_loss = self.discriminator.fit(x=X_train_AB[:batch_size],y=y_train_real)
-            # d_loss = self.discriminator.fit(x=noise,y=y_train_fake)
+            if e % 15 == 14:
+                d_loss = self.discriminator.fit(x=noise,y=y_train_fake)
             d_loss = self.discriminator.fit(x=generated_images,y=y_train_fake)
             d_losses.append(d_loss.history['loss'][-1])
             d_acc.append(d_loss.history['acc'][-1])
@@ -191,7 +192,7 @@ if __name__ == '__main__':
     X_test_AB = X_test_AB.astype('float32')
     print('X_test done...')
 
-    batch_epochs = 1000
+    batch_epochs = 100
     batch_size = 64
 
     gan = GAN()
