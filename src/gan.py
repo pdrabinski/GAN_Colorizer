@@ -155,7 +155,8 @@ class GAN():
 
             #train GAN on grayscaled images , set output class to colorized
             n = batch_size
-            y_train = np.concatenate((np.zeros([n,1]), np.ones([n,1])), axis=-1)
+            y_train = np.ones([n,1])
+            # y_train = np.concatenate((np.zeros([n,1]), np.ones([n,1])), axis=-1)
             np.random.shuffle(X_train)
 
             g_loss = self.gan.fit(x=X_train[:batch_size],y=y_train)
