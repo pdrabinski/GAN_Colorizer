@@ -54,12 +54,12 @@ class GAN():
         model.add(Activation('relu'))
         model.add(BatchNormalization())
 
-        # model = UpSampling2D(size=(2,2))(model)
-        model.add(Conv2DTranspose(128, (3, 3), padding='same', strides=2, activation='relu'))
+        model.add(UpSampling2D(size=(2,2)))
+        model.add(Conv2D(128, (3, 3), padding='same', activation='relu'))
         model.add(BatchNormalization())
 
-        # model = UpSampling2D(size=(2,2))(model)
-        model.add(Conv2DTranspose(64, (3, 3), padding='same', strides=2, activation='relu'))
+        model.add(UpSampling2D(size=(2,2)))
+        model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
         model.add(BatchNormalization())
 
         model.add(Conv2D(32, (3, 3), padding='same', activation='relu'))
