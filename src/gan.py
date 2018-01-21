@@ -128,6 +128,7 @@ class GAN():
         self.pre_train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
         g_losses = []
         d_losses = []
+        d_acc = []
         X_train = X_train_L
         for e in range(batch_epochs):
             #generate images
@@ -145,7 +146,8 @@ class GAN():
             d_loss = self.discriminator.fit(x=X_train_AB[:batch_size],y=y_train_real)
             d_loss = self.discriminator.fit(x=noise,y=y_train_fake)
             d_loss = self.discriminator.fit(x=generated_images,y=y_train_fake)
-            d_losses.append(d_loss)
+            d_losses.append(d_loss['loss'][-1])
+            d_acc.append(d_loss['acc'][-1])
             print('d_loss:', d_loss.history['loss'][-1])
             # print("Discriminator Accuracy: ", disc_acc)
 
@@ -165,7 +167,7 @@ class GAN():
                 print(e + 1,"batches done")
             if e % 25 == 24:
                 self.plot_losses(g_losses,'Generative_Losses',e, batch_size)
-                self.plot_losses(d_losses,'Discriminative_Losses',e, batch_size)
+                self.plot_losses(d_acc,'Discriminative_Losses',e, batch_size)
 
         self.generator.save('../models/gen_model_' + str(batch_size) + '_' + str(batch_epochs)+'.h5')
         self.discriminator.save('../models/disc_model_' + str(batch_size) + '_' + str(batch_epochs)+'.h5')
