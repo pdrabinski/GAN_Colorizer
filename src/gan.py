@@ -17,13 +17,13 @@ class GAN():
 
         self.generator = self.build_generator()
         opt = Adam(lr=.001)
-        self.generator.compile(loss='categorical_crossentropy', optimizer=opt)
+        self.generator.compile(loss='binary_crossentropy', optimizer=opt)
         print('Generator Summary...')
         print(self.generator.summary())
 
         self.discriminator = self.build_discriminator()
         opt = Adam(lr=.0001)
-        self.discriminator.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
+        self.discriminator.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
         print('Discriminator Summary...')
         print(self.discriminator.summary())
 
@@ -33,7 +33,7 @@ class GAN():
         real_or_fake = self.discriminator(img_color)
         self.gan = Model(gan_input,real_or_fake)
         opt = Adam(lr=.001)
-        self.gan.compile(loss='categorical_crossentropy', optimizer=opt)
+        self.gan.compile(loss='binary_crossentropy', optimizer=opt)
         print('\n')
         print('GAN summary...')
         print(self.gan.summary())
@@ -88,8 +88,8 @@ class GAN():
         model.add(LeakyReLU(.2))
         model.add(BatchNormalization())
         model.add(Dropout(.5))
-        model.add(Dense(2))
-        model.add(Activation('softmax'))
+        model.add(Dense(1))
+        model.add(Activation('sigmoid'))
 
         return model
 
@@ -103,7 +103,7 @@ class GAN():
         generated_images = self.generator.predict(X_train_L)
         X_train = np.concatenate((X_train_AB,generated_images))
         n = len(X_train_L)
-        y_train = np.array([[0,1]] * n + [[1,0]] * n)
+        y_train = np.array([[0]] * n + [[1]] * n)
         rand_arr = np.arange(len(X_train))
         np.random.shuffle(rand_arr)
         X_train = X_train[rand_arr]
@@ -112,7 +112,7 @@ class GAN():
         test_generated_images = self.generator.predict(X_test_L)
         X_test = np.concatenate((X_test_AB,test_generated_images))
         n = len(X_test_L)
-        y_test = np.array([[0,1]] * n + [[1,0]] * n)
+        y_test = np.array([[0]] * n + [[1]] * n)
         rand_arr = np.arange(len(X_test))
         np.random.shuffle(rand_arr)
         X_test = X_test[rand_arr]
@@ -138,13 +138,15 @@ class GAN():
             np.random.shuffle(X_train_AB)
 
             n = batch_size
-            y_train_real = np.concatenate((np.zeros([n,1]), np.zeros([n,1])), axis=-1)
-            y_train_fake = np.concatenate((np.ones([n,1]), np.zeros([n,1])), axis=-1)
+            y_train_fake = np.ones([n,1]) * .9
+            y_train_real = np.ones([n,1]) * .1
+            # y_train_real = np.concatenate((np.zeros([n,1]), np.zeros([n,1])), axis=-1)
+            # y_train_fake = np.concatenate((np.ones([n,1]), np.zeros([n,1])), axis=-1)
 
             noise = np.random.rand(batch_size,32,32,2) * 2 -1
 
             d_loss = self.discriminator.fit(x=X_train_AB[:batch_size],y=y_train_real)
-            d_loss = self.discriminator.fit(x=noise,y=y_train_fake)
+            # d_loss = self.discriminator.fit(x=noise,y=y_train_fake)
             d_loss = self.discriminator.fit(x=generated_images,y=y_train_fake)
             d_losses.append(d_loss.history['loss'][-1])
             d_acc.append(d_loss.history['acc'][-1])
@@ -164,7 +166,7 @@ class GAN():
             if disc_acc < .9:
                 self.pre_train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
             if e % 5 == 4:
-                print(e + 1,"batches done")
+                print(e + 1,"batches done")a
             if e % 100 == 24:
                 self.plot_losses(g_losses,'Generative_Losses',e, batch_size)
                 self.plot_losses(d_acc,'Discriminative_Losses',e, batch_size)
