@@ -20,7 +20,7 @@ def rgb_to_lab(image, l=False, ab=False):
             if ab: ab_layers[i,j] = [(p[1] + 128)/255 * 2 - 1,(p[2] + 128)/255 * 2 -1]
             else: l_layer[i,j] = [p[0]/50 - 1]
     if l: return l_layer.astype('uint8')
-    else: return ab_layers('uint8')
+    else: return ab_layers.astype('uint8')
 
 def lab_to_rgb(image):
     new_img = np.zeros((32,32,3))
