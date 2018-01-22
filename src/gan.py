@@ -103,7 +103,7 @@ class GAN():
         generated_images = self.generator.predict(X_train_L)
         X_train = np.concatenate((X_train_AB,generated_images))
         n = len(X_train_L)
-        y_train = np.array([[0]] * n + [[1]] * n)
+        y_train = np.array([[1]] * n + [[0]] * n)
         rand_arr = np.arange(len(X_train))
         np.random.shuffle(rand_arr)
         X_train = X_train[rand_arr]
@@ -112,7 +112,7 @@ class GAN():
         test_generated_images = self.generator.predict(X_test_L)
         X_test = np.concatenate((X_test_AB,test_generated_images))
         n = len(X_test_L)
-        y_test = np.array([[0]] * n + [[1]] * n)
+        y_test = np.array([[1]] * n + [[0]] * n)
         rand_arr = np.arange(len(X_test))
         np.random.shuffle(rand_arr)
         X_test = X_test[rand_arr]
@@ -138,15 +138,14 @@ class GAN():
             np.random.shuffle(X_train_AB)
 
             n = batch_size
-            y_train_fake = np.ones([n,1]) * .1
-            y_train_real = np.ones([n,1]) * .9
+            y_train_fake = np.zeros([n,1])
+            y_train_real = np.ones([n,1])
             # y_train_real = np.concatenate((np.zeros([n,1]), np.zeros([n,1])), axis=-1)
             # y_train_fake = np.concatenate((np.ones([n,1]), np.zeros([n,1])), axis=-1)
 
-            noise = np.random.rand(batch_size,32,32,2) * 2 -1
-
             d_loss = self.discriminator.fit(x=X_train_AB[:batch_size],y=y_train_real)
             if e % 15 == 14:
+                noise = np.random.rand(batch_size,32,32,2) * 2 -1
                 d_loss = self.discriminator.fit(x=noise,y=y_train_fake)
             d_loss = self.discriminator.fit(x=generated_images,y=y_train_fake)
             d_losses.append(d_loss.history['loss'][-1])
@@ -165,7 +164,7 @@ class GAN():
             g_losses.append(g_loss.history['loss'][-1])
             print('Generator Loss: ', g_loss.history['loss'][-1])
             disc_acc = d_loss.history['acc'][-1]
-            if disc_acc < .9:
+            if disc_acc < .85:
                 self.pre_train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
             if e % 5 == 4:
                 print(e + 1,"batches done")
@@ -193,7 +192,7 @@ if __name__ == '__main__':
     print('X_test done...')
 
     batch_epochs = 100
-    batch_size = 64
+    batch_size = 32
 
     gan = GAN()
     gan.train(X_train_L, X_train_AB, X_test_L, X_test_AB, batch_epochs, batch_size)
