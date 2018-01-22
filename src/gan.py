@@ -163,11 +163,11 @@ class GAN():
             # y_train_real = np.concatenate((np.zeros([n,1]), np.zeros([n,1])), axis=-1)
             # y_train_fake = np.concatenate((np.ones([n,1]), np.zeros([n,1])), axis=-1)
 
-            d_loss = self.discriminator.fit(x=X_train_AB[:batch_size],y=y_train_real)
+            d_loss = self.discriminator.fit(x=X_train_AB[:batch_size],y=y_train_real,epochs=1)
             if e % 15 == 14:
                 noise = np.random.rand(batch_size,32,32,2) * 2 -1
-                d_loss = self.discriminator.fit(x=noise,y=y_train_fake)
-            d_loss = self.discriminator.fit(x=generated_images,y=y_train_fake)
+                d_loss = self.discriminator.fit(x=noise,y=y_train_fake, epochs=1)
+            d_loss = self.discriminator.fit(x=generated_images,y=y_train_fake, epochs=1)
             d_losses.append(d_loss.history['loss'][-1])
             d_acc.append(d_loss.history['acc'][-1])
             print('d_loss:', d_loss.history['loss'][-1])
@@ -179,7 +179,7 @@ class GAN():
             # y_train = np.concatenate((np.zeros([n,1]), np.ones([n,1])), axis=-1)
             np.random.shuffle(X_train)
 
-            g_loss = self.gan.fit(x=X_train[:batch_size],y=y_train)
+            g_loss = self.gan.fit(x=X_train[:batch_size],y=y_train,epochs=1)
 
             g_losses.append(g_loss.history['loss'][-1])
             print('Generator Loss: ', g_loss.history['loss'][-1])
