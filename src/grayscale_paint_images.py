@@ -1,20 +1,12 @@
-from keras.datasets import cifar10
 import numpy as np
 import pickle
 from PIL import Image
 from skimage import color, io
 import matplotlib.pyplot as plt
 
-def grayscale_image(image):
-    # image_file = Image.fromarray(image,'RGB')
-    # arr = np.array(image_file.convert('L'))
-    # arr = arr / 100
-    arr = color.rgb2grey(image)
-    return arr[...,np.newaxis]
-
 def un_scale(image):
     image = np.squeeze(image)
-    image = image * 100
+    image = (image + 1) * 50
     return image
 
 def rgb_to_lab(image, l=False, ab=False):
@@ -27,8 +19,8 @@ def rgb_to_lab(image, l=False, ab=False):
             # new_img[i,j] = [p[0]/100,(p[1] + 128)/255,(p[2] + 128)/255]
             if ab: ab_layers[i,j] = [(p[1] + 128)/255 * 2 - 1,(p[2] + 128)/255 * 2 -1]
             else: l_layer[i,j] = [p[0]/50 - 1]
-    if l: return l_layer
-    else: return ab_layers
+    if l: return l_layer.astype('uint8')
+    else: return ab_layers('uint8')
 
 def lab_to_rgb(image):
     new_img = np.zeros((32,32,3))
@@ -66,41 +58,12 @@ if __name__ == '__main__':
         pickle.dump(X_test,f)
     print('X_test done...')
 
-    train = np.concatenate((rgb_to_lab(red,l=True),rgb_to_lab(red,ab=True)),axis=-1)
-    train = lab_to_rgb(train)
-    train_rgb = Image.fromarray(train,'RGB')
-    train_rgb.show()
+    # train = np.concatenate((rgb_to_lab(red,l=True),rgb_to_lab(red,ab=True)),axis=-1)
+    # train = lab_to_rgb(train)
+    # train_rgb = Image.fromarray(train,'RGB')
+    # train_rgb.show()
 
-    # X_train_true = X_train
-    # X_train_true = np.array([rgb_to_lab(image)[0] for image in X_train_true])
-    # # X_train_true_img = lab_to_rgb(X_train_true[0])
-    # # X_train_true_img = Image.fromarray(X_train_true_img,'RGB')
-    # # X_train_true_img.show()
-    # with open('../data/X_train_true.p','wb') as f:
-    #     pickle.dump(X_train_true,f)
-    # print('X_train_true done...')
-    #
-    # X_train = np.array([grayscale_image(image) for image in X_train])
-    # # X_train_img = un_scale(X_train[0])
-    # # X_train_img = Image.fromarray(X_train_img,'L')
-    # # X_train_img.show()
-    # with open('../data/X_train.p','wb') as f:
-    #     pickle.dump(X_train,f)
-    # print('X_train done...')
-    #
-    # X_test_true = np.array(X_test)
-    # X_test_true = np.array([rgb_to_lab(image) for image in X_test_true])
-    # # X_test_true_img = lab_to_rgb(X_test_true[0])
-    # # X_test_true_img = Image.fromarray(X_test_true_img,'RGB')
-    # # X_test_true_img.show()
-    # with open('../data/X_test_true.p','wb') as f:
-    #     pickle.dump(X_test_true,f)
-    # print('X_test_true done...')
-    #
-    #
-    # X_test = np.array([grayscale_image(image) for image in X_test])
-    # # X_test_img = Image.fromarray(X_test[0],'L')
-    # # X_test_img.show()
-    # with open('../data/X_test.p','wb') as f:
-    #     pickle.dump(X_test,f)
-    # print('X_test done...')
+    # train = rgb_to_lab(red,l=True)
+    # train = un_scale(train)
+    # train = Image.fromarray(train,'L')
+    # train.show()
