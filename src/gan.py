@@ -1,5 +1,5 @@
 from keras.models import Model
-from keras.layers import Conv2D, MaxPooling2D, Activation, BatchNormalization, UpSampling2D, Dropout, Flatten, Dense, Input, LeakyReLU, Conv2DTranspose
+from keras.layers import Conv2D, MaxPooling2D, Activation, BatchNormalization, UpSampling2D, Dropout, Flatten, Dense, Input, LeakyReLU, Conv2DTranspose,AveragePooling2D
 from keras.optimizers import Adam
 from keras.models import Sequential
 import numpy as np
@@ -72,22 +72,38 @@ class GAN():
         return model
 
     def build_discriminator(self):
-        model = Sequential()
-        model.add(Conv2D(32, (3, 3), padding='same', activation='relu', input_shape=self.d_input_shape))
-        model.add(Conv2D(32, (3, 3), padding='same', activation='relu'))
-        model.add(MaxPooling2D(pool_size=(2, 2)))
-        model.add(Dropout(.25))
+        # model = Sequential()
+        # model.add(Conv2D(32, (3, 3), padding='same', activation='relu', input_shape=self.d_input_shape))
+        # model.add(Conv2D(32, (3, 3), padding='same', activation='relu'))
+        # model.add(MaxPooling2D(pool_size=(2, 2)))
+        # model.add(Dropout(.25))
+        #
+        # model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
+        # model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
+        # model.add(MaxPooling2D(pool_size=(2, 2)))
+        # model.add(Dropout(.25))
+        #
+        # model.add(Flatten())
+        # model.add(Dense(512))
+        # model.add(LeakyReLU(.2))
+        # model.add(BatchNormalization())
+        # model.add(Dropout(.5))
+        # model.add(Dense(1))
+        # model.add(Activation('sigmoid'))
 
-        model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
-        model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
-        model.add(MaxPooling2D(pool_size=(2, 2)))
-        model.add(Dropout(.25))
+        #using discriminator from tensorflow classification
+        model = Sequential()
+        model.add(Conv2D(32, (5, 5), padding='same', activation='relu', input_shape=self.d_input_shape))
+        model.add(AveragePooling2D(pool_size=(2, 2)))
+        # model.add(Dropout(.25))
+
+        model.add(Conv2D(64, (5, 5), padding='same', activation='relu'))
+        model.add(AveragePooling2D(pool_size=(2, 2)))
 
         model.add(Flatten())
-        model.add(Dense(512))
+        model.add(Dense(1024))
         model.add(LeakyReLU(.2))
         model.add(BatchNormalization())
-        model.add(Dropout(.5))
         model.add(Dense(1))
         model.add(Activation('sigmoid'))
 
