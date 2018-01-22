@@ -138,8 +138,8 @@ class GAN():
             np.random.shuffle(X_train_AB)
 
             n = batch_size
-            y_train_fake = np.ones([n,1]) * .9
-            y_train_real = np.ones([n,1]) * .1
+            y_train_fake = np.ones([n,1]) * .1
+            y_train_real = np.ones([n,1]) * .9
             # y_train_real = np.concatenate((np.zeros([n,1]), np.zeros([n,1])), axis=-1)
             # y_train_fake = np.concatenate((np.ones([n,1]), np.zeros([n,1])), axis=-1)
 
@@ -169,7 +169,7 @@ class GAN():
                 self.pre_train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
             if e % 5 == 4:
                 print(e + 1,"batches done")
-            if e % 1000 == 999:
+            if e % 100 == 99:
                 self.plot_losses(g_losses,'Generative_Losses',e, batch_size)
                 self.plot_losses(d_acc,'Discriminative_Losses',e, batch_size)
 
