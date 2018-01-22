@@ -2,9 +2,13 @@ from keras.models import Model
 from keras.layers import Conv2D, MaxPooling2D, Activation, BatchNormalization, UpSampling2D, Dropout, Flatten, Dense, Input, LeakyReLU, Conv2DTranspose,AveragePooling2D
 from keras.optimizers import Adam
 from keras.models import Sequential
+from tensorflow import set_random_seed
 import numpy as np
 import matplotlib.pyplot as plt
 import pickle
+
+np.random.seed(1)
+set_random_seed(1)
 
 def load_images(filepath):
     with open(filepath, 'rb') as f:
@@ -207,8 +211,8 @@ if __name__ == '__main__':
     X_test_AB = X_test_AB.astype('float32')
     print('X_test done...')
 
-    batch_epochs = 100
-    batch_size = 32
+    batch_epochs = 200
+    batch_size = 64
 
     gan = GAN()
     gan.train(X_train_L, X_train_AB, X_test_L, X_test_AB, batch_epochs, batch_size)
