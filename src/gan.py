@@ -75,16 +75,16 @@ class GAN():
         model = Sequential()
         model.add(Conv2D(32, (3, 3), padding='same', activation='relu', input_shape=self.d_input_shape))
         model.add(Conv2D(32, (3, 3), padding='same', activation='relu'))
-        model.add(MaxPooling2D(pool_size=(2, 2)))
+        model.add(AveragePooling2D(pool_size=(2, 2)))
         model.add(Dropout(.25))
 
         model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
         model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
-        model.add(MaxPooling2D(pool_size=(2, 2)))
+        model.add(AveragePooling2D(pool_size=(2, 2)))
         model.add(Dropout(.25))
 
         model.add(Flatten())
-        model.add(Dense(1024))
+        model.add(Dense(512))
         model.add(LeakyReLU(.2))
         model.add(BatchNormalization())
         model.add(Dropout(.5))
@@ -180,7 +180,7 @@ class GAN():
             g_losses.append(g_loss.history['loss'][-1])
             print('Generator Loss: ', g_loss.history['loss'][-1])
             disc_acc = d_loss.history['acc'][-1]
-            if disc_acc < .85:
+            if disc_acc < .8:
                 self.pre_train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
             if e % 5 == 4:
                 print(e + 1,"batches done")
