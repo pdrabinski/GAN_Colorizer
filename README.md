@@ -23,20 +23,20 @@ The first submodel is the "Generator" and the second is the "Discriminator." Aft
 
 There are lots of types of GANs that researchers have given creative names to, such as DCGANs, HyperGans, CycleGANs, and S^2-GANs. Each are tweaked in certain ways to be more suitable to a specific task. However, all share the core principle of one net training the other to generate novel content.
 
-![GAN](/test_images/GAN_arch.jpeg)
+![GAN](/results/GAN_arch.jpeg)
 
 ## Color
 
 ### RGB
 Most images use the RGB colorspace. The disadvantage of using RGB when colorizing images is that the model needs to predict 3 values for each pixel.
 
-![RGB](/test_images/rgb.jpg)
+![RGB](/results/rgb.jpg)
 
 ### CIE-LAB
 
 This project will be utilizing the CIE-LAB color space to preserve the gray scaled image. As shown in the picture below, the gray scaled images is simply the L value in LAB. Therefore, the generator will use the L spectrum as input and predict A and B. To view the results, the L layer is added back in and LAB had to be converted to RGB.
 
-![CIE](/test_images/cie.png)
+![CIE](/results/cie.png)
 
 ## Model Architecture
 
@@ -48,10 +48,13 @@ The goal of the Generator is to create content so indistinguishable from the tra
 
 ## Results
 
-<img src="/data/Paint/For_readme/red.png" width="100" /><img src="/data/Paint/For_readme/red_gray.png" width="100"/><img src="/test_images/22/for_pres/red.png" width="100" />
+Ground Truth | Grayscaled Image | Colorized
+
+<img src="/data/Paint/For_readme/red.png" width="300" /><img src="/data/Paint/For_readme/red_gray.png" width="300"/><img src="/test_images/22/for_pres/red.png" width="300" />
+<br>
+<img src="/data/Paint/For_readme/blue.png" width="300" /><img src="/data/Paint/For_readme/blue_gray.png" width="300"/><img src="/test_images/22/for_pres/blue.png" width="300" />
 
 
+![D_loss](/plots/Plots/generative_plot.png)
 
-![D_loss](/images/Generative_Losses_512_24_epochs.png)
-
-![G_loss](/images/Discriminative_Losses_512_24_epochs.png)
+![G_loss](/plots/Plots/discriminative_plot.png)
