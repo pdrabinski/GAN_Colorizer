@@ -197,8 +197,8 @@ if __name__ == '__main__':
     X_test_AB = X_test_AB.astype('float32')
     print('X_test done...')
 
-    batch_epochs = 500
-    batch_size = 512
+    batch_epochs = 750
+    batch_size = 256
 
     gan = GAN()
     gan.train(X_train_L, X_train_AB, X_test_L, X_test_AB, batch_epochs, batch_size)
