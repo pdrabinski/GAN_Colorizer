@@ -78,21 +78,25 @@ class GAN():
 
     def build_discriminator(self):
         model = Sequential()
-        model.add(Conv2D(32, (3, 3), padding='same', activation='relu', input_shape=self.d_input_shape))
-        model.add(Conv2D(32, (3, 3), padding='same', activation='relu'))
-        model.add(AveragePooling2D(pool_size=(2, 2)))
-        model.add(Dropout(.25))
+        model.add(Conv2D(32, (3, 3), padding='same', input_shape=self.d_input_shape, strides=2))
+        # model.add(Conv2D(32, (3, 3), padding='same', activation='relu',strides=2))
+        # model.add(AveragePooling2D(pool_size=(2, 2)))
+        model.add(BatchNormalization())
+        model.add(LeakyReLU(.2))
+        # model.add(Dropout(.25))
 
-        model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
-        model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
-        model.add(AveragePooling2D(pool_size=(2, 2)))
-        model.add(Dropout(.25))
+        model.add(Conv2D(64, (3, 3), padding='same',strides=2))
+        model.add(BatchNormalization())
+        model.add(LeakyReLU(.2))
+        # model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
+        # model.add(AveragePooling2D(pool_size=(2, 2)))
+        # model.add(Dropout(.25))
 
         model.add(Flatten())
-        model.add(Dense(512))
-        model.add(LeakyReLU(.2))
-        model.add(BatchNormalization())
-        model.add(Dropout(.5))
+        # model.add(Dense(512))
+        # model.add(LeakyReLU(.2))
+        # model.add(BatchNormalization())
+        # model.add(Dropout(.5))
         model.add(Dense(1))
         model.add(Activation('sigmoid'))
 
@@ -161,8 +165,6 @@ class GAN():
             n = batch_size
             y_train_fake = np.zeros([n,1])
             y_train_real = np.ones([n,1])
-            # y_train_real = np.concatenate((np.zeros([n,1]), np.zeros([n,1])), axis=-1)
-            # y_train_fake = np.concatenate((np.ones([n,1]), np.zeros([n,1])), axis=-1)
 
             d_loss = self.discriminator.fit(x=X_train_AB[:batch_size],y=y_train_real,epochs=1)
             if e % 15 == 14:
