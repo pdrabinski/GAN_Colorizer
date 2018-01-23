@@ -48,7 +48,7 @@ The goal of the Generator is to create content so indistinguishable from the tra
 
 ## Results
 
-![](/data/Paint/For_readme/red.png =100x)![](/data/Paint/For_readme/red_gray.png =100x)![](/test_images/22/for_pres/red.png =100x)
+![](./data/Paint/For_readme/red.png =100x)![](./data/Paint/For_readme/red_gray.png =100x)![](./test_images/22/for_pres/red.png =100x)
 
 
 
