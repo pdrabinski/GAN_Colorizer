@@ -211,7 +211,7 @@ if __name__ == '__main__':
     X_test_AB = X_test_AB.astype('float32')
     print('X_test done...')
 
-    batch_epochs = 500
+    batch_epochs = 1000
     batch_size = 64
 
     gan = GAN()
