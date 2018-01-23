@@ -60,11 +60,11 @@ GAN summary...
 _________________________________________________________________
 Layer (type)&ensp;&ensp;&ensp;&ensp;&ensp;Output Shape&ensp;&ensp;&ensp;&ensp;Params
 _________________________________________________________________
-Input&ensp;&ensp;&ensp;&ensp;(None, 32, 32, 1)&ensp;&ensp;&ensp;&ensp;0
+Input&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;(None, 32, 32, 1)&ensp;&ensp;&ensp;&ensp;0
 _________________________________________________________________
-Generator&ensp;&ensp;&ensp;&ensp;&ensp;(None, 32, 32, 2)&ensp;&ensp;&ensp;&ensp;205794
+Generator&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;(None, 32, 32, 2)&ensp;&ensp;&ensp;&ensp;205794
 _________________________________________________________________
-Discriminator&ensp;&ensp;&ensp;&ensp;(None, 1)&ensp;&ensp;&ensp;&ensp;23585
+Discriminator&ensp;&ensp;&ensp;&ensp;(None, 1)&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;23585
 _________________________________________________________________
 Total params: 229,379
 Trainable params: 205,154
@@ -74,7 +74,7 @@ Non-trainable params: 24,225
 
 I used two datasets for this project. The first was of my own making. For simplicity, I created simple images of shapes, where each shape is a different color.
 
-The second dataset was a subset of the CIFAR-10 dataset. I used only images classified as having ships because they were the most consistent. They are usually mostly blue and the ships are usually a gray or white. 
+The second dataset was a subset of the CIFAR-10 dataset. I used only images classified as having ships because they were the most consistent. They are usually mostly blue and the ships are usually a gray or white.
 
 ## Results
 
