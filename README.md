@@ -83,4 +83,4 @@ Ground Truth | Grayscaled Image | Colorized
 ![G_loss](/plots/Plots/discriminative_plot.png)
 
 #### How does it do on a more complex example?
-<img src="/results/22/for_pres/sailboat_color.png" width="128" /><img src="/results/22/for_pres/sailboat_gray.png" width="128"/><img src="/results/22/for_pres/sailboat.png" width="128" />
+<img src="/results/22/for_pres/sailboat_true.png" width="128" /><img src="/results/22/for_pres/sailboat_gray.jpg" width="128"/><img src="/results/22/for_pres/sailboat.png" width="128" />
