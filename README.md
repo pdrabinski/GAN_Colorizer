@@ -64,11 +64,11 @@ Input&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;(None, 32, 32, 
 _________________________________________________________________
 Generator&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;(None, 32, 32, 2)&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;205794
 _________________________________________________________________
-Discriminator&ensp;&ensp;&ensp;&ensp;(None, 1)&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;23585
+Discriminator&ensp;&ensp;&ensp;&ensp;(None, 1)&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;23585
 _________________________________________________________________
-Total params: 229,379
-Trainable params: 205,154
-Non-trainable params: 24,225
+Total params: 229,379<br>
+Trainable params: 205,154<br>
+Non-trainable params: 24,225<br>
 
 ## Data
 
