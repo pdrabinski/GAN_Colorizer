@@ -201,7 +201,7 @@ class GAN():
     def plot_losses(self, losses, label, batch_epochs, batch_size):
         plt.plot(losses)
         plt.title(label)
-        plt.savefig('../images/' + label + '_' + str(batch_size) + '_' + str(batch_epochs) + '_epochs.png')
+        plt.savefig('../plots/' + label + '_' + str(batch_size) + '_' + str(batch_epochs) + '_epochs.png')
         plt.close()
 
 if __name__ == '__main__':
