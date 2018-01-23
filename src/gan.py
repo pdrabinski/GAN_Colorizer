@@ -150,6 +150,7 @@ class GAN():
         d_losses = []
         d_acc = []
         X_train = X_train_L
+        opt = Adam(lr=.001)
         for e in range(batch_epochs):
             #generate images
             np.random.shuffle(X_train)
