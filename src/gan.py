@@ -190,8 +190,8 @@ class GAN():
             if e % 5 == 4:
                 print(e + 1,"batches done")
             if e % 100 == 99:
-                self.plot_losses(g_losses,'Generative_Losses',e, batch_size)
-                self.plot_losses(d_acc,'Discriminative_Losses',e, batch_size)
+                self.plot_losses(g_losses,'Generative_Loss',e, batch_size)
+                self.plot_losses(d_acc,'Discriminative_Accuracy',e, batch_size)
 
         self.generator.save('../models/gen_model_' + str(batch_size) + '_' + str(batch_epochs)+'.h5')
         self.discriminator.save('../models/disc_model_' + str(batch_size) + '_' + str(batch_epochs)+'.h5')
