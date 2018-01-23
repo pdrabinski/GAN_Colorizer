@@ -5,7 +5,7 @@ LD_images=~/Projects/GAN/plots
 LD_models=~/Projects/GAN/models
 # Remote Directory to retrieve. Files are retrieved recursively starting here. Hidden files are included.
 # Must be full path, don't use ~ shortcut.
-RD_images=/home/ubuntu/GAN_Colorizer/images
+RD_images=/home/ubuntu/GAN_Colorizer/plots
 RD_models=/home/ubuntu/GAN_Colorizer/models
 # Path to SSH ID file (private key)
 ID=~/.ssh/my_aws_keypair.pem
@@ -21,5 +21,5 @@ HOST=ec2-34-207-143-117.compute-1.amazonaws.com
 # rm ../images/*
 scp -i $ID -r $USER@$HOST:$RD_images/. $LD_images/.
 scp -i $ID -r $USER@$HOST:$RD_models/. $LD_models/.
-ssh -i $ID $USER@$HOST 'rm /home/ubuntu/GAN_Colorizer/images/*'
+ssh -i $ID $USER@$HOST 'rm /home/ubuntu/GAN_Colorizer/plots/*'
 ssh -i $ID $USER@$HOST 'rm /home/ubuntu/GAN_Colorizer/models/*'

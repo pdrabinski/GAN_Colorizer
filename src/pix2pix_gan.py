@@ -100,22 +100,6 @@ class GAN():
         model.add(Dense(1))
         model.add(Activation('sigmoid'))
 
-        #using discriminator from tensorflow classification
-        # model = Sequential()
-        # model.add(Conv2D(32, (5, 5), padding='same', activation='relu', input_shape=self.d_input_shape))
-        # model.add(AveragePooling2D(pool_size=(2, 2)))
-        # # model.add(Dropout(.25))
-        #
-        # model.add(Conv2D(64, (5, 5), padding='same', activation='relu'))
-        # model.add(AveragePooling2D(pool_size=(2, 2)))
-        #
-        # model.add(Flatten())
-        # model.add(Dense(1024))
-        # model.add(LeakyReLU(.2))
-        # model.add(BatchNormalization())
-        # model.add(Dense(1))
-        # model.add(Activation('sigmoid'))
-
         return model
 
     def save_g(self,name):
@@ -214,7 +198,7 @@ if __name__ == '__main__':
     X_test_AB = X_test_AB.astype('float32')
     print('X_test done...')
 
-    batch_epochs = 100
+    batch_epochs = 20
     batch_size = 128
 
     gan = GAN()

@@ -46,13 +46,15 @@ This project will be utilizing the CIE-LAB color space to preserve the gray scal
 
 The goal of the Generator is to create content so indistinguishable from the training set that the Discriminator cannot tell the difference.
 
+Below is the basic structure of the Generator. Each encoding layer is a Convolution layer with stride 2 followed by a Batch Normalization layer and then a Leaky ReLU activation layer of slope .2. Each decoding layer is a an Upsampling layer followed by a convolution layer, Batch Normalization, and finally the concatenation layer.
+
 ![generator](/results/generator.png)
 
 ### Discriminator
 
 The goal of the Discriminator is to be the expert on what a true image looks like. If it is fooled by the Discriminator too early then it is not doing its job well enough and as a result, will not be able to train the Generator well.
 
-Image here.
+C32(stride=2) - > C64(stride=2) - > Flatten -> Single Node with Tanh Activation
 
 ### GAN
 
@@ -88,7 +90,7 @@ Ground Truth | Grayscaled Image | Colorized
 ![G_loss](/plots/Plots/discriminative_plot.png)
 
 #### How does it do on a more complex example? <br>
-Ground Truth | Grayscaled Image | Colorized<br>
+Ground Truth | Grayscaled Image | Colorized<br><br>
 <img src="/results/22/for_pres/sailboat_true.png" width="128" /><img src="/results/22/for_pres/sailboat_gray.jpg" width="128"/><img src="/results/22/for_pres/sailboat.png" width="128" />
 
 Not that well but you can see that it picked up the blue of the water and it mostly preserved the white of the sail.
