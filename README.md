@@ -15,7 +15,8 @@ GAN's can circumvent this by developing their own "intuition" over thousands of 
     *  [Discriminator](#Discriminator)
     *  [GAN](#gan)
 5. [Data](*data)
-5. [Results](#results)
+6. [Results](#results)
+7. [Tech Stack](#tech-stack)
 
 ## What is a GAN
 
@@ -94,3 +95,6 @@ Ground Truth | Grayscaled Image | Colorized<br><br>
 <img src="/results/22/for_pres/sailboat_true.png" width="128" /><img src="/results/22/for_pres/sailboat_gray.jpg" width="128"/><img src="/results/22/for_pres/sailboat.png" width="128" />
 
 Not that well but you can see that it picked up the blue of the water and it mostly preserved the white of the sail.
+
+## Tech Stack
+![python](/results/python-logo.png)![keras](/results/Keras-logo.png)![skimage](/results/skimage-logo.png)![aws](/results/aws-logo.png)
