@@ -43,7 +43,7 @@ class GAN():
         print(self.gan.summary())
 
     def build_generator(self):
-        g_input = Input(input=self.g_input_shape)
+        g_input = Input(shape=self.g_input_shape)
         conv1 = Conv2D(32, (3, 3), padding='same', strides=2)(g_input)
         conv1 = LeakyReLU(.2)(conv1)
         conv1 = BatchNormalization()(conv1)
