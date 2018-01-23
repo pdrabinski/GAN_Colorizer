@@ -1,7 +1,7 @@
 #!/bin/bash
 #-- start config
 # Local Directory for backups. A date-specific folder is created under this directory for the files.
-LD_images=~/Projects/GAN/images
+LD_images=~/Projects/GAN/plots
 LD_models=~/Projects/GAN/models
 # Remote Directory to retrieve. Files are retrieved recursively starting here. Hidden files are included.
 # Must be full path, don't use ~ shortcut.
