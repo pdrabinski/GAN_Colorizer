@@ -40,9 +40,9 @@ def view_image(X_l, X_ab, model):
     for i in range(len(img_lst_gen)):
         img_lst_gen[i].show()
         img_lst_real[i].show()
-    if not os.path.exists('../test_images/' + time.strftime('%d')):
-        os.makedirs('../test_images/' + time.strftime('%d'))
-    img_lst_gen[0].save('../test_images/' + time.strftime('%d') + '/' + time.strftime('%H:%M:%S') + '.png')
+    if not os.path.exists('../results/' + time.strftime('%d')):
+        os.makedirs('../results/' + time.strftime('%d'))
+    img_lst_gen[0].save('../results/' + time.strftime('%d') + '/' + time.strftime('%H:%M:%S') + '.png')
     return img_lst_pred
 
 def predict_on_generated_images(images,model):

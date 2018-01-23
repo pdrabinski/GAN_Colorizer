@@ -13,6 +13,7 @@ GAN's can circumvent this by developing their own "intuition" over thousands of 
 4. [Model Architecture](#model-Architecture)
     *  [Generator](#Generator)
     *  [Discriminator](#Discriminator)
+    *  [GAN](#gan)
 5. [Results](#results)
 
 ## What is a GAN
@@ -44,7 +45,29 @@ This project will be utilizing the CIE-LAB color space to preserve the gray scal
 
 The goal of the Generator is to create content so indistinguishable from the training set that the Discriminator cannot tell the difference.
 
-## Discriminator
+![generator](/results/generator.png)
+
+### Discriminator
+
+The goal of the Discriminator is to be the expert on what a true image looks like. If it is fooled by the Discriminator too early then it is not doing its job well enough and as a result, will not be able to train the Generator well.
+
+Image here.
+
+### GAN
+
+GAN summary...
+=================================================================
+Layer (type)                 Output Shape              Param
+_________________________________________________________________
+input_2 (InputLayer)         (None, 32, 32, 1)         0
+_________________________________________________________________
+model_1 (Model)              (None, 32, 32, 2)         205794
+_________________________________________________________________
+sequential_1 (Sequential)    (None, 1)                 23585
+_________________________________________________________________
+Total params: 229,379
+Trainable params: 205,154
+Non-trainable params: 24,225
 
 ## Results
 
@@ -58,3 +81,6 @@ Ground Truth | Grayscaled Image | Colorized
 ![D_loss](/plots/Plots/generative_plot.png)
 
 ![G_loss](/plots/Plots/discriminative_plot.png)
+
+#### How does it do on a more complex example?
+<img src="/results/22/for_pres/sailboat_color.png" width="128" /><img src="/results/22/for_pres/sailboat_gray.png" width="128"/><img src="/results/22/for_pres/sailboat.png" width="128" />
