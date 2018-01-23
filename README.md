@@ -50,9 +50,9 @@ The goal of the Generator is to create content so indistinguishable from the tra
 
 Ground Truth | Grayscaled Image | Colorized
 
-<img src="/data/Paint/For_readme/red.png" width="300" /><img src="/data/Paint/For_readme/red_gray.png" width="300"/><img src="/test_images/22/for_pres/red.png" width="300" />
+<img src="/data/Paint/For_readme/red.png" width="128" /><img src="/data/Paint/For_readme/red_gray.png" width="128"/><img src="/results/22/for_pres/red.png" width="128" />
 <br>
-<img src="/data/Paint/For_readme/blue.png" width="300" /><img src="/data/Paint/For_readme/blue_gray.png" width="300"/><img src="/test_images/22/for_pres/blue.png" width="300" />
+<img src="/data/Paint/For_readme/blue.png" width="128" /><img src="/data/Paint/For_readme/blue_gray.png" width="128"/><img src="/results/22/for_pres/blue.png" width="128" />
 
 
 ![D_loss](/plots/Plots/generative_plot.png)
