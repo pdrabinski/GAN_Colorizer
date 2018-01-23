@@ -25,7 +25,7 @@ def rgb_to_lab(image, l=False, ab=False):
         for j in range(len(lab[i])):
             p = lab[i,j]
             # new_img[i,j] = [p[0]/100,(p[1] + 128)/255,(p[2] + 128)/255]
-            if ab: ab_layers[i,j] = [(p[1] + 128)/255 * 2 - 1,(p[2] + 128)/255 * 2 -1]
+            if ab: ab_layers[i,j] = [(p[1] + 127)/255 * 2 - 1,(p[2] + 128)/255 * 2 -1]
             else: l_layer[i,j] = [p[0]/50 - 1]
     if l: return l_layer
     else: return ab_layers
@@ -35,7 +35,7 @@ def lab_to_rgb(image):
     for i in range(len(image)):
         for j in range(len(image[i])):
             p = image[i,j]
-            new_img[i,j] = [(p[0] + 1) * 50,(p[1] +1) / 2 * 255 - 128,(p[2] +1) / 2 * 255 - 128]
+            new_img[i,j] = [(p[0] + 1) * 50,(p[1] +1) / 2 * 255 - 127,(p[2] +1) / 2 * 255 - 128]
     new_img = color.lab2rgb(new_img) * 255
     new_img = new_img.astype('uint8')
     return new_img

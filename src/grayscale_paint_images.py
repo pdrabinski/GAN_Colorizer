@@ -3,10 +3,25 @@ import pickle
 from PIL import Image
 from skimage import color, io
 import matplotlib.pyplot as plt
+import tensorflow as tf
 
 def un_scale(image):
     image = np.squeeze(image)
     image = (image + 1) * 50
+    return image
+
+def check_image(image):
+    assertion = tf.assert_equal(tf.shape(image)[-1], 3, message="image must have 3 color channels")
+    with tf.control_dependencies([assertion]):
+        image = tf.identity(image)
+
+    if image.get_shape().ndims not in (3, 4):
+        raise ValueError("image must be either 3 or 4 dimensions")
+
+    # make the last dimension 3 so that you can unstack the colors
+    shape = list(image.get_shape())
+    shape[-1] = 3
+    image.set_shape(shape)
     return image
 
 def rgb_to_lab(image, l=False, ab=False):
@@ -17,7 +32,7 @@ def rgb_to_lab(image, l=False, ab=False):
         for j in range(len(lab[i])):
             p = lab[i,j]
             # new_img[i,j] = [p[0]/100,(p[1] + 128)/255,(p[2] + 128)/255]
-            if ab: ab_layers[i,j] = [(p[1] + 128)/255 * 2 - 1,(p[2] + 128)/255 * 2 -1]
+            if ab: ab_layers[i,j] = [(p[1] + 127)/255 * 2 - 1,(p[2] + 128)/255 * 2 -1]
             else: l_layer[i,j] = [p[0]/50 - 1]
     if l: return l_layer
     else: return ab_layers
@@ -27,7 +42,7 @@ def lab_to_rgb(image):
     for i in range(len(image)):
         for j in range(len(image[i])):
             p = image[i,j]
-            new_img[i,j] = [(p[0] + 1) * 50,(p[1] +1) / 2 * 255 - 128,(p[2] +1) / 2 * 255 - 128]
+            new_img[i,j] = [(p[0] + 1) * 50,(p[1] +1) / 2 * 255 - 127,(p[2] +1) / 2 * 255 - 128]
     new_img = color.lab2rgb(new_img) * 255
     new_img = new_img.astype('uint8')
     return new_img
@@ -58,12 +73,12 @@ if __name__ == '__main__':
         pickle.dump(X_test,f)
     print('X_test done...')
 
-    # train = np.concatenate((rgb_to_lab(red,l=True),rgb_to_lab(red,ab=True)),axis=-1)
-    # train = lab_to_rgb(train)
-    # train_rgb = Image.fromarray(train,'RGB')
-    # train_rgb.show()
+    train = np.concatenate((rgb_to_lab(red,l=True),rgb_to_lab(red,ab=True)),axis=-1)
+    train = lab_to_rgb(train)
+    train_rgb = Image.fromarray(train,'RGB')
+    train_rgb.show()
 
-    # train = rgb_to_lab(red,l=True)
-    # train = un_scale(train)
-    # train = Image.fromarray(train,'L')
-    # train.show()
+    train = rgb_to_lab(red,l=True)
+    train = un_scale(train)
+    train = Image.fromarray(train,'L')
+    train.show()
