@@ -58,7 +58,7 @@ Image here.
 
 Here is a summary of the overall GAN architecture.
 
-|Layer (type)    |Output Shape       | Params      |
+|Layer           |Output Shape       | Params      |
 |----------------|-------------------|-------------|
 |Input           |(None, 32, 32, 1)  |0            |
 |Generator       |(None, 32, 32, 2)  |205,794      |
