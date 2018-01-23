@@ -153,7 +153,7 @@ class GAN():
             if e % 15 == 14:
                 noise = np.random.rand(n,32,32,2) * 2 -1
                 d_loss = self.discriminator.fit(x=noise,y=y_train_fake, batch_size=32)
-            d_loss = self.discriminator.fit(x=generated_images,y=y_train_fake,batch_sie=32,epochs=1)
+            d_loss = self.discriminator.fit(x=generated_images,y=y_train_fake,batch_size=32,epochs=1)
             d_losses.append(d_loss.history['loss'][-1])
             d_acc.append(d_loss.history['acc'][-1])
             print('d_loss:', d_loss.history['loss'][-1])
