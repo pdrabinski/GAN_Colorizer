@@ -57,15 +57,13 @@ Image here.
 ### GAN
 
 Here is a summary of the overall GAN architecture.
-_________________________________________________________________
-Layer (type)&ensp;&ensp;&ensp;&ensp;&ensp;Output Shape&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Params
-_________________________________________________________________
-Input&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;(None, 32, 32, 1)&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;0
-_________________________________________________________________
-Generator&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;(None, 32, 32, 2)&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;205794
-_________________________________________________________________
-Discriminator&ensp;&ensp;&ensp;&ensp;(None, 1)&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;23585
-_________________________________________________________________
+
+|Layer (type)    |Output Shape       | Params      |
+|----------------|-------------------|-------------|
+|Input           |(None, 32, 32, 1)  |0            |
+|Generator       |(None, 32, 32, 2)  |205,794      |
+|Discriminator   |(None,1)           |23585        |
+
 Total params: 229,379<br>
 Trainable params: 205,154<br>
 Non-trainable params: 24,225<br>
