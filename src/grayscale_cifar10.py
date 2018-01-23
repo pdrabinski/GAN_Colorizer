@@ -43,8 +43,8 @@ def lab_to_rgb(image):
 if __name__ == '__main__':
     (X_train, y_train), (X_test, y_test) = cifar10.load_data()
     #8 is for ships
-    X_train = np.array([X_train[i] for i in range(len(y_train)) if y_train[i] == 8])
-    X_test = np.array([X_test[i] for i in range(len(y_test)) if y_test[i] == 8])
+    X_train = np.array([X_train[i] for i in range(len(y_train)) if y_train[i]])
+    X_test = np.array([X_test[i] for i in range(len(y_test)) if y_test[i]])
 
     X_train_L = np.array([rgb_to_lab(image, l=True) for image in X_train])
     print('X_train L layer done...')
