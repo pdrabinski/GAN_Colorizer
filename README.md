@@ -97,4 +97,4 @@ Ground Truth | Grayscaled Image | Colorized<br><br>
 Not that well but you can see that it picked up the blue of the water and it mostly preserved the white of the sail.
 
 ## Tech Stack
-![python](/results/python-logo.png)![keras](/results/Keras-logo.png)![skimage](/results/skimage-logo.png)![aws](/results/aws-logo.png)
+<img src="results/python-logo.png" width=350 /><img src="/results/Keras-logo.png" width=350 /><img src="/results/skimage-logo.png" width=350 /><img src="/results/aws-logo.png" width=350 />
