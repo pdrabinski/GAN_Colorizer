@@ -58,13 +58,13 @@ Image here.
 
 GAN summary...
 _________________________________________________________________
-Layer (type)&ensp;&ensp;&ensp;&ensp;&ensp;Output Shape&ensp;&ensp;&ensp;&ensp;Params
+Layer (type)&ensp;&ensp;&ensp;&ensp;&ensp;Output Shape&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Params
 _________________________________________________________________
-Input&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;(None, 32, 32, 1)&ensp;&ensp;&ensp;&ensp;0
+Input&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;(None, 32, 32, 1)&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;0
 _________________________________________________________________
-Generator&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;(None, 32, 32, 2)&ensp;&ensp;&ensp;&ensp;205794
+Generator&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;(None, 32, 32, 2)&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;205794
 _________________________________________________________________
-Discriminator&ensp;&ensp;&ensp;&ensp;(None, 1)&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;23585
+Discriminator&ensp;&ensp;&ensp;&ensp;(None, 1)&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;23585
 _________________________________________________________________
 Total params: 229,379
 Trainable params: 205,154
