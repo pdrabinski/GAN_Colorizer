@@ -149,11 +149,11 @@ class GAN():
             generated_images = self.generator.predict(X_train_disc, verbose=1)
             np.random.shuffle(X_train_AB)
 
-            d_loss = self.discriminator.fit(x=X_train_AB,y=y_train_real,batch_size=32)
+            d_loss = self.discriminator.fit(x=X_train_AB,y=y_train_real,batch_size=32,epochs=1)
             if e % 15 == 14:
                 noise = np.random.rand(n,32,32,2) * 2 -1
                 d_loss = self.discriminator.fit(x=noise,y=y_train_fake, batch_size=32)
-            d_loss = self.discriminator.fit(x=generated_images,y=y_train_fake,batch_sie=32)
+            d_loss = self.discriminator.fit(x=generated_images,y=y_train_fake,batch_sie=32,epochs=1)
             d_losses.append(d_loss.history['loss'][-1])
             d_acc.append(d_loss.history['acc'][-1])
             print('d_loss:', d_loss.history['loss'][-1])
@@ -162,7 +162,7 @@ class GAN():
             #train GAN on grayscaled images , set output class to colorized
             # y_train = np.concatenate((np.zeros([n,1]), np.ones([n,1])), axis=-1)
             np.random.shuffle(X_train)
-            g_loss = self.gan.fit(x=X_train,y=y_train_real,batch_size=32)
+            g_loss = self.gan.fit(x=X_train,y=y_train_real,batch_size=32,epochs=1)
 
             g_losses.append(g_loss.history['loss'][-1])
             print('Generator Loss: ', g_loss.history['loss'][-1])
