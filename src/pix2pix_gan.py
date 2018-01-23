@@ -44,7 +44,7 @@ class GAN():
 
     def build_generator(self):
         g_input = Input(shape=self.g_input_shape)
-        conv1 = Conv2D(32, (3, 3), padding='same', strides=2)(g_input)
+        conv1 = Conv2D(32, (3, 3), padding='same')(g_input)
         conv1 = LeakyReLU(.2)(conv1)
         conv1 = BatchNormalization()(conv1)
 
@@ -58,19 +58,18 @@ class GAN():
 
         up_conv1 = Activation('relu')(conv3)
         up_conv1 = UpSampling2D(size=(2, 2))(up_conv1)
-        up_conv1 = Conv2D(128, (3,3), padding='same')(up_conv1)
+        up_conv1 = Conv2D(64, (3,3), padding='same')(up_conv1)
         up_conv1 = BatchNormalization()(up_conv1)
         up_conv1 = Dropout(.25)(up_conv1)
         up_conv1_unet = Concatenate(axis=-1)([up_conv1,conv2])
 
         up_conv2 = Activation('relu')(up_conv1_unet)
         up_conv2 = UpSampling2D(size=(2, 2))(up_conv2)
-        up_conv2 = Conv2D(64, (3,3), padding='same')(up_conv2)
+        up_conv2 = Conv2D(32, (3,3), padding='same')(up_conv2)
         up_conv2 = BatchNormalization()(up_conv2)
         up_conv2_unet = Concatenate(axis=-1)([up_conv2,conv1])
 
         up_conv3 = Activation('relu')(up_conv2_unet)
-        up_conv3 = UpSampling2D(size=(2, 2))(up_conv3)
         up_conv3 = Conv2D(2,(3,3), padding='same')(up_conv3)
         up_conv3 = Activation('tanh')(up_conv3)
 

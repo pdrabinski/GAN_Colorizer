@@ -72,13 +72,13 @@ if __name__ == '__main__':
     with open('../data/X_test.p','wb') as f:
         pickle.dump(X_test,f)
     print('X_test done...')
-
-    train = np.concatenate((rgb_to_lab(red,l=True),rgb_to_lab(red,ab=True)),axis=-1)
-    train = lab_to_rgb(train)
-    train_rgb = Image.fromarray(train,'RGB')
-    train_rgb.show()
-
-    train = rgb_to_lab(red,l=True)
-    train = un_scale(train)
-    train = Image.fromarray(train,'L')
-    train.show()
+    
+    # train = np.concatenate((rgb_to_lab(red,l=True),rgb_to_lab(red,ab=True)),axis=-1)
+    # train = lab_to_rgb(train)
+    # train_rgb = Image.fromarray(train,'RGB')
+    # train_rgb.show()
+    #
+    # train = rgb_to_lab(red,l=True)
+    # train = un_scale(train)
+    # train = Image.fromarray(train,'L')
+    # train.show()
