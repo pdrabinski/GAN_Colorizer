@@ -12,8 +12,8 @@ def load_images(filepath):
         return pickle.load(f)
 
 def lab_to_rgb(l_layer, ab_layers):
-    new_img = np.zeros((32,32,2))
-    rescaled_l = np.zeros((32,32,1))
+    new_img = np.zeros((256,256,2))
+    rescaled_l = np.zeros((256,256,1))
     for i in range(len(ab_layers)):
         for j in range(len(ab_layers[i])):
             p = ab_layers[i,j]

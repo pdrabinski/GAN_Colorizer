@@ -201,7 +201,7 @@ class GAN():
 
             #Train Discriminator
             d_loss = self.discriminator.fit(x=X_train_AB,y=y_train_real,batch_size=32,epochs=1)
-            if e % 15 == 14:
+            if e % 3 == 2:
                 noise = np.random.rand(n,256,256,2) * 2 -1
                 d_loss = self.discriminator.fit(x=noise,y=y_train_fake, batch_size=32)
             d_loss = self.discriminator.fit(x=generated_images,y=y_train_fake,batch_size=32,epochs=1)
