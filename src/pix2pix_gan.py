@@ -71,6 +71,7 @@ class GAN():
 
         up_conv3 = Activation('relu')(up_conv2_unet)
         up_conv3 = Conv2D(2,(3,3), padding='same')(up_conv3)
+        up_conv3 = BatchNormalization()(up_conv3)
         up_conv3 = Activation('tanh')(up_conv3)
 
         model = Model(inputs=g_input,outputs=up_conv3)

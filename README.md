@@ -28,6 +28,8 @@ There are lots of types of GANs that researchers have given creative names to, s
 
 ![GAN](/results/GAN_arch.jpeg)
 
+## How to Train a GAN
+
 ## Color
 
 ### RGB
@@ -49,7 +51,7 @@ The goal of the Generator is to create content so indistinguishable from the tra
 
 Below is the basic structure of the Generator. Each encoding layer is a Convolution layer with stride 2 followed by a Batch Normalization layer and then a Leaky ReLU activation layer of slope .2. Each decoding layer is a an Upsampling layer followed by a convolution layer, Batch Normalization, and finally the concatenation layer.
 
-The arrows illustrate the concatenation layers that help preserve the structure of prominent edges that the decoding layers identified. These are called skip connections and are prevalent when finding the mapping between an input image and the output image. 
+The arrows illustrate the concatenation layers that help preserve the structure of prominent edges that the decoding layers identified. These are called skip connections and are prevalent when finding the mapping between an input image and the output image.
 
 ![generator](/results/generator.png)
 
@@ -57,7 +59,7 @@ The arrows illustrate the concatenation layers that help preserve the structure 
 
 The goal of the Discriminator is to be the expert on what a true image looks like. If it is fooled by the Discriminator too early then it is not doing its job well enough and as a result, will not be able to train the Generator well.
 
-C32(stride=2) - > C64(stride=2) - > Flatten -> Single Node with Tanh Activation
+C32(stride=2) - > C64(stride=2) - > Flatten -> Single Node with Sigmoid Activation
 
 ### GAN
 
