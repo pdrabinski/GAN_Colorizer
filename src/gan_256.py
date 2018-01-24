@@ -169,7 +169,7 @@ class GAN():
         metrics = self.discriminator.evaluate(x=X_test, y=y_test)
         print('\n accuracy:',metrics[1])
         if metrics[1] < .95:
-            self.pre_train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
+            self.train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
 
     def train(self, X_train_L, X_train_AB, X_test_L, X_test_AB, epochs):
         """
@@ -178,7 +178,7 @@ class GAN():
         Outputs: Models are saved and loss/acc plots saved.
         """
 
-        # self.train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
+        self.train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
         g_losses = []
         d_losses = []
         d_acc = []
