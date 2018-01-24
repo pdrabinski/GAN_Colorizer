@@ -16,6 +16,9 @@ def load_images(filepath):
 
 class GAN():
     def __init__(self):
+        """
+        Initialize the GAN. Includes compiling the generator and the discriminator separately and then together as the GAN.
+        """
         self.g_input_shape = (32,32,1)
         self.d_input_shape = (32,32,2)
 
@@ -43,6 +46,9 @@ class GAN():
         print(self.gan.summary())
 
     def build_generator(self):
+        """
+        Returns generator as Keras model.
+        """
         g_input = Input(shape=self.g_input_shape)
         conv1 = Conv2D(32, (3, 3), padding='same')(g_input)
         conv1 = LeakyReLU(.2)(conv1)
@@ -77,6 +83,9 @@ class GAN():
         return model
 
     def build_discriminator(self):
+        """
+        Returns discriminator as Keras model.
+        """
         model = Sequential()
         model.add(Conv2D(32, (3, 3), padding='same', input_shape=self.d_input_shape, strides=2))
         # model.add(Conv2D(32, (3, 3), padding='same', activation='relu',strides=2))
@@ -102,13 +111,10 @@ class GAN():
 
         return model
 
-    def save_g(self,name):
-        self.generator.save('../models/' + name + '.h5')
-
-    def save_d(self,name):
-        self.discriminator.save('../models/' + name + '.h5')
-
-    def pre_train_discriminator(self, X_train_L, X_train_AB, X_test_L, X_test_AB):
+    def train_discriminator(self, X_train_L, X_train_AB, X_test_L, X_test_AB):
+        """
+        Function to train the discriminator. Called when discriminator accuracy falls below and a specified threshold.
+        """
         generated_images = self.generator.predict(X_train_L)
         X_train = np.concatenate((X_train_AB,generated_images))
         n = len(X_train_L)
@@ -133,8 +139,13 @@ class GAN():
         if metrics[1] < .95:
             self.pre_train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
 
-    def train(self, X_train_L, X_train_AB, X_test_L, X_test_AB, epochs, batch_size):
-        # self.pre_train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
+    def train(self, X_train_L, X_train_AB, X_test_L, X_test_AB, epochs):
+        """
+        Training loop for GAN. First the discriminator is fit with real and fake images. Next the Generator is fit. This is possible because the weights in the Discriminator are fixed and not affected by back propagation.
+        Inputs: X_train L channel, X_train AB channels, X_test L channel, X_test AB channels, number of epochs.
+        Outputs: Models are saved and loss/acc plots saved.
+        """
+        # self.train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
         g_losses = []
         d_losses = []
         d_acc = []
@@ -149,6 +160,7 @@ class GAN():
             generated_images = self.generator.predict(X_train_disc, verbose=1)
             np.random.shuffle(X_train_AB)
 
+            #Train Discriminator
             d_loss = self.discriminator.fit(x=X_train_AB,y=y_train_real,batch_size=32,epochs=1)
             if e % 15 == 14:
                 noise = np.random.rand(n,32,32,2) * 2 -1
@@ -160,15 +172,17 @@ class GAN():
             # print("Discriminator Accuracy: ", disc_acc)
 
             #train GAN on grayscaled images , set output class to colorized
-            # y_train = np.concatenate((np.zeros([n,1]), np.ones([n,1])), axis=-1)
             np.random.shuffle(X_train)
             g_loss = self.gan.fit(x=X_train,y=y_train_real,batch_size=32,epochs=1)
 
+            #Record Loss/Acc
             g_losses.append(g_loss.history['loss'][-1])
             print('Generator Loss: ', g_loss.history['loss'][-1])
             disc_acc = d_loss.history['acc'][-1]
+
+            #if discriminator accuracy drops below .8 and this is epoch 0-4, train discriminator
             if disc_acc < .8 and e < 5:
-                self.pre_train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
+                self.train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
             if e % 5 == 4:
                 print(e + 1,"batches done")
 
@@ -177,10 +191,14 @@ class GAN():
         self.generator.save('../models/gen_model_full_batch_' + str(epochs)+'.h5')
         self.discriminator.save('../models/disc_model_full_batch_' + str(epochs)+'.h5')
 
-    def plot_losses(self, losses, label, epochs):
-        plt.plot(losses)
+    def plot_losses(self, metric, label, epochs):
+        """
+        Plot the loss/acc of the generator/discriminator.
+        Inputs: metric, label of graph, number of epochs (for file name)
+        """
+        plt.plot(metric)
         plt.title(label)
-        plt.savefig('../plots/' + label + '_full_batches_' + str(epochs) + '_epochs.png')
+        plt.savefig('../plots/' + label + str(epochs) + '_epochs.png')
         plt.close()
 
 if __name__ == '__main__':
@@ -194,7 +212,6 @@ if __name__ == '__main__':
     print('X_test done...')
 
     epochs = 25
-    batch_size = 256
 
     gan = GAN()
-    gan.train(X_train_L, X_train_AB, X_test_L, X_test_AB, epochs, batch_size)
+    gan.train(X_train_L, X_train_AB, X_test_L, X_test_AB, epochs)

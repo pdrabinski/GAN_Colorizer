@@ -5,11 +5,18 @@ from skimage import color, io
 import matplotlib.pyplot as plt
 
 def un_scale(image):
+    """
+    Unscale L spectrum. Only used to doublecheck conversion from RGB to L.
+    """
     image = np.squeeze(image)
     image = (image + 1) * 50
     return image
 
 def rgb_to_lab(image, l=False, ab=False):
+    """
+    Input: image in RGB format with full values for pixels. (0-255)
+    Output: image in LAB format and with all values between -1 and 1.
+    """
     lab = color.rgb2lab(image)
     if l: l_layer = np.zeros((32,32,1))
     else: ab_layers = np.zeros((32,32,2))
@@ -23,6 +30,10 @@ def rgb_to_lab(image, l=False, ab=False):
     else: return ab_layers
 
 def lab_to_rgb(image):
+    """
+    Input: image in LAB format and with all values between -1 and 1.
+    Output: image in RGB format with full values for pixels. (0-255)
+    """
     new_img = np.zeros((32,32,3))
     for i in range(len(image)):
         for j in range(len(image[i])):

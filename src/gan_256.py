@@ -178,7 +178,7 @@ class GAN():
         Outputs: Models are saved and loss/acc plots saved.
         """
 
-        # self.pre_train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
+        # self.train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
         g_losses = []
         d_losses = []
         d_acc = []
@@ -193,6 +193,7 @@ class GAN():
             generated_images = self.generator.predict(X_train_disc, verbose=1)
             np.random.shuffle(X_train_AB)
 
+            #Train Discriminator
             d_loss = self.discriminator.fit(x=X_train_AB,y=y_train_real,batch_size=32,epochs=1)
             if e % 15 == 14:
                 noise = np.random.rand(n,256,256,2) * 2 -1
@@ -204,13 +205,15 @@ class GAN():
             # print("Discriminator Accuracy: ", disc_acc)
 
             #train GAN on grayscaled images , set output class to colorized
-            # y_train = np.concatenate((np.zeros([n,1]), np.ones([n,1])), axis=-1)
             np.random.shuffle(X_train)
             g_loss = self.gan.fit(x=X_train,y=y_train_real,batch_size=32,epochs=1)
 
+            #Record Losses/Acc
             g_losses.append(g_loss.history['loss'][-1])
             print('Generator Loss: ', g_loss.history['loss'][-1])
             disc_acc = d_loss.history['acc'][-1]
+
+            # Retrain Discriminator if accuracy drops below .8
             if disc_acc < .8:
                 self.train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
             if e % 5 == 4:

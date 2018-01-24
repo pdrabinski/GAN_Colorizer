@@ -5,19 +5,19 @@ from skimage import color, io
 import matplotlib.pyplot as plt
 from glob import glob
 
-def grayscale_image(image):
-    # image_file = Image.fromarray(image,'RGB')
-    # arr = np.array(image_file.convert('L'))
-    # arr = arr / 100
-    arr = color.rgb2grey(image)
-    return arr[...,np.newaxis]
-
 def un_scale(image):
+    """
+    Unscale L spectrum. Only used to doublecheck conversion from RGB to L.
+    """
     image = np.squeeze(image)
     image = image * 100
     return image
 
 def rgb_to_lab(image, l=False, ab=False):
+    """
+    Input: image in RGB format with full values for pixels. (0-255)
+    Output: image in LAB format and with all values between -1 and 1.
+    """
     lab = color.rgb2lab(image)
     if l: l_layer = np.zeros((256,256,1))
     else: ab_layers = np.zeros((256,256,2))
@@ -31,6 +31,10 @@ def rgb_to_lab(image, l=False, ab=False):
     else: return ab_layers
 
 def lab_to_rgb(image):
+    """
+    Input: image in LAB format and with all values between -1 and 1.
+    Output: image in RGB format with full values for pixels. (0-255)
+    """
     new_img = np.zeros((256,256,3))
     for i in range(len(image)):
         for j in range(len(image[i])):
@@ -43,11 +47,14 @@ def lab_to_rgb(image):
 if __name__ == '__main__':
     file_paths = glob('../data/forest/*.jpg')
     X_train = np.array([np.array(Image.open(f).getdata()).reshape(256,256,3).astype('uint8') for f in file_paths])
+    print(len(X_train),'images imported...')
 
     np.random.shuffle(X_train)
     X_test = X_train[:25]
     X_train = X_train[25:]
-
+    print('Train/Test Split Done..')
+    print(len(X_test), 'train images')
+    print(len(X_train), 'test images')
 
     X_train_L = np.array([rgb_to_lab(image, l=True) for image in X_train])
     print('X_train L layer done...')
