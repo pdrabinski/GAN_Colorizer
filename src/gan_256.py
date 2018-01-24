@@ -137,10 +137,10 @@ class GAN():
         model.add(LeakyReLU(.2))
         model.add(Dropout(.25))
 
-        model.add(Conv2D(512, (3, 3), padding='same',strides=2))
-        model.add(BatchNormalization())
-        model.add(LeakyReLU(.2))
-        model.add(Dropout(.25))
+        # model.add(Conv2D(512, (3, 3), padding='same',strides=2))
+        # model.add(BatchNormalization())
+        # model.add(LeakyReLU(.2))
+        # model.add(Dropout(.25))
 
         model.add(Flatten())
         model.add(Dropout(.5))
