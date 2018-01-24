@@ -6,6 +6,7 @@ from tensorflow import set_random_seed
 import numpy as np
 import matplotlib.pyplot as plt
 import pickle
+import keras.backend as K
 
 np.random.seed(1)
 set_random_seed(1)
@@ -72,13 +73,14 @@ class GAN():
         # conv6 = Activation('relu')(conv6)
 
         #64 x 64
-        up1 = UpSampling2D(size=(2, 2))(conv5)
-        conv7 = Conv2D(256, (3, 3), padding='same', strides=2)(up1)
+        conv7 = UpSampling2D(size=(2, 2))(conv5)
+        print(K.int_shape(conv7))
+        conv7 = Conv2D(256, (3, 3), padding='same')(conv7)
         conv7 = BatchNormalization()(conv7)
         conv7 = Activation('relu')(conv7)
         conv7 = Concatenate(axis=-1)([conv7,conv4])
 
-        conv8 = Conv2D(256, (3, 3), padding='same', strides=2)(conv7)
+        conv8 = Conv2D(256, (3, 3), padding='same')(conv7)
         conv8 = BatchNormalization()(conv8)
         conv8 = Activation('relu')(conv8)
 
@@ -89,7 +91,7 @@ class GAN():
         conv9 = Activation('relu')(conv9)
         conv9 = Concatenate(axis=-1)([conv9,conv2])
 
-        conv10 = Conv2D(128, (3, 3), padding='same', strides=2)(conv9)
+        conv10 = Conv2D(128, (3, 3), padding='same')(conv9)
         conv10 = BatchNormalization()(conv10)
         conv10 = Activation('relu')(conv10)
 
@@ -180,7 +182,7 @@ class GAN():
 
             d_loss = self.discriminator.fit(x=X_train_AB,y=y_train_real,batch_size=32,epochs=1)
             if e % 15 == 14:
-                noise = np.random.rand(n,32,32,2) * 2 -1
+                noise = np.random.rand(n,256,256,2) * 2 -1
                 d_loss = self.discriminator.fit(x=noise,y=y_train_fake, batch_size=32)
             d_loss = self.discriminator.fit(x=generated_images,y=y_train_fake,batch_size=32,epochs=1)
             d_losses.append(d_loss.history['loss'][-1])
