@@ -53,7 +53,7 @@ Below is the basic structure of the Generator. Each encoding layer is a Convolut
 
 The arrows illustrate the concatenation layers that help preserve the structure of prominent edges that the decoding layers identified. These are called skip connections and are prevalent when finding the mapping between an input image and the output image.
 
-![generator](/results/generator.png)
+<img = src="/results/generator.png" width=540 align='middle')
 
 ### Discriminator
 
