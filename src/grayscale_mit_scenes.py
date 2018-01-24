@@ -45,7 +45,7 @@ def lab_to_rgb(image):
     return new_img
 
 if __name__ == '__main__':
-    file_paths = glob('../data/forest/*.jpg')
+    file_paths = glob('../data/highway/*.jpg')
     X_train = np.array([np.array(Image.open(f).getdata()).reshape(256,256,3).astype('uint8') for f in file_paths])
     print(len(X_train),'images imported...')
 
