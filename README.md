@@ -26,7 +26,7 @@ The first submodel is the "Generator" and the second is the "Discriminator." Aft
 
 There are lots of types of GANs that researchers have given creative names to, such as DCGANs, HyperGans, CycleGANs, and S^2-GANs. Each are tweaked in certain ways to be more suitable to a specific task. However, all share the core principle of one net training the other to generate novel content.
 
-![GAN](/results/GAN_arch.png)
+<img src="/results/GAN_arch.png" align='middle' />
 
 ## How to Train a GAN
 
@@ -35,13 +35,13 @@ There are lots of types of GANs that researchers have given creative names to, s
 ### RGB
 Most images use the RGB colorspace. The disadvantage of using RGB when colorizing images is that the model needs to predict 3 values for each pixel.
 
-![RGB](/results/rgb.jpg)
+<img src="/results/rgb.jpg" width=360 align='middle' />
 
 ### CIE-LAB
 
 This project will be utilizing the CIE-LAB color space to preserve the gray scaled image. As shown in the picture below, the gray scaled images is simply the L value in LAB. Therefore, the generator will use the L spectrum as input and predict A and B. To view the results, the L layer is added back in and LAB had to be converted to RGB.
 
-![CIE](/results/cie.png)
+<img src="/results/cie.png" width=360 align='middle' />
 
 ## Model Architecture
 
@@ -53,13 +53,13 @@ Below is the basic structure of the Generator. Each encoding layer is a Convolut
 
 The arrows illustrate the concatenation layers that help preserve the structure of prominent edges that the decoding layers identified. These are called skip connections and are prevalent when finding the mapping between an input image and the output image.
 
-<img = src="/results/generator.png" width=540 align='middle')
+<img src="/results/generator.png" align='middle' />
 
 ### Discriminator
 
 The goal of the Discriminator is to be the expert on what a true image looks like. If it is fooled by the Discriminator too early then it is not doing its job well enough and as a result, will not be able to train the Generator well.
 
-![discriminator](/results/discriminator.png)
+<img src"/results/discriminator.png" align='middle' />
 
 ### GAN
 
