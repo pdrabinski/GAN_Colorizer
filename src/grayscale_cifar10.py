@@ -11,6 +11,11 @@ def grayscale_image(image):
     # arr = arr / 100
     arr = color.rgb2grey(image)
     return arr[...,np.newaxis]
+    # new_img = np.ones(image.shape)
+    # for row in image:
+    #     for col in image:
+    #         pixel = image[row,col]
+    #         new_img[row,col] = [pixel[0] * .299, pixel[1] * .587, pixel[2] * .114]
 
 def un_scale(image):
     image = np.squeeze(image)
@@ -43,8 +48,8 @@ def lab_to_rgb(image):
 if __name__ == '__main__':
     (X_train, y_train), (X_test, y_test) = cifar10.load_data()
     #8 is for ships
-    X_train = np.array([X_train[i] for i in range(len(y_train)) if y_train[i]])
-    X_test = np.array([X_test[i] for i in range(len(y_test)) if y_test[i]])
+    X_train = np.array([X_train[i] for i in range(len(y_train)) if y_train[i] == 8])
+    X_test = np.array([X_test[i] for i in range(len(y_test)) if y_test[i] == 8])
 
     X_train_L = np.array([rgb_to_lab(image, l=True) for image in X_train])
     print('X_train L layer done...')
