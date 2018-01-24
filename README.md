@@ -26,7 +26,7 @@ The first submodel is the "Generator" and the second is the "Discriminator." Aft
 
 There are lots of types of GANs that researchers have given creative names to, such as DCGANs, HyperGans, CycleGANs, and S^2-GANs. Each are tweaked in certain ways to be more suitable to a specific task. However, all share the core principle of one net training the other to generate novel content.
 
-<div style="image-align:center"><img src="/results/GAN_arch.png" /></div>
+<img src="/results/GAN_arch.png" align="center"/>
 
 ## How to Train a GAN
 

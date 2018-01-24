@@ -101,8 +101,12 @@ class GAN():
         # model.add(AveragePooling2D(pool_size=(2, 2)))
         # model.add(Dropout(.25))
 
+        model.add(Conv2D(128, (3, 3), padding='same',strides=2))
+        model.add(BatchNormalization())
+        model.add(LeakyReLU(.2))
+
         model.add(Flatten())
-        model.add(Dense(512))
+        # model.add(Dense(512))
         # model.add(LeakyReLU(.2))
         # model.add(BatchNormalization())
         # model.add(Dropout(.5))
