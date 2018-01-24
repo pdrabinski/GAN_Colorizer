@@ -1,4 +1,3 @@
-from keras.datasets import cifar10
 import numpy as np
 import pickle
 from PIL import Image
@@ -20,8 +19,8 @@ def un_scale(image):
 
 def rgb_to_lab(image, l=False, ab=False):
     lab = color.rgb2lab(image)
-    if l: l_layer = np.zeros((32,32,1))
-    else: ab_layers = np.zeros((32,32,2))
+    if l: l_layer = np.zeros((256,256,1))
+    else: ab_layers = np.zeros((256,256,2))
     for i in range(len(lab)):
         for j in range(len(lab[i])):
             p = lab[i,j]
@@ -32,7 +31,7 @@ def rgb_to_lab(image, l=False, ab=False):
     else: return ab_layers
 
 def lab_to_rgb(image):
-    new_img = np.zeros((32,32,3))
+    new_img = np.zeros((256,256,3))
     for i in range(len(image)):
         for j in range(len(image[i])):
             p = image[i,j]
