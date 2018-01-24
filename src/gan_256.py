@@ -118,7 +118,12 @@ class GAN():
         Returns discriminator as Keras model.
         """
         model = Sequential()
-        model.add(Conv2D(64, (3, 3), padding='same', input_shape=self.d_input_shape, strides=2))
+        model.add(Conv2D(32, (3, 3), padding='same', input_shape=self.d_input_shape, strides=2))
+        model.add(LeakyReLU(.2))
+        model.add(Dropout(.25))
+
+        model.add(Conv2D(64, (3, 3), padding='same',strides=2))
+        model.add(BatchNormalization())
         model.add(LeakyReLU(.2))
         model.add(Dropout(.25))
 
@@ -135,6 +140,7 @@ class GAN():
         model.add(Conv2D(512, (3, 3), padding='same',strides=2))
         model.add(BatchNormalization())
         model.add(LeakyReLU(.2))
+        model.add(Dropout(.25))
 
         model.add(Flatten())
         model.add(Dropout(.5))
@@ -169,7 +175,7 @@ class GAN():
         metrics = self.discriminator.evaluate(x=X_test, y=y_test)
         print('\n accuracy:',metrics[1])
         if metrics[1] < .95:
-            self.train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
+            self.pre_train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
 
     def train(self, X_train_L, X_train_AB, X_test_L, X_test_AB, epochs):
         """
