@@ -59,7 +59,7 @@ The arrows illustrate the concatenation layers that help preserve the structure 
 
 The goal of the Discriminator is to be the expert on what a true image looks like. If it is fooled by the Discriminator too early then it is not doing its job well enough and as a result, will not be able to train the Generator well.
 
-C32(stride=2) - > C64(stride=2) - > Flatten -> Single Node with Sigmoid Activation
+![discriminator](/results/discriminator.png)
 
 ### GAN
 
