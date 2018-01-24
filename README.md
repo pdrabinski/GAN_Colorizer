@@ -26,7 +26,7 @@ The first submodel is the "Generator" and the second is the "Discriminator." Aft
 
 There are lots of types of GANs that researchers have given creative names to, such as DCGANs, HyperGans, CycleGANs, and S^2-GANs. Each are tweaked in certain ways to be more suitable to a specific task. However, all share the core principle of one net training the other to generate novel content.
 
-<img src="/results/GAN_arch.png" style="float:center" />
+<img src="/results/GAN_arch.png" style="float:middle" />
 
 ## How to Train a GAN
 
@@ -35,7 +35,7 @@ There are lots of types of GANs that researchers have given creative names to, s
 ### RGB
 Most images use the RGB colorspace. The disadvantage of using RGB when colorizing images is that the model needs to predict 3 values for each pixel.
 
-<img src="/results/rgb.jpg" width=360 style="float:center" />
+<img src="/results/rgb.jpg" width=360 style="float:middle" />
 
 ### CIE-LAB
 
