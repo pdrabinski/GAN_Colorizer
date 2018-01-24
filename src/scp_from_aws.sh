@@ -15,7 +15,7 @@ USER=ubuntu
 #P2xlarge
 HOST=ec2-34-207-143-117.compute-1.amazonaws.com
 # P2.8xlarge
-# HOST=ec2-54-197-204-41.compute-1.amazonaws.com
+# HOST=c2-54-144-242-242.compute-1.amazonaws.com
 #--- end config
 
 # rm ../images/*
