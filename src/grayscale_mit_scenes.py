@@ -23,7 +23,7 @@ def rgb_to_lab(image, l=False, ab=False):
     l_channel = l_channel / 50 - 1
 
     ab_channels = color.rgb2lab(image)[:,:,1:]
-    ab_channels = (ab_channels + 128) / 255
+    ab_channels = (ab_channels + 128) / 255 * 2 - 1
     if l:
         return l_channel
     else: return ab_channels
@@ -55,7 +55,7 @@ def lab_to_rgb(image):
     return new_img
 
 if __name__ == '__main__':
-    file_paths = glob('../data/highway/*.jpg')
+    file_paths = glob('../data/forest/*.jpg')
     X_train = np.array([np.array(Image.open(f).getdata()).reshape(256,256,3).astype('uint8') for f in file_paths])
     print(len(X_train),'images imported...')
 

@@ -23,17 +23,26 @@ def un_scale(image):
     return image
 
 def rgb_to_lab(image, l=False, ab=False):
-    lab = color.rgb2lab(image)
-    if l: l_layer = np.zeros((32,32,1))
-    else: ab_layers = np.zeros((32,32,2))
-    for i in range(len(lab)):
-        for j in range(len(lab[i])):
-            p = lab[i,j]
-            # new_img[i,j] = [p[0]/100,(p[1] + 128)/255,(p[2] + 128)/255]
-            if ab: ab_layers[i,j] = [(p[1] + 127)/255 * 2 - 1,(p[2] + 128)/255 * 2 -1]
-            else: l_layer[i,j] = [p[0]/50 - 1]
-    if l: return l_layer
-    else: return ab_layers
+    image = image / 255
+    l_channel = color.rgb2lab(image)[:,:,0]
+    l_channel = l_channel / 50 - 1
+
+    ab_channels = color.rgb2lab(image)[:,:,1:]
+    ab_channels = (ab_channels + 128) / 255 * 2 - 1
+    if l:
+        return l_channel
+    else: return ab_channels
+    # lab = color.rgb2lab(image)
+    # if l: l_layer = np.zeros((32,32,1))
+    # else: ab_layers = np.zeros((32,32,2))
+    # for i in range(len(lab)):
+    #     for j in range(len(lab[i])):
+    #         p = lab[i,j]
+    #         # new_img[i,j] = [p[0]/100,(p[1] + 128)/255,(p[2] + 128)/255]
+    #         if ab: ab_layers[i,j] = [(p[1] + 127)/255 * 2 - 1,(p[2] + 128)/255 * 2 -1]
+    #         else: l_layer[i,j] = [p[0]/50 - 1]
+    # if l: return l_layer
+    # else: return ab_layers
 
 def lab_to_rgb(image):
     new_img = np.zeros((32,32,3))
