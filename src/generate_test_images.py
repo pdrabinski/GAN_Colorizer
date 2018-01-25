@@ -13,13 +13,21 @@ def load_images(filepath):
     with open(filepath, 'rb') as f:
         return pickle.load(f)
 
+def grayscale_image(images):
+    """
+    Grayscale image. Not used.
+    """
+    image = color.rgb2grey(images)
+    image = (image * 255).astype('uint8')
+    return image
+
 def lab_to_rgb(l_layer, ab_layers):
     new_img = np.zeros((256,256,2))
     rescaled_l = np.zeros((256,256,1))
     for i in range(len(ab_layers)):
         for j in range(len(ab_layers[i])):
             p = ab_layers[i,j]
-            new_img[i,j] = [(p[1] +1) / 2 * 255 - 128,(p[0] +1) / 2 * 255 - 128]
+            new_img[i,j] = [(p[0] +1) / 2 * 255 - 128,(p[1] +1) / 2 * 255 - 128]
             rescaled_l[i,j] = [(l_layer[i,j] + 1) * 50]
 
     # print(rescaled_l.shape)
@@ -38,12 +46,16 @@ def view_image(X_l, X_ab, model):
     img_lst_gen = [Image.fromarray(image,'RGB') for image in img_lst_gen]
 
     #Merge L and AB to produce original true images
-    img_lst_real = [lab_to_rgb(X_l[i], X_ab[i]) for i in range(len(X_l))]
-    img_lst_real = [Image.fromarray(image,'RGB') for image in img_lst_real]
+    img_lst_real_arr = [lab_to_rgb(X_l[i], X_ab[i]) for i in range(len(X_l))]
+    img_lst_real = [Image.fromarray(image,'RGB') for image in img_lst_real_arr]
+
+    img_lst_gray = [grayscale_image(image) for image in img_lst_real_arr]
+    img_lst_gray = [Image.fromarray(i,'L') for i in img_lst_gray]
 
     for i in range(len(img_lst_gen)):
         img_lst_gen[i].show()
         img_lst_real[i].show()
+        img_lst_gray[i].show()
     if not os.path.exists('../results/' + time.strftime('%d')):
         os.makedirs('../results/' + time.strftime('%d'))
     img_lst_gen[0].save('../results/' + time.strftime('%d') + '/' + time.strftime('%H:%M:%S') + '.png')
@@ -59,6 +71,7 @@ if __name__ =='__main__':
     (X_test_l,X_test_ab) = load_images('../data/X_test.p')
     rand_arr = np.arange(len(X_test_l))
     np.random.shuffle(rand_arr)
-    img_results = view_image(X_test_l[rand_arr[4:6]], X_test_ab[rand_arr[4:6]], gen_model)
+    img_results = view_image(X_test_l[rand_arr[2:4]], X_test_ab[rand_arr[2:4]], gen_model)
+
     results = predict_on_generated_images(img_results, disc_model)
     print(results)

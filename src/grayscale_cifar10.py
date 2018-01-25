@@ -6,16 +6,11 @@ from skimage import color, io
 import matplotlib.pyplot as plt
 
 def grayscale_image(image):
-    # image_file = Image.fromarray(image,'RGB')
-    # arr = np.array(image_file.convert('L'))
-    # arr = arr / 100
+    """
+    Grayscale image. Not used.
+    """
     arr = color.rgb2grey(image)
     return arr[...,np.newaxis]
-    # new_img = np.ones(image.shape)
-    # for row in image:
-    #     for col in image:
-    #         pixel = image[row,col]
-    #         new_img[row,col] = [pixel[0] * .299, pixel[1] * .587, pixel[2] * .114]
 
 def un_scale(image):
     """

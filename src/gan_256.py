@@ -134,7 +134,7 @@ class GAN():
         model.add(LeakyReLU(.2))
         model.add(Dropout(.25))
 
-        model.add(AveragePooling2D(pool_size=(2, 2)))
+        # model.add(AveragePooling2D(pool_size=(2, 2)))
         model.add(Conv2D(256, (3, 3), padding='same',strides=1))
         model.add(BatchNormalization())
         model.add(LeakyReLU(.2))
@@ -177,7 +177,7 @@ class GAN():
         self.discriminator.fit(x=X_train,y=y_train,epochs=1)
         metrics = self.discriminator.evaluate(x=X_test, y=y_test)
         print('\n accuracy:',metrics[1])
-        if metrics[1] < .95:
+        if metrics[1] < .90:
             self.train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
 
     def train(self, X_train_L, X_train_AB, X_test_L, X_test_AB, epochs):
