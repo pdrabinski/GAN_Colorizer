@@ -21,6 +21,7 @@ def lab_to_rgb(l_layer, ab_layers):
             p = ab_layers[i,j]
             new_img[i,j] = [(p[1] +1) / 2 * 255 - 128,(p[0] +1) / 2 * 255 - 128]
             rescaled_l[i,j] = [(l_layer[i,j] + 1) * 50]
+
     # print(rescaled_l.shape)
     # print(new_img.shape)
     new_img = np.concatenate((rescaled_l,new_img),axis=-1)
@@ -53,8 +54,8 @@ def predict_on_generated_images(images,model):
     return real_or_fake
 
 if __name__ =='__main__':
-    gen_model = load_model('../models/gen_model_full_batch_10.h5')
-    disc_model = load_model('../models/disc_model_full_batch_10.h5')
+    gen_model = load_model('../models/gen_model_full_batch_50.h5')
+    disc_model = load_model('../models/disc_model_full_batch_50.h5')
     (X_test_l,X_test_ab) = load_images('../data/X_test.p')
     rand_arr = np.arange(len(X_test_l))
     np.random.shuffle(rand_arr)
