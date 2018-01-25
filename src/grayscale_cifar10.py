@@ -80,37 +80,3 @@ if __name__ == '__main__':
     with open('../data/X_test.p','wb') as f:
         pickle.dump(X_test,f)
     print('X_test done...')
-
-    # X_train_true = X_train
-    # X_train_true = np.array([rgb_to_lab(image)[0] for image in X_train_true])
-    # # X_train_true_img = lab_to_rgb(X_train_true[0])
-    # # X_train_true_img = Image.fromarray(X_train_true_img,'RGB')
-    # # X_train_true_img.show()
-    # with open('../data/X_train_true.p','wb') as f:
-    #     pickle.dump(X_train_true,f)
-    # print('X_train_true done...')
-    #
-    # X_train = np.array([grayscale_image(image) for image in X_train])
-    # # X_train_img = un_scale(X_train[0])
-    # # X_train_img = Image.fromarray(X_train_img,'L')
-    # # X_train_img.show()
-    # with open('../data/X_train.p','wb') as f:
-    #     pickle.dump(X_train,f)
-    # print('X_train done...')
-    #
-    # X_test_true = np.array(X_test)
-    # X_test_true = np.array([rgb_to_lab(image) for image in X_test_true])
-    # # X_test_true_img = lab_to_rgb(X_test_true[0])
-    # # X_test_true_img = Image.fromarray(X_test_true_img,'RGB')
-    # # X_test_true_img.show()
-    # with open('../data/X_test_true.p','wb') as f:
-    #     pickle.dump(X_test_true,f)
-    # print('X_test_true done...')
-    #
-    #
-    # X_test = np.array([grayscale_image(image) for image in X_test])
-    # # X_test_img = Image.fromarray(X_test[0],'L')
-    # # X_test_img.show()
-    # with open('../data/X_test.p','wb') as f:
-    #     pickle.dump(X_test,f)
-    # print('X_test done...')
