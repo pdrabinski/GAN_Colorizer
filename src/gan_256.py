@@ -145,8 +145,8 @@ class GAN():
         # model.add(Dropout(.25))
 
         model.add(Flatten())
-        model.add(Dense(512))
-        model.add(Dropout(.5))
+        # model.add(Dense(512))
+        # model.add(Dropout(.5))
         model.add(Dense(1))
         model.add(Activation('sigmoid'))
 

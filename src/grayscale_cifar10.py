@@ -52,7 +52,7 @@ def lab_to_rgb(image):
     for i in range(len(image)):
         for j in range(len(image[i])):
             p = image[i,j]
-            new_img[i,j] = [(p[0] + 1) * 50,(p[1] +1) / 2 * 255 - 127,(p[2] +1) / 2 * 255 - 128]
+            new_img[i,j] = [(p[0] + 1) * 50,(p[1] +1) / 2 * 255 - 128,(p[2] +1) / 2 * 255 - 128]
     new_img = color.lab2rgb(new_img) * 255
     new_img = new_img.astype('uint8')
     return new_img

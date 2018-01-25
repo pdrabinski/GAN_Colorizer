@@ -4,7 +4,6 @@ import numpy as np
 from PIL import Image
 import time
 import os
-import gan
 from skimage import color
 
 np.random.seed(1)
@@ -39,7 +38,6 @@ def lab_to_rgb(l_layer, ab_layers):
 
 def view_image(X_l, X_ab, model):
     img_lst_pred = model.predict(X_l)
-    print(img_lst_pred[0])
 
     #Merge L and predicted AB
     img_lst_gen = [lab_to_rgb(X_l[i], img_lst_pred[i]) for i in range(len(img_lst_pred))]
@@ -66,12 +64,12 @@ def predict_on_generated_images(images,model):
     return real_or_fake
 
 if __name__ =='__main__':
-    gen_model = load_model('../models/gen_model_full_batch_50.h5')
-    disc_model = load_model('../models/disc_model_full_batch_50.h5')
+    gen_model = load_model('../models/gen_model_full_batch_10.h5')
+    disc_model = load_model('../models/disc_model_full_batch_10.h5')
     (X_test_l,X_test_ab) = load_images('../data/X_test.p')
     rand_arr = np.arange(len(X_test_l))
     np.random.shuffle(rand_arr)
-    img_results = view_image(X_test_l[rand_arr[2:4]], X_test_ab[rand_arr[2:4]], gen_model)
+    img_results = view_image(X_test_l[rand_arr[8:10]], X_test_ab[rand_arr[8:10]], gen_model)
 
     results = predict_on_generated_images(img_results, disc_model)
     print(results)
