@@ -122,19 +122,19 @@ class GAN():
         model.add(LeakyReLU(.2))
         # model.add(Dropout(.25))
 
-        model.add(MaxPooling2D(pool_size=(2, 2)))
+        model.add(AveragePooling2D(pool_size=(2, 2)))
         model.add(Conv2D(64, (3, 3), padding='same',strides=1))
         model.add(BatchNormalization())
         model.add(LeakyReLU(.2))
         model.add(Dropout(.25))
 
-        model.add(MaxPooling2D(pool_size=(2, 2)))
+        model.add(AveragePooling2D(pool_size=(2, 2)))
         model.add(Conv2D(128, (3, 3), padding='same',strides=1))
         model.add(BatchNormalization())
         model.add(LeakyReLU(.2))
         model.add(Dropout(.25))
 
-        model.add(MaxPooling2D(pool_size=(2, 2)))
+        model.add(AveragePooling2D(pool_size=(2, 2)))
         model.add(Conv2D(256, (3, 3), padding='same',strides=1))
         model.add(BatchNormalization())
         model.add(LeakyReLU(.2))
@@ -206,7 +206,7 @@ class GAN():
             d_loss = self.discriminator.fit(x=X_train_AB,y=y_train_real,batch_size=32,epochs=1)
             if e % 3 == 2:
                 noise = np.random.rand(n,256,256,2) * 2 -1
-                d_loss = self.discriminator.fit(x=noise,y=y_train_fake, batch_size=32)
+                d_loss = self.discriminator.fit(x=noise,y=y_train_fake, batch_size=32, epochs=1)
             d_loss = self.discriminator.fit(x=generated_images,y=y_train_fake,batch_size=32,epochs=1)
             d_losses.append(d_loss.history['loss'][-1])
             d_acc.append(d_loss.history['acc'][-1])
