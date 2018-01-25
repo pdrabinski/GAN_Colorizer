@@ -198,8 +198,7 @@ class GAN():
         for e in range(epochs):
             #generate images
             np.random.shuffle(X_train)
-            X_train_disc = X_train
-            generated_images = self.generator.predict(X_train_disc, verbose=1)
+            generated_images = self.generator.predict(X_train, verbose=1)
             np.random.shuffle(X_train_AB)
 
             #Train Discriminator
@@ -214,7 +213,6 @@ class GAN():
             # print("Discriminator Accuracy: ", disc_acc)
 
             #train GAN on grayscaled images , set output class to colorized
-            np.random.shuffle(X_train)
             g_loss = self.gan.fit(x=X_train,y=y_train_real,batch_size=16,epochs=1)
 
             #Record Losses/Acc
