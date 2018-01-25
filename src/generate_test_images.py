@@ -7,6 +7,8 @@ import os
 import gan
 from skimage import color
 
+np.random.seed(1)
+
 def load_images(filepath):
     with open(filepath, 'rb') as f:
         return pickle.load(f)
@@ -17,7 +19,7 @@ def lab_to_rgb(l_layer, ab_layers):
     for i in range(len(ab_layers)):
         for j in range(len(ab_layers[i])):
             p = ab_layers[i,j]
-            new_img[i,j] = [(p[0] +1) / 2 * 255 - 128,(p[1] +1) / 2 * 255 - 128]
+            new_img[i,j] = [(p[1] +1) / 2 * 255 - 128,(p[0] +1) / 2 * 255 - 128]
             rescaled_l[i,j] = [(l_layer[i,j] + 1) * 50]
     # print(rescaled_l.shape)
     # print(new_img.shape)
