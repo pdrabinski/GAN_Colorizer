@@ -21,6 +21,8 @@ def rgb_to_lab(image, l=False, ab=False):
     image = image / 255
     l_channel = color.rgb2lab(image)[:,:,0]
     l_channel = l_channel / 50 - 1
+    l_channel = l_channel[...,np.newaxis]
+
 
     ab_channels = color.rgb2lab(image)[:,:,1:]
     ab_channels = (ab_channels + 128) / 255 * 2 - 1

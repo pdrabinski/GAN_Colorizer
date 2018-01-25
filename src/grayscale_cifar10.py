@@ -18,14 +18,22 @@ def grayscale_image(image):
     #         new_img[row,col] = [pixel[0] * .299, pixel[1] * .587, pixel[2] * .114]
 
 def un_scale(image):
+    """
+    Unscale L spectrum. Only used to doublecheck conversion from RGB to L.
+    """
     image = np.squeeze(image)
     image = image * 100
     return image
 
 def rgb_to_lab(image, l=False, ab=False):
+    """
+    Input: image in RGB format with full values for pixels. (0-255)
+    Output: image in LAB format and with all values between -1 and 1.
+    """
     image = image / 255
     l_channel = color.rgb2lab(image)[:,:,0]
     l_channel = l_channel / 50 - 1
+    l_channel = l_channel[...,np.newaxis]
 
     ab_channels = color.rgb2lab(image)[:,:,1:]
     ab_channels = (ab_channels + 128) / 255 * 2 - 1
