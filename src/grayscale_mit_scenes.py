@@ -62,8 +62,8 @@ if __name__ == '__main__':
     print(len(X_train),'images imported...')
 
     np.random.shuffle(X_train)
-    X_test = X_train[:25]
-    X_train = X_train[25:]
+    X_test = X_train[:50]
+    X_train = X_train[50:]
     print('Train/Test Split Done..')
     print(len(X_test), 'train images')
     print(len(X_train), 'test images')
