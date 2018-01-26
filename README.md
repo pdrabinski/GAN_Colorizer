@@ -26,7 +26,7 @@ The first submodel is the "Generator" and the second is the "Discriminator." Aft
 
 There are lots of types of GANs that researchers have given creative names to, such as DCGANs, HyperGans, CycleGANs, and S^2-GANs. Each are tweaked in certain ways to be more suitable to a specific task. However, all share the core principle of one net training the other to generate novel content.
 
-<img src="/results/GAN_arch.png" align="center"/>
+<img src="/images/GAN_arch.png" align="center"/>
 
 ## How to Train a GAN
 
@@ -53,13 +53,13 @@ Below is the basic structure of the Generator. Each encoding layer is a Convolut
 
 The arrows illustrate the concatenation layers that help preserve the structure of prominent edges that the decoding layers identified. These are called skip connections and are prevalent when finding the mapping between an input image and the output image.
 
-<img src="/results/generator.png" style="float:center" />
+<img src="/images/generator.png" style="float:center" />
 
 ### Discriminator
 
 The goal of the Discriminator is to be the expert on what a true image looks like. If it is fooled by the Discriminator too early then it is not doing its job well enough and as a result, will not be able to train the Generator well.
 
-<img src"/results/discriminator.png" style="float:center" />
+<img src"/images/discriminator.png" style="float:center" />
 
 ### GAN
 
@@ -85,9 +85,9 @@ The second dataset was a subset of the CIFAR-10 dataset. I used only images clas
 
 Ground Truth | Grayscaled Image | Colorized
 
-<img src="/data/Paint/For_readme/red.png" width="128" /><img src="/data/Paint/For_readme/red_gray.png" width="128"/><img src="/results/22/for_pres/red.png" width="128" />
+<img src="/data/Paint/For_readme/red.png" width="128" /><img src="/data/Paint/For_readme/red_gray.png" width="128"/><img src="/images/22/for_pres/red.png" width="128" />
 <br>
-<img src="/data/Paint/For_readme/blue.png" width="128" /><img src="/data/Paint/For_readme/blue_gray.png" width="128"/><img src="/results/22/for_pres/blue.png" width="128" />
+<img src="/data/Paint/For_readme/blue.png" width="128" /><img src="/data/Paint/For_readme/blue_gray.png" width="128"/><img src="/images/22/for_pres/blue.png" width="128" />
 
 
 ![D_loss](/plots/Plots/generative_plot.png)
@@ -96,9 +96,9 @@ Ground Truth | Grayscaled Image | Colorized
 
 #### How does it do on a more complex example? <br>
 Ground Truth | Grayscaled Image | Colorized<br><br>
-<img src="/results/22/for_pres/sailboat_true.png" width="128" /><img src="/results/22/for_pres/sailboat_gray.jpg" width="128"/><img src="/results/22/for_pres/sailboat.png" width="128" />
+<img src="/images/22/for_pres/sailboat_true.png" width="128" /><img src="/images/22/for_pres/sailboat_gray.jpg" width="128"/><img src="/images/22/for_pres/sailboat.png" width="128" />
 
 Not that well but you can see that it picked up the blue of the water and it mostly preserved the white of the sail.
 
 ## Tech Stack
-<img src="results/tech_stack_banner.png" />
+<img src="images/tech_stack_banner.png" />
