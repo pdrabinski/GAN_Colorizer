@@ -187,7 +187,7 @@ class GAN():
         Outputs: Models are saved and loss/acc plots saved.
         """
 
-        self.train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
+        # self.train_discriminator(X_train_L, X_train_AB, X_test_L, X_test_AB)
         g_losses = []
         d_losses = []
         d_acc = []
@@ -230,16 +230,15 @@ class GAN():
         self.generator.save('../models/gen_model_full_batch_' + str(epochs)+'.h5')
         self.discriminator.save('../models/disc_model_full_batch_' + str(epochs)+'.h5')
 
-    def plot_losses(self, g_losses, d_acc, g_label, d_label, epochs):
+    def plot_losses(self, metric, label, epochs):
         """
         Plot the loss/acc of the generator/discriminator.
         Inputs: metric, label of graph, number of epochs (for file name)
         """
-        plt.plot(g_losses,label=g_label)
-        plt.plot(d_acc, label=d_label)
+        plt.plot(metric, label=label)
         plt.title('GAN Accuracy and Loss Over ' + str(epochs) + ' Epochs')
         plt.savefig('../plots/plot_' + str(epochs) + '_epochs.png')
-        plt.close()
+        # plt.close()
 
 if __name__ == '__main__':
     (X_train_L, X_train_AB) = load_images('../data/X_train.p')
