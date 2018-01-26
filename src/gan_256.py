@@ -226,7 +226,8 @@ class GAN():
             if e % 5 == 4:
                 print(e + 1,"batches done")
 
-        self.plot_losses(g_losses,d_acc,'Generative Loss', 'Discriminative Accuracy',epochs)
+        self.plot_losses(g_losses,'Generative Loss', 'Discriminative Accuracy',epochs)
+        self.plot_losses(d_acc, 'Discriminative Accuracy',epochs)
         self.generator.save('../models/gen_model_full_batch_' + str(epochs)+'.h5')
         self.discriminator.save('../models/disc_model_full_batch_' + str(epochs)+'.h5')
 
