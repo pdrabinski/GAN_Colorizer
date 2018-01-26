@@ -18,7 +18,7 @@ def rgb_to_lab(image, l=False, ab=False):
     Input: image in RGB format with full values for pixels. (0-255)
     Output: image in LAB format and with all values between -1 and 1.
     """
-    image = image /255
+    image = image / 255
     l_channel = color.rgb2lab(image)[:,:,0]
     l_channel = l_channel / 50 - 1
     l_channel = l_channel[...,np.newaxis]
@@ -28,18 +28,6 @@ def rgb_to_lab(image, l=False, ab=False):
     if l:
         return l_channel
     else: return ab_channels
-    # image = image / 255
-    # lab = color.rgb2lab(image)
-    # if l: l_layer = np.zeros((256,256,1))
-    # else: ab_layers = np.zeros((256,256,2))
-    # for i in range(len(lab)):
-    #     for j in range(len(lab[i])):
-    #         p = lab[i,j]
-    #         # new_img[i,j] = [p[0]/100,(p[1] + 128)/255,(p[2] + 128)/255]
-    #         if ab: ab_layers[i,j] = [(p[1] + 128)/255 * 2 - 1,(p[2] + 128)/255 * 2 -1]
-    #         else: l_layer[i,j] = [p[0]/50 - 1]
-    # if l: return l_layer
-    # else: return ab_layers
 
 def lab_to_rgb(image):
     """
