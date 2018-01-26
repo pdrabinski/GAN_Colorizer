@@ -18,7 +18,7 @@ def rgb_to_lab(image, l=False, ab=False):
     Input: image in RGB format with full values for pixels. (0-255)
     Output: image in LAB format and with all values between -1 and 1.
     """
-    image = image
+    image = image /255
     l_channel = color.rgb2lab(image)[:,:,0]
     l_channel = l_channel / 50 - 1
     l_channel = l_channel[...,np.newaxis]
