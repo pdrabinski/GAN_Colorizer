@@ -106,7 +106,7 @@ class GAN():
         conv11 = Activation('relu')(conv11)
 
         conv12 = Conv2D(2, (3, 3), padding='same')(conv11)
-        conv12 = BatchNormalization()(conv12)
+        # conv12 = BatchNormalization()(conv12)
         conv12 = Activation('tanh')(conv12)
 
         model = Model(inputs=g_input,outputs=conv12)
@@ -251,7 +251,7 @@ if __name__ == '__main__':
     X_test_AB = X_test_AB.astype('float32')
     print('X_test done...')
 
-    epochs = 100
+    epochs = 10
 
     gan = GAN()
     gan.train(X_train_L, X_train_AB, X_test_L, X_test_AB, epochs)

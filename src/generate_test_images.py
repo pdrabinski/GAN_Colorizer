@@ -20,9 +20,9 @@ def grayscale_image(images):
     image = (image * 255).astype('uint8')
     return image
 
-def lab_to_rgb(l_layer, ab_layers):
-    new_img = np.zeros((256,256,2))
-    rescaled_l = np.zeros((256,256,1))
+def lab_to_rgb(l_layer, ab_layers, img_size):
+    new_img = np.zeros((img_size,img_size,2))
+    rescaled_l = np.zeros((img_size,img_size,1))
     for i in range(len(ab_layers)):
         for j in range(len(ab_layers[i])):
             p = ab_layers[i,j]
@@ -36,21 +36,7 @@ def lab_to_rgb(l_layer, ab_layers):
     new_img = new_img.astype('uint8')
     return new_img
 
-def lab_to_rgb_pred(l_layer, ab_layers):
-    new_img = np.zeros((256,256,2))
-    rescaled_l = np.zeros((256,256,1))
-    for i in range(len(ab_layers)):
-        for j in range(len(ab_layers[i])):
-            p = ab_layers[i,j]
-            new_img[i,j] = [(p[1] +1) / 2 * 255 - 128,(p[0] +1) / 2 * 255 - 128]
-            rescaled_l[i,j] = [(l_layer[i,j] + 1) * 50]
-
-    new_img = np.concatenate((rescaled_l,new_img),axis=-1)
-    new_img = color.lab2rgb(new_img) * 255
-    new_img = new_img.astype('uint8')
-    return new_img
-
-def view_image(X_l, X_ab, model):
+def view_image(X_l, X_ab, model, img_size):
     """
     Input: L and ab chanels for test set and generator model.
     Output: Displays images.
@@ -58,11 +44,11 @@ def view_image(X_l, X_ab, model):
     img_lst_pred = model.predict(X_l)
 
     #Merge L and predicted AB
-    img_lst_gen = [lab_to_rgb(X_l[i], img_lst_pred[i]) for i in range(len(img_lst_pred))]
+    img_lst_gen = [lab_to_rgb(X_l[i], img_lst_pred[i], img_size) for i in range(len(img_lst_pred))]
     img_lst_gen = [Image.fromarray(image,'RGB') for image in img_lst_gen]
 
     #Merge L and AB to produce original true images
-    img_lst_real_arr = [lab_to_rgb(X_l[i], X_ab[i]) for i in range(len(X_l))]
+    img_lst_real_arr = [lab_to_rgb(X_l[i], X_ab[i], img_size) for i in range(len(X_l))]
     img_lst_real = [Image.fromarray(image,'RGB') for image in img_lst_real_arr]
 
     img_lst_gray = [grayscale_image(image) for image in img_lst_real_arr]
@@ -121,12 +107,13 @@ def pres_title_slide():
     color_image.show()
 
 if __name__ =='__main__':
-    gen_model = load_model('../models/gen_model_full_batch_20.h5')
-    disc_model = load_model('../models/disc_model_full_batch_20.h5')
+    gen_model = load_model('../models/gen_model_full_batch_10.h5')
+    disc_model = load_model('../models/disc_model_full_batch_10.h5')
     (X_test_l,X_test_ab) = load_images('../data/X_test.p')
+    img_size = X_test_l.shape[1]
     rand_arr = np.arange(len(X_test_l))
     np.random.shuffle(rand_arr)
-    img_results = view_image(X_test_l[rand_arr[14:16]], X_test_ab[rand_arr[14:16]], gen_model)
+    img_results = view_image(X_test_l[rand_arr[14:16]], X_test_ab[rand_arr[14:16]], gen_model, img_size)
 
     results = predict_on_generated_images(img_results, disc_model)
     print(results)
