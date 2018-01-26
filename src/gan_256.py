@@ -226,19 +226,19 @@ class GAN():
             if e % 5 == 4:
                 print(e + 1,"batches done")
 
-        self.plot_losses(g_losses,'Generative_Loss',e)
-        self.plot_losses(d_acc,'Discriminative_Accuracy',e)
+        self.plot_losses(g_losses,d_acc,'Generative Loss', 'Discriminative Accuracy',epochs)
         self.generator.save('../models/gen_model_full_batch_' + str(epochs)+'.h5')
         self.discriminator.save('../models/disc_model_full_batch_' + str(epochs)+'.h5')
 
-    def plot_losses(self, metric, label, epochs):
+    def plot_losses(self, g_losses, d_acc, g_label, d_label, epochs):
         """
         Plot the loss/acc of the generator/discriminator.
         Inputs: metric, label of graph, number of epochs (for file name)
         """
-        plt.plot(metric)
-        plt.title(label)
-        plt.savefig('../plots/' + label + '_full_batches_' + str(epochs) + '_epochs.png')
+        plt.plot(g_losses,label=g_label)
+        plt.plot(d_acc, label=d_label)
+        plt.title('GAN Accuracy and Loss Over ' + str(epochs) + ' Epochs')
+        plt.savefig('../plots/plot_' + str(epochs) + '_epochs.png')
         plt.close()
 
 if __name__ == '__main__':

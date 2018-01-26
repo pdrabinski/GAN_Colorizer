@@ -18,11 +18,10 @@ def rgb_to_lab(image, l=False, ab=False):
     Input: image in RGB format with full values for pixels. (0-255)
     Output: image in LAB format and with all values between -1 and 1.
     """
-    image = image / 255
+    image = image
     l_channel = color.rgb2lab(image)[:,:,0]
     l_channel = l_channel / 50 - 1
     l_channel = l_channel[...,np.newaxis]
-
 
     ab_channels = color.rgb2lab(image)[:,:,1:]
     ab_channels = (ab_channels + 128) / 255 * 2 - 1
@@ -57,14 +56,14 @@ def lab_to_rgb(image):
     return new_img
 
 if __name__ == '__main__':
-    file_paths = glob('../data/forest/*.jpg')
+    file_paths = glob('../data/mountain/*.jpg')
     X_train = np.array([np.array(Image.open(f).getdata()).reshape(256,256,3).astype('uint8') for f in file_paths])
     print(len(X_train),'images imported...')
 
     np.random.shuffle(X_train)
     X_test = X_train[:50]
     X_train = X_train[50:]
-    print('Train/Test Split Done..')
+    print('Train/Test Split Done...')
     print(len(X_test), 'train images')
     print(len(X_train), 'test images')
 
