@@ -226,7 +226,7 @@ class GAN():
             if e % 5 == 4:
                 print(e + 1,"batches done")
 
-        self.plot_losses(g_losses,'Generative Loss', 'Discriminative Accuracy',epochs)
+        self.plot_losses(g_losses,'Generative Loss', epochs)
         self.plot_losses(d_acc, 'Discriminative Accuracy',epochs)
         self.generator.save('../models/gen_model_full_batch_' + str(epochs)+'.h5')
         self.discriminator.save('../models/disc_model_full_batch_' + str(epochs)+'.h5')
@@ -251,7 +251,7 @@ if __name__ == '__main__':
     X_test_AB = X_test_AB.astype('float32')
     print('X_test done...')
 
-    epochs = 10
+    epochs = 30
 
     gan = GAN()
     gan.train(X_train_L, X_train_AB, X_test_L, X_test_AB, epochs)
