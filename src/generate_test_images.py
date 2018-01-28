@@ -107,14 +107,14 @@ def pres_title_slide():
     color_image.show()
 
 if __name__ =='__main__':
-    gen_model = load_model('../models/Forest/gen_model_full_batch_10.h5')
-    disc_model = load_model('../models/Forest/disc_model_full_batch_10.h5')
+    gen_model = load_model('../models/gen_model_full_batch_30.h5')
+    disc_model = load_model('../models/disc_model_full_batch_30.h5')
     # (X_test_l,X_test_ab) = load_images('../data/X_test.p')
     (X_test_l,X_test_ab) = load_images('../data/X_train.p')
     img_size = X_test_l.shape[1]
     rand_arr = np.arange(len(X_test_l))
     np.random.shuffle(rand_arr)
-    img_results = view_image(X_test_l[rand_arr[22:24]], X_test_ab[rand_arr[22:24]], gen_model, img_size)
+    img_results = view_image(X_test_l[rand_arr[4:8]], X_test_ab[rand_arr[4:8]], gen_model, img_size)
 
     results = predict_on_generated_images(img_results, disc_model)
     print(results)

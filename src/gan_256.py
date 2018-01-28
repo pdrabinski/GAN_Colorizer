@@ -251,7 +251,7 @@ if __name__ == '__main__':
     X_test_AB = X_test_AB.astype('float32')
     print('X_test done...')
 
-    epochs = 30
+    epochs = 50
 
     gan = GAN()
     gan.train(X_train_L, X_train_AB, X_test_L, X_test_AB, epochs)
