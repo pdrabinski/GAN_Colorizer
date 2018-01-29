@@ -65,21 +65,23 @@ The goal of the Discriminator is to be the expert on what a true image looks lik
 
 Here is a summary of the overall GAN architecture.
 
-|Layer           |Output Shape       | Params      |
-|----------------|-------------------|-------------|
-|Input           |(None, 32, 32, 1)  |0            |
-|Generator       |(None, 32, 32, 2)  |205,794      |
-|Discriminator   |(None,1)           |23585        |
+|Layer           |Output Shape         | Params      |
+|----------------|---------------------|-------------|
+|Input           |(None, 256, 256, 1)  |0            |
+|Generator       |(None, 256, 256, 2)  |4,729,922    |
+|Discriminator   |(None,1)             |455,457      |
 
-Total params: 229,379<br>
-Trainable params: 205,154<br>
-Non-trainable params: 24,225<br>
+Total params: 5,185,379<br>
+Trainable params: 4,726,082<br>
+Non-trainable params: 459,297<br>
 
 ## Data
 
 I used two datasets for this project. The first was of my own making. For simplicity, I created simple images of shapes, where each shape is a different color.
 
-The second dataset was a subset of the CIFAR-10 dataset. I used only images classified as having ships because they were the most consistent. They are usually mostly blue and the ships are usually a gray or white.
+The second dataset was a subset of the Computational Visual Cognition Laboratory Urban and Natural Scenes dataset. I trained my model on the forest category first and then once the model was producing fairly good results, I tried the mountain category.
+
+Images: http://cvcl.mit.edu/database.htm
 
 ## Results
 
