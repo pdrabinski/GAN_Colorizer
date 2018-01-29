@@ -35,13 +35,13 @@ There are lots of types of GANs that researchers have given creative names to, s
 ### RGB
 Most images use the RGB colorspace. The disadvantage of using RGB when colorizing images is that the model needs to predict 3 values for each pixel.
 
-<img src="/results/rgb.jpg" width=360 style="float:middle" />
+<img src="/images/rgb.jpg" width=360 style="float:middle" />
 
 ### CIE-LAB
 
 This project will be utilizing the CIE-LAB color space to preserve the gray scaled image. As shown in the picture below, the gray scaled images is simply the L value in LAB. Therefore, the generator will use the L spectrum as input and predict A and B. To view the results, the L layer is added back in and LAB had to be converted to RGB.
 
-<img src="/results/cie.png" width=360 style="float:center" />
+<img src="/images/cie.png" width=360 style="float:center" />
 
 ## Model Architecture
 
