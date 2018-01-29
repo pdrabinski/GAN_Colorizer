@@ -51,7 +51,7 @@ The goal of the Generator is to create content so indistinguishable from the tra
 
 Below is the basic structure of the Generator. Each encoding layer is a Convolution layer with stride 2 followed by a Batch Normalization layer and then a Leaky ReLU activation layer of slope .2. Each decoding layer is a an Upsampling layer followed by a convolution layer, Batch Normalization, and finally the concatenation layer.
 
-The arrows illustrate the concatenation layers that help preserve the structure of prominent edges that the decoding layers identified. These are called skip connections and are prevalent when finding the mapping between an input image and the output image.
+The arrows illustrate how the early layers are concatenated with the later layers. These concatenations help preserve the structure of prominent edges that the decoding layers identified. They are called skip connections and are prevalent when using a neural network to find the mapping between an input image and the output image.
 
 <img src="/images/generator.png" style="float:center" />
 
