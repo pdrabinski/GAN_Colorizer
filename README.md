@@ -65,11 +65,11 @@ The goal of the Discriminator is to be the expert on what a true image looks lik
 
 Here is a summary of the overall GAN architecture.
 
-|Layer           |Output Shape         | Params      |
-|----------------|---------------------|-------------|
-|Input           |(None, 256, 256, 1)  |0            |
-|Generator       |(None, 256, 256, 2)  |4,729,922    |
-|Discriminator   |(None,1)             |455,457      |
+|Layer           |Output Shape     | Params      |
+|----------------|-----------------|-------------|
+|Input           |(256, 256, 1)    |0            |
+|Generator       |(256, 256, 2)    |4,729,922    |
+|Discriminator   |(1)              |455,457      |
 
 Total params: 5,185,379<br>
 Trainable params: 4,726,082<br>
@@ -90,11 +90,6 @@ Ground Truth | Grayscaled Image | Colorized
 <img src="/data/Paint/For_readme/red.png" width="128" /><img src="/data/Paint/For_readme/red_gray.png" width="128"/><img src="/images/22/for_pres/red.png" width="128" />
 <br>
 <img src="/data/Paint/For_readme/blue.png" width="128" /><img src="/data/Paint/For_readme/blue_gray.png" width="128"/><img src="/images/22/for_pres/blue.png" width="128" />
-
-
-![D_loss](/plots/Plots/generative_plot.png)
-
-![G_loss](/plots/Plots/discriminative_plot.png)
 
 #### How does it do on a more complex example? <br>
 
