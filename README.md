@@ -59,7 +59,7 @@ The arrows illustrate the concatenation layers that help preserve the structure 
 
 The goal of the Discriminator is to be the expert on what a true image looks like. If it is fooled by the Discriminator too early then it is not doing its job well enough and as a result, will not be able to train the Generator well.
 
-<img src"/images/discriminator.png" style="float:center" />
+<img src="/images/discriminator.png" />
 
 ### GAN
 
