@@ -103,19 +103,21 @@ Images: http://cvcl.mit.edu/database.htm
 
 ## Results
 
+### Shape Image Dataset
+
 Ground Truth | Grayscaled Image | Colorized
 
 <img src="/data/Paint/For_readme/red.png" width="128" /><img src="/data/Paint/For_readme/red_gray.png" width="128"/><img src="/images/22/for_pres/red.png" width="128" />
 <br>
 <img src="/data/Paint/For_readme/blue.png" width="128" /><img src="/data/Paint/For_readme/blue_gray.png" width="128"/><img src="/images/22/for_pres/blue.png" width="128" />
 
-#### How does it do on a more complex example? <br>
+How does it do on a more complex example? <br>
 
-##### Forest Landscape
+### Forest Landscape
 Ground Truth | Grayscaled Image | Colorized<br><br>
 <img src="/images/29/for_pres/forest_true.png" /><img src="/images/29/for_pres/forest_gray.png" /><img src="/images/29/for_pres/forest_pred.png" />
 
-##### Mountain Landscape
+### Mountain Landscape
 Ground Truth | Grayscaled Image | Colorized<br><br>
 <img src="/images/29/for_pres/mountain_true.png" /><img src="/images/29/for_pres/mountain_gray.png" /><img src="/images/29/for_pres/mountain_pred.png" />
 <img src="/images/29/for_pres/lake_true.png" /><img src="/images/29/for_pres/lake_gray.png" /><img src="/images/29/for_pres/lake_pred.png" />
