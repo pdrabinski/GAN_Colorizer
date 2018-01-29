@@ -26,7 +26,7 @@ def lab_to_rgb(l_layer, ab_layers, img_size):
     for i in range(len(ab_layers)):
         for j in range(len(ab_layers[i])):
             p = ab_layers[i,j]
-            new_img[i,j] = [(p[0] +1) / 2 * 255 - 128,(p[1] +1) / 2 * 255 - 128]
+            new_img[i,j] = [(p[0] +1) / 2 * 255 - 128, (p[1] +1) / 2 * 255 - 128]
             rescaled_l[i,j] = [(l_layer[i,j] + 1) * 50]
 
     # print(rescaled_l.shape)
@@ -58,9 +58,9 @@ def view_image(X_l, X_ab, model, img_size):
         img_lst_gen[i].show()
         img_lst_real[i].show()
         # img_lst_gray[i].show()
-    if not os.path.exists('../results/' + time.strftime('%d')):
-        os.makedirs('../results/' + time.strftime('%d'))
-    img_lst_gen[0].save('../results/' + time.strftime('%d') + '/' + time.strftime('%H:%M:%S') + '.png')
+    if not os.path.exists('../images/' + time.strftime('%d')):
+        os.makedirs('../images/' + time.strftime('%d'))
+    img_lst_gen[0].save('../images/' + time.strftime('%d') + '/' + time.strftime('%H:%M:%S') + '.png')
     return img_lst_pred
 
 def predict_on_generated_images(images,model):
@@ -114,9 +114,9 @@ if __name__ =='__main__':
     img_size = X_test_l.shape[1]
     rand_arr = np.arange(len(X_test_l))
     np.random.shuffle(rand_arr)
-    # img_results = view_image(X_test_l[rand_arr[32:38]], X_test_ab[rand_arr[32:38]], gen_model, img_size)
+    img_results = view_image(X_test_l[rand_arr[32:33]], X_test_ab[rand_arr[32:33]], gen_model, img_size)
 
-    # results = predict_on_generated_images(img_results, disc_model)
-    # print(results)
+    results = predict_on_generated_images(img_results, disc_model)
+    print(results)
 
-    pres_title_slide(img_size)
+    # pres_title_slide(img_size)
