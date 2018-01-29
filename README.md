@@ -6,17 +6,18 @@ GAN's can circumvent this by developing their own "intuition" over thousands of 
 
 ## Table of Contents
 1. [What is a GAN?](#what-is-a-gan?)
-2. [How to train a GAN?](#how-to-train-a-gan?)
-3. [Color Spectrums](#color-spectrums)
-    *  [RGB](#rgb)
-    *  [CIE-LAB](#cie-lab)
-4. [Model Architecture](#model-Architecture)
+2. [Model Architecture](#model-Architecture)
     *  [Generator](#Generator)
     *  [Discriminator](#Discriminator)
     *  [GAN](#gan)
+3. [How to train a GAN?](#how-to-train-a-gan?)
+4. [Color Spectrums](#color-spectrums)
+    *  [RGB](#rgb)
+    *  [CIE-LAB](#cie-lab)
 5. [Data](*data)
 6. [Results](#results)
 7. [Tech Stack](#tech-stack)
+8. [References](#References)
 
 ## What is a GAN
 
@@ -28,33 +29,6 @@ There are lots of types of GANs that researchers have given creative names to, s
 
 <p align = "center">
 <img src="/images/GAN_arch.png" align="center"/>
-</p>
-
-## How to Train a GAN
-
-Training GANs are a complex operation and there are ongoing debates about the best methods to accomplish this. This is because the neural networks work together and so more often than not you can see when training is going wrong rather than when training can be stopped because the colorizations are accurate. Below is a graph showing generator loss in blue and discriminator accuracy in red.
-
-<p align = "center">
-<img src="/plots/Plots/plot_30_epochs.png" align="center"/>
-</p>
-
-The goal of training is to keep the discriminator accuracy near 100% and make sure that the generator loss doesn't drop to 0. If the generator loss drops to 0 then it is fooling the discriminator with bad colorizations. This graph only shows 30 epochs and the results of this training run are the mountain images shown in my Results section.
-
-## Color
-
-### RGB
-Most images use the RGB colorspace. The disadvantage of using RGB when colorizing images is that the model needs to predict 3 values for each pixel.
-
-<p align = "center">
-<img src="/images/rgb.jpg" width=360 style="float:middle" />
-</p>
-
-### CIE-LAB
-
-This project will be utilizing the CIE-LAB color space to preserve the gray scaled image. As shown in the picture below, the gray scaled images is simply the L value in LAB. Therefore, the generator will use the L spectrum as input and predict A and B. To view the results, the L layer and AB layers are concatenated and then converted to RGB.
-
-<p align='center'>
-<img src="/images/cie.png" width=360 style="float:center" />
 </p>
 
 ## Model Architecture
@@ -92,6 +66,33 @@ Here is a summary of the overall GAN architecture.
 Total params: 5,185,379<br>
 Trainable params: 4,726,082<br>
 Non-trainable params: 459,297<br>
+
+## How to Train a GAN
+
+Training GANs are a complex operation and there are ongoing debates about the best methods to accomplish this. This is because the neural networks work together and so more often than not you can see when training is going wrong rather than when training can be stopped because the colorizations are accurate. Below is a graph showing generator loss in blue and discriminator accuracy in red.
+
+<p align = "center">
+<img src="/plots/Plots/plot_30_epochs.png" align="center"/>
+</p>
+
+The goal of training is to keep the discriminator accuracy near 100% and make sure that the generator loss doesn't drop to 0. If the generator loss drops to 0 then it is fooling the discriminator with bad colorizations. This graph only shows 30 epochs and the results of this training run are the mountain images shown in my Results section.
+
+## Color
+
+### RGB
+Most images use the RGB colorspace. The disadvantage of using RGB when colorizing images is that the model needs to predict 3 values for each pixel.
+
+<p align = "center">
+<img src="/images/rgb.jpg" width=360 style="float:middle" />
+</p>
+
+### CIE-LAB
+
+This project will be utilizing the CIE-LAB color space to preserve the gray scaled image. As shown in the picture below, the gray scaled images is simply the L value in LAB. Therefore, the generator will use the L spectrum as input and predict A and B. To view the results, the L layer and AB layers are concatenated and then converted to RGB.
+
+<p align='center'>
+<img src="/images/cie.png" width=360 style="float:center" />
+</p>
 
 ## Data
 
