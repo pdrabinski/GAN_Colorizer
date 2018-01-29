@@ -34,7 +34,7 @@ Training GANs are a complex operation and there are ongoing debates about the be
 
 <img src="/plots/Plots/plot_30_epochs.png" align="center"/>
 
-The goal of training is to keep the discriminator accuracy near 100% and make sure that the generator loss doesn't drop to 0. If the generator loss drops to 0 then it is fooling the discriminator with bad colorizations. 
+The goal of training is to keep the discriminator accuracy near 100% and make sure that the generator loss doesn't drop to 0. If the generator loss drops to 0 then it is fooling the discriminator with bad colorizations.
 
 ## Color
 
@@ -111,3 +111,9 @@ Ground Truth | Grayscaled Image | Colorized<br><br>
 
 ## Tech Stack
 <img src="images/tech_stack_banner.png" />
+
+## References
+
+1. [Computational Visual Cognition Laboratory](http://cvcl.mit.edu/database.htm)
+2. [Image-to-Image Translation with Conditional Adversarial Networks](https://arxiv.org/pdf/1611.07004.pdf)
+3. [Colorful Image Colorization](https://arxiv.org/pdf/1603.08511.pdf)
