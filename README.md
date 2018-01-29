@@ -95,10 +95,14 @@ Ground Truth | Grayscaled Image | Colorized
 ![G_loss](/plots/Plots/discriminative_plot.png)
 
 #### How does it do on a more complex example? <br>
-Ground Truth | Grayscaled Image | Colorized<br><br>
-<img src="/images/22/for_pres/sailboat_true.png" width="128" /><img src="/images/22/for_pres/sailboat_gray.jpg" width="128"/><img src="/images/22/for_pres/sailboat.png" width="128" />
 
-Not that well but you can see that it picked up the blue of the water and it mostly preserved the white of the sail.
+##### Forest Landscape
+Ground Truth | Grayscaled Image | Colorized<br><br>
+<img src="/images/29/for_pres/forest_true.png" /><img src="/images/29/for_pres/forest_gray.jpg" /><img src="/images/29/for_pres/forest_pred.png" />
+
+##### Mountain Landscape
+Ground Truth | Grayscaled Image | Colorized<br><br>
+<img src="/images/29/for_pres/mountain_true.png" /><img src="/images/29/for_pres/mountain_gray.jpg" /><img src="/images/29/for_pres/mountain_pred.png" />
 
 ## Tech Stack
 <img src="images/tech_stack_banner.png" />
