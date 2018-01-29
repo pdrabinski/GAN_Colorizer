@@ -30,6 +30,12 @@ There are lots of types of GANs that researchers have given creative names to, s
 
 ## How to Train a GAN
 
+Training GANs are a complex operation and there are ongoing debates about the best methods to accomplish this. This is because the neural networks work together and so more often than not you can see when training is going wrong rather than when training can be stopped because the colorizations are accurate. Below is a graph showing generator loss in blue and discriminator accuracy in red.
+
+<img src="/plots/Plots/plot_30_epochs.png" align="center"/>
+
+The goal of training is to keep the discriminator accuracy near 100% and make sure that the generator loss doesn't drop to 0. If the generator loss drops to 0 then it is fooling the discriminator with bad colorizations. 
+
 ## Color
 
 ### RGB
@@ -100,6 +106,8 @@ Ground Truth | Grayscaled Image | Colorized<br><br>
 ##### Mountain Landscape
 Ground Truth | Grayscaled Image | Colorized<br><br>
 <img src="/images/29/for_pres/mountain_true.png" /><img src="/images/29/for_pres/mountain_gray.png" /><img src="/images/29/for_pres/mountain_pred.png" />
+<img src="/images/29/for_pres/lake_true.png" /><img src="/images/29/for_pres/lake_gray.png" /><img src="/images/29/for_pres/lake_pred.png" />
+<img src="/images/29/for_pres/peak_true.png" /><img src="/images/29/for_pres/peak_gray.png" /><img src="/images/29/for_pres/peak_pred.png" />
 
 ## Tech Stack
 <img src="images/tech_stack_banner.png" />
