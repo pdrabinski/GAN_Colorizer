@@ -88,7 +88,7 @@ Most images use the RGB colorspace. The disadvantage of using RGB when colorizin
 
 ### CIE-LAB
 
-This project utilized the CIE-LAB color space to preserve the gray scaled image. As shown in the picture below, the gray scaled images is simply the L value in LAB. Therefore, the generator will use the L spectrum as input and predict A and B. To view the results, the L layer and the AB layers are concatenated and then converted to RGB.
+This project utilized the CIE-LAB color space because like RGB there are 3 color channels, but unlike RGB the gray-scaled image is sequestered in one channel, L. In the picture below, the L channel is the vertical axis and is the "lightness" of the image. Therefore, the generator will use the L spectrum as input and predict A and B. To view the results, the L layer and the AB layers are concatenated and then converted to RGB.
 
 <p align='center'>
 <img src="/images/cie.png" width=360 style="float:center" />
