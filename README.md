@@ -69,7 +69,7 @@ Non-trainable params: 459,297<br>
 
 ## How to Train a GAN
 
-Training GANs are a complex operation and there are ongoing debates about the best methods to accomplish this. This is because the neural networks work together and so more often than not you can see when training is going wrong rather than when training can be stopped because the colorizations are accurate. Below is a graph showing generator loss in blue and discriminator accuracy in red.
+Training GANs is a complex operation and there are ongoing debates about the best methods to accomplish this. This is because the neural networks work together and so more often than not you can see when training is going wrong rather than when training can be stopped because the colorizations are accurate. Below is a graph showing generator loss in blue and discriminator accuracy in red.
 
 <p align = "center">
 <img src="/plots/Plots/plot_30_epochs.png" align="center"/>
@@ -88,7 +88,7 @@ Most images use the RGB colorspace. The disadvantage of using RGB when colorizin
 
 ### CIE-LAB
 
-This project will be utilizing the CIE-LAB color space to preserve the gray scaled image. As shown in the picture below, the gray scaled images is simply the L value in LAB. Therefore, the generator will use the L spectrum as input and predict A and B. To view the results, the L layer and AB layers are concatenated and then converted to RGB.
+This project utilized the CIE-LAB color space to preserve the gray scaled image. As shown in the picture below, the gray scaled images is simply the L value in LAB. Therefore, the generator will use the L spectrum as input and predict A and B. To view the results, the L layer and the AB layers are concatenated and then converted to RGB.
 
 <p align='center'>
 <img src="/images/cie.png" width=360 style="float:center" />
