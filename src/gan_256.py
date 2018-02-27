@@ -106,7 +106,6 @@ class GAN():
         conv11 = Activation('relu')(conv11)
 
         conv12 = Conv2D(2, (3, 3), padding='same')(conv11)
-        # conv12 = BatchNormalization()(conv12)
         conv12 = Activation('tanh')(conv12)
 
         model = Model(inputs=g_input,outputs=conv12)
@@ -157,7 +156,7 @@ class GAN():
         Function to train the discriminator. Called when discriminator accuracy falls below and a specified threshold.
         """
         generated_images = self.generator.predict(X_train_L)
-        X_train = np.concatenate((X_train_AB,generated_images))
+        X_train = np.concatenate((X_train_AB, generated_images))
         n = len(X_train_L)
         y_train = np.array([[1]] * n + [[0]] * n)
         rand_arr = np.arange(len(X_train))
@@ -166,7 +165,7 @@ class GAN():
         y_train = y_train[rand_arr]
 
         test_generated_images = self.generator.predict(X_test_L)
-        X_test = np.concatenate((X_test_AB,test_generated_images))
+        X_test = np.concatenate((X_test_AB, test_generated_images))
         n = len(X_test_L)
         y_test = np.array([[1]] * n + [[0]] * n)
         rand_arr = np.arange(len(X_test))
@@ -174,7 +173,7 @@ class GAN():
         X_test = X_test[rand_arr]
         y_test = y_test[rand_arr]
 
-        self.discriminator.fit(x=X_train,y=y_train,epochs=1)
+        self.discriminator.fit(x=X_train, y=y_train, epochs=1)
         metrics = self.discriminator.evaluate(x=X_test, y=y_test)
         print('\n accuracy:',metrics[1])
         if metrics[1] < .90:
@@ -202,18 +201,18 @@ class GAN():
             np.random.shuffle(X_train_AB)
 
             #Train Discriminator
-            d_loss = self.discriminator.fit(x=X_train_AB,y=y_train_real,batch_size=16,epochs=1)
+            d_loss  = self.discriminator.fit(x=X_train_AB, y=y_train_real,  batch_size=16, epochs=1)
             if e % 3 == 2:
                 noise = np.random.rand(n,256,256,2) * 2 -1
-                d_loss = self.discriminator.fit(x=noise,y=y_train_fake, batch_size=16, epochs=1)
-            d_loss = self.discriminator.fit(x=generated_images,y=y_train_fake,batch_size=16,epochs=1)
+                d_loss = self.discriminator.fit(x=noise, y=y_train_fake, batch_size=16, epochs=1)
+            d_loss = self.discriminator.fit(x=generated_images, y=y_train_fake, batch_size=16, epochs=1)
             d_losses.append(d_loss.history['loss'][-1])
             d_acc.append(d_loss.history['acc'][-1])
             print('d_loss:', d_loss.history['loss'][-1])
             # print("Discriminator Accuracy: ", disc_acc)
 
             #train GAN on grayscaled images , set output class to colorized
-            g_loss = self.gan.fit(x=X_train,y=y_train_real,batch_size=16,epochs=1)
+            g_loss = self.gan.fit(x=X_train, y=y_train_real, batch_size=16, epochs=1)
 
             #Record Losses/Acc
             g_losses.append(g_loss.history['loss'][-1])
@@ -251,7 +250,7 @@ if __name__ == '__main__':
     X_test_AB = X_test_AB.astype('float32')
     print('X_test done...')
 
-    epochs = 50
+    epochs = 30
 
     gan = GAN()
     gan.train(X_train_L, X_train_AB, X_test_L, X_test_AB, epochs)
