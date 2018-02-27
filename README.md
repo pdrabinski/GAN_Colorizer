@@ -5,16 +5,16 @@ Colorizing black and white photos is currently a painstaking and labor-intensive
 GAN's can circumvent this by developing their own "intuition" over thousands of training iterations. This "intuition" helps them recognize patterns in images and apply the correct colorization. This project seeks to build a GAN in Keras that can accomplish this.
 
 ## Table of Contents
-1. [What is a GAN?](#what-is-a-gan?)
+1. [What is a GAN?](#what-is-a-gan)
 2. [Model Architecture](#model-architecture)
     *  [Generator](#generator)
     *  [Discriminator](#discriminator)
     *  [GAN](#gan)
-3. [How to train a GAN?](#how-to-train-a-gan?)
+3. [How to train a GAN?](#how-to-train-a-gan)
 4. [Color Spectrums](#color-spectrums)
     *  [RGB](#rgb)
     *  [CIE-LAB](#cie-lab)
-5. [Data](*data)
+5. [Data](#data)
 6. [Results](#results)
 7. [Tech Stack](#tech-stack)
 8. [References](#references)
@@ -77,7 +77,7 @@ Training GANs is a complex operation and there are ongoing debates about the bes
 
 The goal of training is to keep the discriminator accuracy near 100% and make sure that the generator loss doesn't drop to 0. If the generator loss drops to 0 then it is fooling the discriminator with bad colorizations. This graph only shows 30 epochs and the results of this training run are the mountain images shown in my Results section.
 
-## Color
+## Color Spectrums
 
 ### RGB
 Most images use the RGB colorspace. The disadvantage of using RGB when colorizing images is that the model needs to predict 3 values for each pixel.
