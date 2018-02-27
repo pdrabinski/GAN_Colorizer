@@ -6,9 +6,9 @@ GAN's can circumvent this by developing their own "intuition" over thousands of 
 
 ## Table of Contents
 1. [What is a GAN?](#what-is-a-gan?)
-2. [Model Architecture](#model-Architecture)
-    *  [Generator](#Generator)
-    *  [Discriminator](#Discriminator)
+2. [Model Architecture](#model-architecture)
+    *  [Generator](#generator)
+    *  [Discriminator](#discriminator)
     *  [GAN](#gan)
 3. [How to train a GAN?](#how-to-train-a-gan?)
 4. [Color Spectrums](#color-spectrums)
@@ -17,7 +17,7 @@ GAN's can circumvent this by developing their own "intuition" over thousands of 
 5. [Data](*data)
 6. [Results](#results)
 7. [Tech Stack](#tech-stack)
-8. [References](#References)
+8. [References](#references)
 
 ## What is a GAN
 
