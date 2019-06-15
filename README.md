@@ -47,7 +47,7 @@ The arrows illustrate how the early layers are concatenated with the later layer
 
 ### Discriminator
 
-The goal of the Discriminator is to be the expert on what a true image looks like. If it is fooled by the Discriminator too early then it is not doing its job well enough and as a result, will not be able to train the Generator well.
+The goal of the Discriminator is to be the expert on what a true image looks like. If it is fooled by the Generator too early then it is not doing its job well enough and as a result, will not be able to train the Generator well.
 
 <p align = "center">
 <img src="/images/discriminator.png" />
